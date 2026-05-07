@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上传课程 - 魔乐学堂</title>
+<style>
+  :root {
+    --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2333;
+    --bg-hover: #21283b; --text-primary: #e6edf3; --text-secondary: #8b949e;
+    --text-muted: #6e7681; --accent-blue: #2f81f7; --accent-green: #3fb950;
+    --accent-orange: #d29922; --accent-purple: #a371f7; --accent-cyan: #39d2c0;
+    --accent-pink: #f778ba; --accent-red: #f85149; --border-color: #30363d;
+    --radius: 8px; --radius-lg: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.5;
+  }
+
+  /* Top Nav */
+  .top-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 56px; background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100;
+  }
+  .nav-left { display: flex; align-items: center; gap: 24px; }
+  .nav-brand {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 700; font-size: 16px; color: var(--text-primary); text-decoration: none;
+  }
+  .nav-brand .logo {
+    width: 28px; height: 28px; background: var(--accent-blue); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 16px;
+  }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none; font-size: 14px;
+    padding: 6px 12px; border-radius: 6px; transition: all .2s;
+  }
+  .nav-links a:hover { color: var(--text-primary); background: var(--bg-hover); }
+  .nav-links a.active { background: var(--accent-blue); color: #fff; font-weight: 500; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-badge { font-size: 13px; color: var(--text-secondary); cursor: pointer; padding: 4px 8px; border-radius: 4px; }
+  .nav-badge:hover { color: var(--text-primary); }
+
+  .page-container { max-width: 960px; margin: 0 auto; padding: 24px; }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-muted); margin-bottom: 24px;
+  }
+  .breadcrumb a { color: var(--text-secondary); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent-blue); }
+
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 {
+    font-size: 24px; font-weight: 700; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .page-header p { font-size: 14px; color: var(--text-secondary); }
+
+  /* Stepper */
+  .stepper {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 32px;
+  }
+  .step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-muted); cursor: pointer;
+    transition: color .2s;
+  }
+  .step .num {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    border: 2px solid var(--border-color); transition: all .2s;
+  }
+  .step.active { color: var(--text-primary); }
+  .step.active .num {
+    background: var(--accent-blue); border-color: var(--accent-blue); color: #fff;
+  }
+  .step.done .num {
+    background: var(--accent-green); border-color: var(--accent-green); color: #fff;
+  }
+  .step-line {
+    width: 60px; height: 2px; background: var(--border-color);
+    margin: 0 8px; transition: background .2s;
+  }
+  .step-line.done { background: var(--accent-green); }
+
+  /* Form Card */
+  .form-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); padding: 28px; margin-bottom: 20px;
+  }
+  .form-card h2 {
+    font-size: 17px; font-weight: 600; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Form Elements */
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--text-secondary); margin-bottom: 6px;
+  }
+  .form-label .required { color: var(--accent-red); margin-left: 2px; }
+  .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .form-input, .form-textarea, .form-select {
+    width: 100%; padding: 10px 14px;
+    background: var(--bg-primary); border: 1px solid var(--border-color);
+    border-radius: var(--radius); color: var(--text-primary);
+    font-size: 14px; transition: border-color .2s;
+    font-family: inherit;
+  }
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    outline: none; border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(47,129,247,.1);
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+  .form-textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+  .form-select { cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='%238b949e' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238b949e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  /* Tags Input */
+  .tags-input {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 8px 12px; background: var(--bg-primary);
+    border: 1px solid var(--border-color); border-radius: var(--radius);
+    min-height: 42px; cursor: text; transition: border-color .2s;
+  }
+  .tags-input:focus-within { border-color: var(--accent-blue); }
+  .tags-input .tag {
+    display: flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 12px;
+    background: rgba(47,129,247,.15); color: var(--accent-blue);
+    font-size: 12px; font-weight: 500;
+  }
+  .tags-input .tag .remove {
+    cursor: pointer; font-size: 14px; line-height: 1;
+    opacity: .6; transition: opacity .15s;
+  }
+  .tags-input .tag .remove:hover { opacity: 1; }
+  .tags-input input {
+    flex: 1; min-width: 80px; background: none; border: none;
+    outline: none; color: var(--text-primary); font-size: 13px;
+  }
+  .tags-input input::placeholder { color: var(--text-muted); }
+
+  /* Course Type Selector */
+  .type-selector {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .type-option {
+    padding: 18px; background: var(--bg-primary);
+    border: 2px solid var(--border-color); border-radius: var(--radius-lg);
+    cursor: pointer; transition: all .2s; text-align: center;
+  }
+  .type-option:hover { border-color: var(--accent-blue); }
+  .type-option.selected {
+    border-color: var(--accent-blue); background: rgba(47,129,247,.06);
+  }
+  .type-option .icon { font-size: 32px; margin-bottom: 8px; }
+  .type-option .label { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .type-option .desc { font-size: 12px; color: var(--text-secondary); }
+
+  /* Upload Zone */
+  .upload-zone {
+    border: 2px dashed var(--border-color); border-radius: var(--radius-lg);
+    padding: 40px 24px; text-align: center; cursor: pointer;
+    transition: all .2s; position: relative;
+  }
+  .upload-zone:hover { border-color: var(--accent-blue); background: rgba(47,129,247,.03); }
+  .upload-zone.dragover { border-color: var(--accent-blue); background: rgba(47,129,247,.06); }
+  .upload-zone .icon { font-size: 40px; margin-bottom: 12px; }
+  .upload-zone .text { font-size: 14px; color: var(--text-secondary); margin-bottom: 6px; }
+  .upload-zone .hint { font-size: 12px; color: var(--text-muted); }
+  .upload-zone input {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  }
+
+  /* File List */
+  .file-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .file-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; background: var(--bg-primary);
+    border: 1px solid var(--border-color); border-radius: var(--radius);
+  }
+  .file-item .file-icon { font-size: 20px; }
+  .file-item .file-info { flex: 1; min-width: 0; }
+  .file-item .file-name {
+    font-size: 13px; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .file-item .file-size { font-size: 11px; color: var(--text-muted); }
+  .file-item .file-status {
+    font-size: 12px; padding: 2px 8px; border-radius: 10px;
+  }
+  .file-item .file-status.done { background: rgba(63,185,80,.15); color: var(--accent-green); }
+  .file-item .file-status.uploading { background: rgba(47,129,247,.15); color: var(--accent-blue); }
+  .file-item .file-remove {
+    cursor: pointer; color: var(--text-muted); font-size: 16px;
+    padding: 4px; transition: color .15s;
+  }
+  .file-item .file-remove:hover { color: var(--accent-red); }
+
+  /* Chapter Editor */
+  .chapter-editor { display: flex; flex-direction: column; gap: 12px; }
+  .chapter-block {
+    background: var(--bg-primary); border: 1px solid var(--border-color);
+    border-radius: var(--radius); padding: 16px;
+  }
+  .chapter-block .ch-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .chapter-block .ch-num {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: rgba(47,129,247,.12); color: var(--accent-blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .chapter-block .ch-input {
+    flex: 1; padding: 6px 10px; background: var(--bg-card);
+    border: 1px solid var(--border-color); border-radius: 6px;
+    color: var(--text-primary); font-size: 13px;
+  }
+  .chapter-block .ch-input:focus { outline: none; border-color: var(--accent-blue); }
+  .chapter-block .ch-delete {
+    cursor: pointer; color: var(--text-muted); font-size: 16px;
+    padding: 4px; transition: color .15s;
+  }
+  .chapter-block .ch-delete:hover { color: var(--accent-red); }
+  .lesson-list { display: flex; flex-direction: column; gap: 6px; padding-left: 34px; }
+  .lesson-row {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lesson-row .ls-icon {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; flex-shrink: 0;
+  }
+  .lesson-row .ls-icon.video { background: rgba(47,129,247,.15); color: var(--accent-blue); }
+  .lesson-row .ls-icon.text { background: rgba(63,185,80,.15); color: var(--accent-green); }
+  .lesson-row .ls-input {
+    flex: 1; padding: 5px 8px; background: var(--bg-card);
+    border: 1px solid var(--border-color); border-radius: 4px;
+    color: var(--text-primary); font-size: 12px;
+  }
+  .lesson-row .ls-input:focus { outline: none; border-color: var(--accent-blue); }
+  .lesson-row .ls-type-select {
+    padding: 4px 8px; background: var(--bg-card);
+    border: 1px solid var(--border-color); border-radius: 4px;
+    color: var(--text-primary); font-size: 11px; cursor: pointer;
+  }
+  .lesson-row .ls-delete {
+    cursor: pointer; color: var(--text-muted); font-size: 14px; padding: 2px;
+  }
+  .lesson-row .ls-delete:hover { color: var(--accent-red); }
+  .add-lesson-btn {
+    display: flex; align-items: center; gap: 4px;
+    padding: 4px 8px; margin-left: 34px; margin-top: 4px;
+    background: none; border: 1px dashed var(--border-color);
+    border-radius: 4px; color: var(--text-muted); font-size: 12px;
+    cursor: pointer; transition: all .15s;
+  }
+  .add-lesson-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  .add-chapter-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 12px; background: none; border: 1px dashed var(--border-color);
+    border-radius: var(--radius); color: var(--text-muted); font-size: 13px;
+    cursor: pointer; transition: all .15s;
+  }
+  .add-chapter-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  /* Cover Upload */
+  .cover-upload {
+    display: grid; grid-template-columns: 160px 1fr; gap: 16px; align-items: start;
+  }
+  .cover-preview {
+    width: 160px; height: 100px; border-radius: var(--radius);
+    background: var(--bg-primary); border: 2px dashed var(--border-color);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .2s; overflow: hidden;
+    position: relative;
+  }
+  .cover-preview:hover { border-color: var(--accent-blue); }
+  .cover-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .cover-preview .placeholder { text-align: center; color: var(--text-muted); font-size: 12px; }
+  .cover-preview input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+  /* Actions */
+  .form-actions {
+    display: flex; justify-content: flex-end; gap: 12px;
+    padding-top: 20px; border-top: 1px solid var(--border-color);
+  }
+  .btn {
+    padding: 10px 24px; border-radius: var(--radius);
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: all .15s; border: none;
+  }
+  .btn-secondary {
+    background: transparent; border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+  .btn-secondary:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+  .btn-primary { background: var(--accent-blue); color: #fff; }
+  .btn-primary:hover { background: #1a6ddc; }
+  .btn-success { background: var(--accent-green); color: #fff; }
+  .btn-success:hover { background: #2ea043; }
+
+  /* Preview Panel */
+  .preview-panel {
+    position: fixed; top: 0; right: -420px; width: 420px; height: 100vh;
+    background: var(--bg-card); border-left: 1px solid var(--border-color);
+    z-index: 200; transition: right .3s; overflow-y: auto;
+    box-shadow: -4px 0 24px rgba(0,0,0,.4);
+  }
+  .preview-panel.open { right: 0; }
+  .preview-panel .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border-color);
+    position: sticky; top: 0; background: var(--bg-card); z-index: 1;
+  }
+  .preview-panel .panel-header h3 { font-size: 15px; }
+  .preview-panel .close-btn {
+    background: none; border: none; color: var(--text-secondary);
+    cursor: pointer; font-size: 18px;
+  }
+  .preview-panel .panel-body { padding: 20px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--accent-green); color: #fff; padding: 10px 24px;
+    border-radius: var(--radius); font-size: 14px; font-weight: 500;
+    opacity: 0; transition: opacity .3s; z-index: 300; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.6); z-index: 250;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); width: 440px; max-width: 90vw;
+    padding: 28px; text-align: center;
+    animation: modalIn .2s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(.95) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal .icon { font-size: 48px; margin-bottom: 16px; }
+  .modal h2 { font-size: 20px; margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+  .modal .btn-group { display: flex; gap: 10px; justify-content: center; }
+
+  @media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; }
+    .type-selector { grid-template-columns: 1fr; }
+    .cover-upload { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-left">
+    <a class="nav-brand" href="index.html"><span class="logo">M</span>魔乐社区</a>
+    <div class="nav-links">
+      <a href="index.html">首页</a><a href="#">模型</a><a href="#">数据</a>
+      <a href="#">工具</a><a href="#">空间</a><a href="#">专区</a>
+      <a href="index.html" class="active">学习交流</a><a href="#">关于魔乐</a>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span class="nav-badge">GLSS ▾</span>
+  </div>
+</nav>
+
+<div class="page-container">
+  <div class="breadcrumb">
+    <a href="index.html">魔乐学堂</a><span>›</span>
+    <span>上传课程</span>
+  </div>
+
+  <div class="page-header">
+    <h1>📤 上传新课程</h1>
+    <p>创建并分享你的知识，帮助更多人学习成长</p>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="step active" id="step1" onclick="goStep(1)">
+      <span class="num">1</span><span>基本信息</span>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step" id="step2" onclick="goStep(2)">
+      <span class="num">2</span><span>课程内容</span>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step" id="step3" onclick="goStep(3)">
+      <span class="num">3</span><span>发布设置</span>
+    </div>
+  </div>
+
+  <!-- Step 1: Basic Info -->
+  <div id="panel-1" class="step-panel">
+    <div class="form-card">
+      <h2>📋 基本信息</h2>
+
+      <div class="form-group">
+        <label class="form-label">课程类型 <span class="required">*</span></label>
+        <div class="type-selector">
+          <div class="type-option selected" onclick="selectType(this,'video')">
+            <div class="icon">📹</div>
+            <div class="label">视频课程</div>
+            <div class="desc">录制视频讲解，配合PPT/屏幕演示</div>
+          </div>
+          <div class="type-option" onclick="selectType(this,'text')">
+            <div class="icon">📄</div>
+            <div class="label">文本教程</div>
+            <div class="desc">图文并茂的技术文档与教程</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">课程标题 <span class="required">*</span></label>
+        <input class="form-input" id="courseTitle" placeholder="输入课程标题，建议20字以内" maxlength="50">
+        <div class="form-hint">好标题能吸引更多学员，建议包含核心关键词</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">课程简介 <span class="required">*</span></label>
+        <textarea class="form-textarea" id="courseDesc" placeholder="详细描述课程内容、学习目标和适合人群..." maxlength="500"></textarea>
+        <div class="form-hint"><span id="descCount">0</span>/500 字</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">任务类型 <span class="required">*</span></label>
+          <select class="form-select" id="taskType">
+            <option value="">请选择</option>
+            <option value="nlp">自然语言处理</option>
+            <option value="cv">计算机视觉</option>
+            <option value="multimodal">多模态</option>
+            <option value="audio">音频处理</option>
+            <option value="rl">强化学习</option>
+            <option value="data">数据工程</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">难度级别 <span class="required">*</span></label>
+          <select class="form-select" id="difficulty">
+            <option value="">请选择</option>
+            <option value="community">社区教程</option>
+            <option value="beginner">入门级</option>
+            <option value="intermediate">进阶级</option>
+            <option value="master">大师级</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">课程标签</label>
+        <div class="tags-input" id="tagsInput" onclick="document.getElementById('tagInputField').focus()">
+          <input id="tagInputField" placeholder="输入标签后按 Enter 添加" onkeydown="handleTagInput(event)">
+        </div>
+        <div class="form-hint">添加相关标签便于学员搜索，最多5个</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">课程封面</label>
+        <div class="cover-upload">
+          <div class="cover-preview" id="coverPreview">
+            <div class="placeholder">📷<br>点击上传</div>
+            <input type="file" accept="image/*" onchange="previewCover(this)">
+          </div>
+          <div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">
+              建议尺寸 1280×720，支持 JPG/PNG 格式，大小不超过 2MB
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);">
+              好的封面能提升课程点击率。可以使用课程核心概念的视觉化图片，或者简洁的文字排版。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-secondary" onclick="window.location.href='index.html'">取消</button>
+      <button class="btn btn-primary" onclick="goStep(2)">下一步 →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Content -->
+  <div id="panel-2" class="step-panel" style="display:none;">
+    <!-- Video Upload -->
+    <div id="videoUpload" class="form-card">
+      <h2>📹 视频内容</h2>
+      <div class="upload-zone" id="videoZone">
+        <div class="icon">🎬</div>
+        <div class="text">拖放视频文件到此处，或 <span style="color:var(--accent-blue);">点击选择</span></div>
+        <div class="hint">支持 MP4/MOV/AVI 格式，单文件最大 2GB</div>
+        <input type="file" accept="video/*" multiple onchange="handleVideoUpload(this)">
+      </div>
+      <div class="file-list" id="videoList"></div>
+    </div>
+
+    <!-- Text Content -->
+    <div id="textContent" class="form-card" style="display:none;">
+      <h2>📄 文本内容</h2>
+      <div class="form-group">
+        <label class="form-label">教程正文 <span class="required">*</span></label>
+        <textarea class="form-textarea" id="textBody" placeholder="支持 Markdown 格式&#10;&#10;# 章节标题&#10;## 小节标题&#10;&#10;正文内容...&#10;&#10;```python&#10;# 代码块&#10;```" style="min-height:300px;font-family:'Fira Code',monospace;font-size:13px;"></textarea>
+        <div class="form-hint">支持 Markdown 语法，代码块会自动高亮</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">附件上传</label>
+        <div class="upload-zone" style="padding:24px;">
+          <div class="icon">📎</div>
+          <div class="text">上传配套资料（PDF、代码、数据集等）</div>
+          <div class="hint">支持任意格式，单文件最大 100MB</div>
+          <input type="file" multiple onchange="handle附件Upload(this)">
+        </div>
+        <div class="file-list" id="附件List"></div>
+      </div>
+    </div>
+
+    <!-- Chapter Structure -->
+    <div class="form-card">
+      <h2>📚 章节结构</h2>
+      <div class="chapter-editor" id="chapterEditor">
+        <div class="chapter-block">
+          <div class="ch-header">
+            <span class="ch-num">1</span>
+            <input class="ch-input" placeholder="第一章标题" value="第一章：课程导学">
+            <span class="ch-delete" onclick="deleteChapter(this)">✕</span>
+          </div>
+          <div class="lesson-list">
+            <div class="lesson-row">
+              <span class="ls-icon video">▶</span>
+              <input class="ls-input" placeholder="课时标题" value="1.1 课程介绍与学习路线">
+              <select class="ls-type-select"><option value="video">视频</option><option value="text">文本</option></select>
+              <span class="ls-delete" onclick="this.closest('.lesson-row').remove()">✕</span>
+            </div>
+            <div class="lesson-row">
+              <span class="ls-icon video">▶</span>
+              <input class="ls-input" placeholder="课时标题" value="1.2 环境搭建指南">
+              <select class="ls-type-select"><option value="video">视频</option><option value="text">文本</option></select>
+              <span class="ls-delete" onclick="this.closest('.lesson-row').remove()">✕</span>
+            </div>
+          </div>
+          <button class="add-lesson-btn" onclick="addLesson(this)">+ 添加课时</button>
+        </div>
+      </div>
+      <button class="add-chapter-btn" onclick="addChapter()">+ 添加章节</button>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-secondary" onclick="goStep(1)">← 上一步</button>
+      <button class="btn btn-primary" onclick="goStep(3)">下一步 →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Publish -->
+  <div id="panel-3" class="step-panel" style="display:none;">
+    <div class="form-card">
+      <h2>🚀 发布设置</h2>
+
+      <div class="form-group">
+        <label class="form-label">课程价格</label>
+        <div class="type-selector">
+          <div class="type-option selected" onclick="selectPrice(this,'free')">
+            <div class="icon">🆓</div>
+            <div class="label">免费公开</div>
+            <div class="desc">所有人可免费学习</div>
+          </div>
+          <div class="type-option" onclick="selectPrice(this,'paid')">
+            <div class="icon">💰</div>
+            <div class="label">付费课程</div>
+            <div class="desc">设置课程售价</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" id="priceGroup" style="display:none;">
+        <label class="form-label">课程售价 (¥)</label>
+        <input class="form-input" id="priceInput" type="number" placeholder="输入价格" min="0" step="0.01" style="max-width:200px;">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">预计学习时长</label>
+          <input class="form-input" id="duration" placeholder="如：3小时" >
+        </div>
+        <div class="form-group">
+          <label class="form-label">难度级别</label>
+          <select class="form-select" id="publishLevel">
+            <option value="community">社区教程</option>
+            <option value="beginner">入门级</option>
+            <option value="intermediate" selected>进阶级</option>
+            <option value="master">大师级</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">课程大纲 / 学习目标</label>
+        <textarea class="form-textarea" id="objectives" placeholder="列出学员完成课程后能掌握的技能点，每行一条&#10;&#10;例如：&#10;理解Transformer架构的核心原理&#10;掌握Self-Attention的数学推导&#10;能够用PyTorch实现完整Transformer"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">适合人群</label>
+        <textarea class="form-textarea" id="audience" placeholder="描述课程的目标受众&#10;&#10;例如：&#10;有Python基础的开发者&#10;对NLP感兴趣的研究者" style="min-height:80px;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">发布选项</label>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--accent-blue);">
+            立即发布
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
+            <input type="checkbox" style="width:16px;height:16px;accent-color:var(--accent-blue);">
+            允许学员评论
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
+            <input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--accent-blue);">
+            在首页推荐中展示
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
+            <input type="checkbox" style="width:16px;height:16px;accent-color:var(--accent-blue);">
+            完成后颁发证书
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-secondary" onclick="goStep(2)">← 上一步</button>
+      <button class="btn btn-secondary" onclick="showPreview()">👁 预览</button>
+      <button class="btn btn-success" onclick="publishCourse()">🚀 发布课程</button>
+    </div>
+  </div>
+</div>
+
+<!-- Preview Panel -->
+<div class="preview-panel" id="previewPanel">
+  <div class="panel-header">
+    <h3>👁 课程预览</h3>
+    <button class="close-btn" onclick="closePreview()">✕</button>
+  </div>
+  <div class="panel-body" id="previewBody"></div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="icon">🎉</div>
+    <h2>课程发布成功！</h2>
+    <p id="successMsg">你的课程「NLP进阶教程」已成功发布，等待审核通过后将展示在学堂首页。</p>
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="closeModal()">继续编辑</button>
+      <button class="btn btn-primary" onclick="window.location.href='index.html'">返回学堂</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let currentStep = 1;
+let courseType = 'video';
+let tags = [];
+let videoFiles = [];
+let chapterCount = 1;
+
+// ===== Step Navigation =====
+function goStep(n) {
+  // Validate current step
+  if (n > currentStep) {
+    if (currentStep === 1) {
+      const title = document.getElementById('courseTitle').value.trim();
+      const desc = document.getElementById('courseDesc').value.trim();
+      if (!title) { showToast('⚠️ 请填写课程标题'); return; }
+      if (!desc) { showToast('⚠️ 请填写课程简介'); return; }
+    }
+  }
+
+  currentStep = n;
+  document.querySelectorAll('.step-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('panel-' + n).style.display = 'block';
+
+  // Update stepper
+  for (let i = 1; i <= 3; i++) {
+    const step = document.getElementById('step' + i);
+    step.classList.remove('active', 'done');
+    if (i < n) step.classList.add('done');
+    if (i === n) step.classList.add('active');
+  }
+  document.getElementById('line1').classList.toggle('done', n > 1);
+  document.getElementById('line2').classList.toggle('done', n > 2);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== Course Type =====
+function selectType(el, type) {
+  document.querySelectorAll('.type-selector')[0].querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  courseType = type;
+  document.getElementById('videoUpload').style.display = type === 'video' ? 'block' : 'none';
+  document.getElementById('textContent').style.display = type === 'text' ? 'block' : 'none';
+}
+
+// ===== Price Type =====
+function selectPrice(el, type) {
+  el.closest('.type-selector').querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('priceGroup').style.display = type === 'paid' ? 'block' : 'none';
+}
+
+// ===== Tags =====
+function handleTagInput(e) {
+  if (e.key === 'Enter' && e.target.value.trim()) {
+    e.preventDefault();
+    if (tags.length >= 5) { showToast('⚠️ 最多添加5个标签'); return; }
+    const tag = e.target.value.trim();
+    if (tags.includes(tag)) { showToast('⚠️ 标签已存在'); return; }
+    tags.push(tag);
+    renderTags();
+    e.target.value = '';
+  }
+}
+
+function removeTag(index) {
+  tags.splice(index, 1);
+  renderTags();
+}
+
+function renderTags() {
+  const container = document.getElementById('tagsInput');
+  const input = document.getElementById('tagInputField');
+  container.querySelectorAll('.tag').forEach(t => t.remove());
+  tags.forEach((t, i) => {
+    const el = document.createElement('span');
+    el.className = 'tag';
+    el.innerHTML = `${t} <span class="remove" onclick="removeTag(${i})">×</span>`;
+    container.insertBefore(el, input);
+  });
+}
+
+// ===== Cover Preview =====
+function previewCover(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('coverPreview').innerHTML =
+        `<img src="${e.target.result}"><input type="file" accept="image/*" onchange="previewCover(this)">`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// ===== Video Upload =====
+function handleVideoUpload(input) {
+  for (const file of input.files) {
+    videoFiles.push({ name: file.name, size: (file.size/1024/1024).toFixed(1) + ' MB', status: 'done' });
+  }
+  renderVideoList();
+  input.value = '';
+}
+
+function renderVideoList() {
+  document.getElementById('videoList').innerHTML = videoFiles.map((f, i) => `
+    <div class="file-item">
+      <span class="file-icon">🎬</span>
+      <div class="file-info">
+        <div class="file-name">${f.name}</div>
+        <div class="file-size">${f.size}</div>
+      </div>
+      <span class="file-status ${f.status}">${f.status === 'done' ? '✓ 就绪' : '上传中...'}</span>
+      <span class="file-remove" onclick="videoFiles.splice(${i},1);renderVideoList()">✕</span>
+    </div>
+  `).join('');
+}
+
+function handle附件Upload(input) {
+  const list = document.getElementById('附件List');
+  for (const file of input.files) {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
+      <span class="file-icon">📎</span>
+      <div class="file-info">
+        <div class="file-name">${file.name}</div>
+        <div class="file-size">${(file.size/1024/1024).toFixed(1)} MB</div>
+      </div>
+      <span class="file-status done">✓ 就绪</span>
+      <span class="file-remove" onclick="this.closest('.file-item').remove()">✕</span>
+    `;
+    list.appendChild(item);
+  }
+  input.value = '';
+}
+
+// ===== Chapter Editor =====
+function addChapter() {
+  chapterCount++;
+  const editor = document.getElementById('chapterEditor');
+  const block = document.createElement('div');
+  block.className = 'chapter-block';
+  block.innerHTML = `
+    <div class="ch-header">
+      <span class="ch-num">${chapterCount}</span>
+      <input class="ch-input" placeholder="第${chapterCount}章标题">
+      <span class="ch-delete" onclick="deleteChapter(this)">✕</span>
+    </div>
+    <div class="lesson-list"></div>
+    <button class="add-lesson-btn" onclick="addLesson(this)">+ 添加课时</button>
+  `;
+  editor.appendChild(block);
+}
+
+function deleteChapter(el) {
+  if (document.querySelectorAll('.chapter-block').length <= 1) {
+    showToast('⚠️ 至少保留一个章节'); return;
+  }
+  el.closest('.chapter-block').remove();
+  renumberChapters();
+}
+
+function addLesson(btn) {
+  const list = btn.previousElementSibling;
+  const row = document.createElement('div');
+  row.className = 'lesson-row';
+  row.innerHTML = `
+    <span class="ls-icon video">▶</span>
+    <input class="ls-input" placeholder="课时标题">
+    <select class="ls-type-select" onchange="updateLessonIcon(this)">
+      <option value="video">视频</option>
+      <option value="text">文本</option>
+    </select>
+    <span class="ls-delete" onclick="this.closest('.lesson-row').remove()">✕</span>
+  `;
+  list.appendChild(row);
+}
+
+function updateLessonIcon(select) {
+  const icon = select.closest('.lesson-row').querySelector('.ls-icon');
+  const isVideo = select.value === 'video';
+  icon.className = 'ls-icon ' + (isVideo ? 'video' : 'text');
+  icon.textContent = isVideo ? '▶' : '¶';
+}
+
+function renumberChapters() {
+  document.querySelectorAll('.chapter-block').forEach((block, i) => {
+    block.querySelector('.ch-num').textContent = i + 1;
+  });
+  chapterCount = document.querySelectorAll('.chapter-block').length;
+}
+
+// ===== Preview =====
+function showPreview() {
+  const title = document.getElementById('courseTitle').value || '未命名课程';
+  const desc = document.getElementById('courseDesc').value || '暂无简介';
+  const level = document.getElementById('publishLevel').selectedOptions[0].text;
+  const dur = document.getElementById('duration').value || '未设置';
+
+  document.getElementById('previewBody').innerHTML = `
+    <div style="margin-bottom:20px;">
+      <div style="height:160px;background:linear-gradient(135deg,#2a1a4a,#3d1a5c);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;font-size:40px;">${courseType==='video'?'📹':'📄'}</div>
+    </div>
+    <h2 style="font-size:18px;margin-bottom:8px;">${title}</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <span style="font-size:12px;padding:3px 10px;border-radius:10px;background:rgba(47,129,247,.15);color:var(--accent-blue);">${courseType==='video'?'📹 视频课程':'📄 文本教程'}</span>
+      <span style="font-size:12px;padding:3px 10px;border-radius:10px;background:rgba(63,185,80,.15);color:var(--accent-green);">${level}</span>
+    </div>
+    <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:16px;">${desc}</p>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">⏱ 预计时长：${dur}</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">🏷 标签：${tags.join('、') || '无'}</div>
+    <div style="padding:12px;background:var(--bg-primary);border-radius:var(--radius);font-size:12px;color:var(--text-muted);">
+      📚 ${document.querySelectorAll('.chapter-block').length} 个章节 · ${document.querySelectorAll('.lesson-row').length} 个课时
+    </div>
+  `;
+  document.getElementById('previewPanel').classList.add('open');
+}
+
+function closePreview() {
+  document.getElementById('previewPanel').classList.remove('open');
+}
+
+// ===== Publish =====
+function publishCourse() {
+  const title = document.getElementById('courseTitle').value || '未命名课程';
+  document.getElementById('successMsg').textContent =
+    `你的课程「${title}」已成功发布，等待审核通过后将展示在学堂首页。`;
+  document.getElementById('successModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('successModal').classList.remove('active');
+}
+
+// ===== Description Counter =====
+document.getElementById('courseDesc').addEventListener('input', function() {
+  document.getElementById('descCount').textContent = this.value.length;
+});
+
+// ===== Toast =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

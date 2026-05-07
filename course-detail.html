@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程详情 - 魔乐学堂</title>
+    <style>
+        :root {
+            --dark-bg: #0a0e1a;
+            --dark-card: #111827;
+            --dark-border: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --primary-color: #00d4ff;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            --accent-color: #00ff88;
+            --danger-color: #f85149;
+            --glow-primary: 0 4px 16px rgba(0, 212, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--dark-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 200px;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Top Section */
+        .top-section {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        /* Video Player */
+        .player-container {
+            flex: 1;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+
+        .player-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .player-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 212, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .player-title {
+            z-index: 1;
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .player-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 35%;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .time-display {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* Course Info */
+        .course-info {
+            width: 420px;
+            flex-shrink: 0;
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid var(--dark-border);
+            padding: 20px;
+        }
+
+        .course-info h1 {
+            font-size: 22px;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .action-btn.like {
+            background: rgba(248, 81, 73, 0.1);
+            color: #f85149;
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+
+        .action-btn.like:hover,
+        .action-btn.like.active {
+            background: rgba(248, 81, 73, 0.2);
+        }
+
+        .action-btn.favorite {
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .action-btn.favorite:hover,
+        .action-btn.favorite.active {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .action-btn.share {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .action-btn.share:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .course-stats {
+            display: grid;
+            grid-template-columns: 2fr 2fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .progress-section {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar-large {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill-large {
+            height: 100%;
+            width: 35%;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .join-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--glow-primary);
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Bottom Section */
+        .bottom-section {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* Left Panel */
+        .left-panel {
+            flex: 1;
+        }
+
+        /* Tabs */
+        .content-tabs {
+            display: flex;
+            background: var(--dark-card);
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+            padding: 6px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            background: var(--dark-card);
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+            padding: 24px;
+            min-height: 400px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Course Detail Tab */
+        #tabDetail h3 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        #tabDetail p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+
+        /* Course Outline */
+        .outline-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chapter-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            background: rgba(0, 212, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .chapter-header:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .chapter-number {
+            width: 28px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .chapter-title {
+            flex: 1;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .chapter-duration {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .chapter-expand {
+            color: var(--text-muted);
+            transition: transform 0.3s;
+        }
+
+        .chapter-expand.expanded {
+            transform: rotate(180deg);
+        }
+
+        .lesson-list {
+            padding: 8px 0;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px 10px 56px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lesson-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .lesson-item.completed {
+            opacity: 0.6;
+        }
+
+        .lesson-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--primary-color);
+        }
+
+        .lesson-item.completed .lesson-icon {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .lesson-title {
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lesson-duration {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* Discussion Tab */
+        .discussion-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 12px;
+        }
+
+        .comment-avatar-small {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .comment-input textarea {
+            flex: 1;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            resize: none;
+            min-height: 80px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .comment-input textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .submit-comment-btn {
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-end;
+        }
+
+        .submit-comment-btn:hover {
+            background: #00b8e6;
+        }
+
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 14px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .comment-avatar {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .comment-author {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .comment-date {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .comment-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .comment-action {
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .comment-action:hover {
+            color: var(--primary-color);
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: 340px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Instructor Card */
+        .instructor-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid var(--dark-border);
+            padding: 20px;
+        }
+
+        .instructor-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .instructor-info {
+            display: flex;
+            gap: 14px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .instructor-info:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .instructor-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .instructor-details {
+            flex: 1;
+        }
+
+        .instructor-name {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .instructor-title {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .instructor-stats {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Recommended Courses */
+        .recommend-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid var(--dark-border);
+            padding: 20px;
+        }
+
+        .recommend-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .recommend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .recommend-item {
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .recommend-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .recommend-cover {
+            width: 80px;
+            height: 45px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .recommend-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .recommend-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .recommend-title {
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .recommend-author {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .recommend-stats {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .top-section {
+                flex-direction: column;
+            }
+            
+            .course-info {
+                width: 100%;
+            }
+            
+            .bottom-section {
+                flex-direction: column;
+            }
+            
+            .right-panel {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-actions {
+                flex-wrap: wrap;
+            }
+            
+            .action-btn {
+                min-width: calc(50% - 6px);
+            }
+            
+            .course-stats {
+                grid-template-columns: 2fr 2fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🎓 魔乐学堂</div>
+            <nav class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="#">课程中心</a>
+                <a href="#">讲师团队</a>
+                <a href="#">关于我们</a>
+            </nav>
+            <div class="header-right">
+                <button class="back-btn" onclick="goBack()">← 返回首页</button>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索课程、讲师...">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Top Section -->
+        <div class="top-section">
+            <!-- Video Player -->
+            <div class="player-container">
+                <div class="player-placeholder">
+                    <div class="play-button" onclick="playVideo()">▶</div>
+                    <div class="player-title">第1章 - 区块链技术概述</div>
+                </div>
+                <div class="player-controls">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="time-display">12:35 / 30:00</div>
+                </div>
+            </div>
+
+            <!-- Course Info -->
+            <div class="course-info">
+                <h1>科技创造未来 区块链技术创新高端峰会论坛</h1>
+                
+                <div class="course-actions">
+                    <button class="action-btn like" onclick="toggleLike()">
+                        <span>👍</span>
+                        <span>点赞</span>
+                        <span id="likeCount">1.2k</span>
+                    </button>
+                    <button class="action-btn favorite" onclick="toggleFavorite()">
+                        <span>❤️</span>
+                        <span>收藏</span>
+                    </button>
+                    <button class="action-btn share" onclick="shareCourse()">
+                        <span>🔗</span>
+                        <span>分享</span>
+                    </button>
+                </div>
+
+                <div class="course-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="viewCount">15.6万</div>
+                        <div class="stat-label">播放量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="studentCount">1.2万</div>
+                        <div class="stat-label">学习人数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="chapterCount">12</div>
+                        <div class="stat-label">章节数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="duration">2小时</div>
+                        <div class="stat-label">总时长</div>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>学习进度</span>
+                        <span id="progressText">35%</span>
+                    </div>
+                    <div class="progress-bar-large">
+                        <div class="progress-fill-large" id="progressBar"></div>
+                    </div>
+                </div>
+
+                <button class="join-btn" onclick="joinCourse()">🎯 立即加入学习</button>
+            </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <!-- Left Panel -->
+            <div class="left-panel">
+                <div class="content-tabs">
+                    <button class="tab-btn active" onclick="showTab('detail')">📚 课程详情</button>
+                    <button class="tab-btn" onclick="showTab('discussion')">💬 讨论区</button>
+                </div>
+
+                <div class="tab-content">
+                    <!-- Course Detail Tab -->
+                    <div id="tabDetail" class="tab-pane active">
+                        <h3>📝 课程简介</h3>
+                        <p>本课程邀请了多位区块链领域的专家学者，共同探讨区块链技术的前沿发展。课程内容涵盖区块链基础原理、智能合约开发、去中心化应用(DApp)构建等核心知识。通过实际案例分析和现场演示，帮助学员全面了解区块链技术的应用场景和商业价值。</p>
+
+                        <div class="outline-section">
+                            <h4>📋 课程大纲</h4>
+                            <div class="chapter-list" id="chapterList">
+                                <!-- Chapters will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discussion Tab -->
+                    <div id="tabDiscussion" class="tab-pane">
+                        <div class="discussion-section">
+                            <div class="comment-input">
+                                <div class="comment-avatar-small">我</div>
+                                <textarea placeholder="发表您的看法..."></textarea>
+                                <button class="submit-comment-btn">发布</button>
+                            </div>
+
+                            <div class="comment-list" id="commentList">
+                                <!-- Comments will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- Instructor Card -->
+                <div class="instructor-card">
+                    <h4>👨‍🏫 授课讲师</h4>
+                    <div class="instructor-info" onclick="goToInstructorDetail()">
+                        <div class="instructor-avatar">王</div>
+                        <div class="instructor-details">
+                            <div class="instructor-name">王教授</div>
+                            <div class="instructor-title">清华大学区块链研究中心主任</div>
+                            <div class="instructor-stats">
+                                <span>📚 28门课程</span>
+                                <span>👥 5.6万学员</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Courses -->
+                <div class="recommend-card">
+                    <h4>🔥 推荐课程</h4>
+                    <div class="recommend-list" id="recommendList">
+                        <!-- Recommended courses will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 课程数据
+        const courseData = {
+            title: '科技创造未来 区块链技术创新高端峰会论坛',
+            viewCount: '15.6万',
+            studentCount: '1.2万',
+            likeCount: '1.2k',
+            chapterCount: 12,
+            duration: '2小时',
+            progress: 35,
+            description: '本课程邀请了多位区块链领域的专家学者，共同探讨区块链技术的前沿发展。课程内容涵盖区块链基础原理、智能合约开发、去中心化应用(DApp)构建等核心知识。通过实际案例分析和现场演示，帮助学员全面了解区块链技术的应用场景和商业价值。',
+            chapters: [
+                {
+                    title: '区块链技术概述',
+                    duration: '30分钟',
+                    lessons: [
+                        { title: '区块链基础概念', duration: '10分钟', completed: true },
+                        { title: '区块链发展历程', duration: '12分钟', completed: true },
+                        { title: '核心技术原理', duration: '8分钟', completed: false }
+                    ]
+                },
+                {
+                    title: '智能合约开发',
+                    duration: '45分钟',
+                    lessons: [
+                        { title: 'Solidity语言基础', duration: '15分钟', completed: false },
+                        { title: '智能合约设计模式', duration: '20分钟', completed: false },
+                        { title: '实战案例演示', duration: '10分钟', completed: false }
+                    ]
+                },
+                {
+                    title: 'DApp应用实践',
+                    duration: '45分钟',
+                    lessons: [
+                        { title: 'DApp架构设计', duration: '12分钟', completed: false },
+                        { title: '前端交互开发', duration: '18分钟', completed: false },
+                        { title: '部署与测试', duration: '15分钟', completed: false }
+                    ]
+                }
+            ],
+            comments: [
+                { author: '张同学', date: '2024-01-15', text: '课程内容非常详实，讲师讲解清晰，收获很大！', likes: 28 },
+                { author: '李工程师', date: '2024-01-12', text: '案例分析很实用，对实际工作帮助很大。', likes: 15 },
+                { author: '王经理', date: '2024-01-10', text: '作为入门课程非常合适，推荐给大家。', likes: 32 }
+            ],
+            recommendedCourses: [
+                { title: '深度学习基础：神经网络入门到实践', author: '元河', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '4200' },
+                { title: 'Qwen2.5-VL 视觉语言模型实战教程', author: '李明', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '2800' },
+                { title: '自然语言处理进阶：Transformer架构详解', author: '历波', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1800' },
+                { title: '多模态学习：视觉与语言的融合', author: '陶馨璧', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1200' },
+                { title: 'SmolTalk Chinese 数据集构建与应用', author: '张华', cover: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=320&h=180&fit=crop', students: '950' },
+                { title: 'Python机器学习实战', author: '刘伟', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '3500' },
+                { title: '数据分析与可视化', author: '陈静', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '2100' },
+                { title: '强化学习入门与实践', author: '赵强', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1500' }
+            ],
+            instructor: {
+                name: '王教授',
+                title: '清华大学区块链研究中心主任',
+                courses: 28,
+                students: '5.6万'
+            }
+        };
+
+        // 渲染章节列表
+        function renderChapters() {
+            const chapterList = document.getElementById('chapterList');
+            chapterList.innerHTML = courseData.chapters.map((chapter, index) => `
+                <div class="chapter-item">
+                    <div class="chapter-header" onclick="toggleChapter(this)">
+                        <span class="chapter-number">${index + 1}</span>
+                        <span class="chapter-title">${chapter.title}</span>
+                        <span class="chapter-duration">${chapter.duration}</span>
+                        <span class="chapter-expand">▼</span>
+                    </div>
+                    <div class="lesson-list">
+                        ${chapter.lessons.map(lesson => `
+                            <div class="lesson-item ${lesson.completed ? 'completed' : ''}">
+                                <span class="lesson-icon">${lesson.completed ? '✓' : '▶'}</span>
+                                <span class="lesson-title">${lesson.title}</span>
+                                <span class="lesson-duration">${lesson.duration}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 展开/收起章节
+        function toggleChapter(header) {
+            const expandIcon = header.querySelector('.chapter-expand');
+            const lessonList = header.parentElement.querySelector('.lesson-list');
+            
+            expandIcon.classList.toggle('expanded');
+            
+            if (expandIcon.classList.contains('expanded')) {
+                lessonList.style.display = 'block';
+            } else {
+                lessonList.style.display = 'none';
+            }
+        }
+
+        // 渲染评论列表
+        function renderComments() {
+            const commentList = document.getElementById('commentList');
+            commentList.innerHTML = courseData.comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-avatar">${comment.author.charAt(0)}</div>
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">${comment.author}</span>
+                            <span class="comment-date">${comment.date}</span>
+                        </div>
+                        <p class="comment-text">${comment.text}</p>
+                        <div class="comment-actions">
+                            <span class="comment-action" onclick="likeComment(this)">👍 ${comment.likes}</span>
+                            <span class="comment-action">💬 回复</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染推荐课程
+        function renderRecommendations() {
+            const recommendList = document.getElementById('recommendList');
+            recommendList.innerHTML = courseData.recommendedCourses.map(course => {
+                const courseKey = course.title.toLowerCase().replace(/[\s\-\:\(\)]+/g, '');
+                return `
+                <div class="recommend-item" onclick="goToCourse('${courseKey}')">
+                    <div class="recommend-cover">
+                        <img src="${course.cover}" alt="${course.title}">
+                    </div>
+                    <div class="recommend-info">
+                        <div class="recommend-title">${course.title}</div>
+                        <div class="recommend-author">${course.author}</div>
+                        <div class="recommend-stats">
+                            <span>👥 ${course.students}</span>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // 显示标签页
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            
+            document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('active');
+        }
+
+        // 点赞功能
+        function toggleLike() {
+            const btn = document.querySelector('.action-btn.like');
+            const count = document.getElementById('likeCount');
+            btn.classList.toggle('active');
+            
+            if (btn.classList.contains('active')) {
+                count.textContent = '1.3k';
+            } else {
+                count.textContent = '1.2k';
+            }
+        }
+
+        // 收藏功能
+        function toggleFavorite() {
+            const btn = document.querySelector('.action-btn.favorite');
+            btn.classList.toggle('active');
+        }
+
+        // 分享功能
+        function shareCourse() {
+            alert('分享链接已复制到剪贴板！');
+        }
+
+        // 播放视频
+        function playVideo() {
+            alert('正在播放课程视频...');
+        }
+
+        // 加入学习
+        function joinCourse() {
+            alert('已成功加入学习！开始您的学习之旅吧！');
+        }
+
+        // 评论点赞
+        function likeComment(el) {
+            const currentLikes = parseInt(el.textContent.replace('👍 ', ''));
+            el.textContent = `👍 ${currentLikes + 1}`;
+        }
+
+        // 跳转到讲师详情页
+        function goToInstructorDetail() {
+            const instructorName = courseData.instructor.name;
+            window.location.href = 'instructor-detail.html?instructor=' + encodeURIComponent(instructorName);
+        }
+
+        // 跳转到课程
+        function goToCourse(courseKey) {
+            window.location.href = 'course-detail.html?course=' + encodeURIComponent(courseKey);
+        }
+
+        // 返回首页
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 更新课程统计数据
+            document.getElementById('viewCount').textContent = courseData.viewCount;
+            document.getElementById('studentCount').textContent = courseData.studentCount;
+            document.getElementById('likeCount').textContent = courseData.likeCount;
+            document.getElementById('chapterCount').textContent = courseData.chapterCount;
+            document.getElementById('duration').textContent = courseData.duration;
+            document.getElementById('progressText').textContent = `${courseData.progress}%`;
+            document.getElementById('progressBar').style.width = `${courseData.progress}%`;
+
+            // 渲染章节列表
+            renderChapters();
+
+            // 渲染评论列表
+            renderComments();
+
+            // 渲染推荐课程
+            renderRecommendations();
+        });
+    </script>
+</body>
+</html>

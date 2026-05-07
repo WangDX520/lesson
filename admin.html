@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魔乐学堂 - 后台管理系统</title>
+    <style>
+        :root {
+            --dark-bg: #0a0e1a;
+            --dark-card: #111827;
+            --dark-border: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --primary-color: #00d4ff;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark-bg); color: var(--text-primary); min-height: 100vh; }
+
+        .admin-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: rgba(17, 24, 39, 0.95); border-right: 1px solid var(--dark-border); padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; }
+        .logo { font-size: 20px; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding: 0 24px; margin-bottom: 24px; }
+        .logo span { font-size: 12px; background: rgba(255, 255, 255, 0.1); padding: 4px 8px; border-radius: 4px; margin-left: 8px; -webkit-text-fill-color: var(--text-secondary); }
+
+        .nav-section { margin-bottom: 24px; }
+        .nav-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 24px; margin-bottom: 12px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--text-secondary); cursor: pointer; transition: all 0.3s; border-left: 3px solid transparent; }
+        .nav-item:hover { background: rgba(0, 212, 255, 0.05); color: var(--primary-color); }
+        .nav-item.active { background: rgba(0, 212, 255, 0.1); color: var(--primary-color); border-left-color: var(--primary-color); }
+        .nav-item .badge { background: var(--danger-color); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+
+        .main-content { flex: 1; margin-left: 260px; padding: 24px; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+        .page-title { font-size: 24px; font-weight: 600; }
+        .admin-info { display: flex; align-items: center; gap: 12px; }
+        .admin-avatar { width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+
+        .card { background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); overflow: hidden; margin-bottom: 24px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--dark-border); flex-wrap: wrap; gap: 16px; }
+        .card-title { font-size: 16px; font-weight: 600; }
+
+        .tabs { display: flex; gap: 4px; background: rgba(0, 0, 0, 0.2); padding: 4px; border-radius: 10px; }
+        .tab { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s; color: var(--text-secondary); }
+        .tab:hover { color: var(--text-primary); }
+        .tab.active { background: var(--gradient-primary); color: #fff; }
+
+        .search-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 200px; display: flex; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--dark-border); border-radius: 8px; padding: 10px 16px; }
+        .search-input input { flex: 1; background: transparent; border: none; color: var(--text-primary); font-size: 14px; outline: none; }
+        .filter-select { background: #000; border: 1px solid var(--dark-border); border-radius: 8px; padding: 10px 16px; color: var(--text-primary); font-size: 14px; cursor: pointer; min-width: 120px; }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--dark-border); }
+        th { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; background: rgba(0, 0, 0, 0.2); }
+        tr:hover { background: rgba(0, 212, 255, 0.03); }
+
+        .course-info, .instructor-info { display: flex; align-items: center; gap: 12px; }
+        .course-thumb, .instructor-thumb { width: 60px; height: 40px; border-radius: 6px; object-fit: cover; }
+        .instructor-thumb { width: 50px; height: 50px; border-radius: 50%; }
+        .course-title, .instructor-name { font-weight: 500; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .status-badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--warning-color); }
+        .status-badge.approved { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
+        .status-badge.rejected { background: rgba(239, 68, 68, 0.15); color: var(--danger-color); }
+        .status-badge.active { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
+        .status-badge.inactive { background: rgba(107, 114, 128, 0.15); color: var(--text-muted); }
+
+        .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.3s; }
+        .btn-primary { background: var(--gradient-primary); color: #fff; }
+        .btn-success { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
+        .btn-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger-color); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); }
+        .action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.show { display: flex; }
+        .modal { background: var(--dark-card); border-radius: 16px; border: 1px solid var(--dark-border); width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--dark-border); }
+        .modal-header h3 { font-size: 18px; font-weight: 600; }
+        .modal-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+        .modal-body { padding: 24px; }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 12px; padding: 20px 24px; border-top: 1px solid var(--dark-border); }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 8px; }
+        .form-input { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--dark-border); border-radius: 8px; padding: 12px 16px; color: var(--text-primary); font-size: 14px; }
+        .form-input:focus { outline: none; border-color: var(--primary-color); }
+        textarea.form-input { resize: vertical; min-height: 100px; }
+
+        .tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 20px; font-size: 12px; color: var(--primary-color); }
+
+        .category-tree { margin-top: 16px; }
+        .category-item { padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; margin-bottom: 8px; }
+        .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .category-name { font-weight: 600; }
+        .subtags-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .subtag { padding: 4px 10px; background: rgba(0, 212, 255, 0.1); border-radius: 4px; font-size: 12px; cursor: pointer; }
+        .add-subtag { padding: 4px 10px; border: 1px dashed var(--dark-border); border-radius: 4px; font-size: 12px; cursor: pointer; color: var(--text-muted); }
+
+        .pagination { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-top: 1px solid var(--dark-border); flex-wrap: wrap; gap: 12px; }
+        .pagination-btns { display: flex; gap: 8px; }
+        .page-btn { padding: 8px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--dark-border); border-radius: 6px; color: var(--text-secondary); cursor: pointer; }
+        .page-btn.active { background: var(--gradient-primary); border-color: transparent; color: #fff; }
+
+        .toast { position: fixed; bottom: 24px; right: 24px; padding: 16px 24px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 10px; display: none; z-index: 2000; }
+        .toast.show { display: block; }
+        .toast.success { border-color: var(--success-color); }
+        .toast.error { border-color: var(--danger-color); }
+
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        .searchable-select { position: relative; }
+        .select-options { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 10; }
+        .option-item { padding: 10px 16px; cursor: pointer; transition: background 0.2s; }
+        .option-item:hover { background: rgba(0, 212, 255, 0.1); }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; position: relative; height: auto; }
+            .main-content { margin-left: 0; }
+            .admin-layout { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="logo">🎓 魔乐学堂 <span>Admin</span></div>
+            
+            <nav class="nav-section">
+                <div class="nav-title">概览</div>
+                <div class="nav-item active" onclick="showSection('dashboard')"><span>📊</span><span>数据统计</span></div>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-title">内容管理</div>
+                <div class="nav-item" onclick="showSection('courses')"><span>📚</span><span>课程管理</span><span class="badge">3</span></div>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-title">用户管理</div>
+                <div class="nav-item" onclick="showSection('instructors')"><span>👨‍🏫</span><span>讲师管理</span><span class="badge">28</span></div>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-title">系统设置</div>
+                <div class="nav-item" onclick="showSection('tags')"><span>🏷️</span><span>标签管理</span></div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="admin-header">
+                <h1 class="page-title" id="pageTitle">数据统计</h1>
+                <div class="admin-info">
+                    <div>
+                        <div style="font-weight: 500;">管理员</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">超级管理员</div>
+                    </div>
+                    <div class="admin-avatar">管</div>
+                </div>
+            </header>
+
+            <!-- Dashboard -->
+            <div class="content-section active" id="section-dashboard">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px;">
+                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">📚</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">156</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">全部课程</div>
+                    </div>
+                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">👨‍🏫</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">28</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">入驻讲师</div>
+                    </div>
+                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">👥</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">5.2万</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">加入学习用户</div>
+                    </div>
+                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">⏳</div>
+                        <div style="font-size: 28px; font-weight: 700; color: var(--warning-color);">3</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">待审核课程</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">最近审核动态</h3></div>
+                    <div style="padding: 20px;">
+                        <div class="table-container">
+                            <table>
+                                <thead><tr><th>课程名称</th><th>讲师</th><th>提交时间</th><th>状态</th></tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习进阶：Transformer架构详解</div><div style="font-size: 12px; color: var(--text-muted);">讲师：元河</div></div></div></td>
+                                        <td>元河</td><td>2026-04-30 10:30</td><td><span class="status-badge pending">⏳ 待审核</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">区块链技术原理与应用</div><div style="font-size: 12px; color: var(--text-muted);">讲师：王教授</div></div></div></td>
+                                        <td>王教授</td><td>2026-04-29 15:20</td><td><span class="status-badge approved">✅ 已通过</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Management with Review -->
+            <div class="content-section" id="section-courses">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">课程管理</h3>
+                        <div class="tabs">
+                            <div class="tab active" onclick="switchCourseTab(this, 'all')">全部 (156)</div>
+                            <div class="tab" onclick="switchCourseTab(this, 'pending')">待审核 (3)</div>
+                            <div class="tab" onclick="switchCourseTab(this, 'approved')">已通过</div>
+                            <div class="tab" onclick="switchCourseTab(this, 'rejected')">未通过</div>
+                        </div>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div class="search-bar">
+                            <div class="search-input"><input type="text" placeholder="搜索课程名称或讲师..."><span>🔍</span></div>
+                            <select class="filter-select"><option>全部类型</option><option>视频课程</option><option>文本课程</option></select>
+                            <select class="filter-select"><option>全部状态</option><option>待审核</option><option>已通过</option><option>已发布</option><option>已下架</option></select>
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>课程信息</th><th>讲师</th><th>类型</th><th>价格</th><th>状态</th><th>提交/更新时间</th><th>操作</th></tr>
+                                </thead>
+                                <tbody id="coursesTable">
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习进阶：Transformer架构详解</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约8小时</div></div></div></td>
+                                        <td>元河</td><td>视频课程</td><td>¥199</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-30 10:30</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
+                                                <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">分布式系统设计</div><div style="font-size: 12px; color: var(--text-muted);">8课时 · 约15小时</div></div></div></td>
+                                        <td>王教授</td><td>视频课程</td><td>¥149</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-30 09:15</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
+                                                <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">区块链技术原理与应用</div><div style="font-size: 12px; color: var(--text-muted);">8课时 · 约8小时</div></div></div></td>
+                                        <td>王教授</td><td>视频课程</td><td>¥99</td><td><span class="status-badge active">已发布</span></td><td>2026-04-29 15:20</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习基础：神经网络入门到实践</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约4小时</div></div></div></td>
+                                        <td>元河</td><td>视频课程</td><td>免费</td><td><span class="status-badge active">已发布</span></td><td>2026-04-28 14:30</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">智能合约开发实战</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约12小时</div></div></div></td>
+                                        <td>李明</td><td>视频课程</td><td>¥129</td><td><span class="status-badge rejected">❌ 未通过</span></td><td>2026-04-29 09:15</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">Python机器学习实战</div><div style="font-size: 12px; color: var(--text-muted);">15课时 · 约10小时</div></div></div></td>
+                                        <td>张老师</td><td>视频课程</td><td>¥169</td><td><span class="status-badge active">已发布</span></td><td>2026-04-27 16:45</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">NLP自然语言处理入门</div><div style="font-size: 12px; color: var(--text-muted);">10课时 · 约6小时</div></div></div></td>
+                                        <td>陈博士</td><td>视频课程</td><td>¥139</td><td><span class="status-badge active">已发布</span></td><td>2026-04-26 11:20</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">数据挖掘与分析</div><div style="font-size: 12px; color: var(--text-muted);">8课时 · 约5小时</div></div></div></td>
+                                        <td>刘教授</td><td>文本课程</td><td>¥79</td><td><span class="status-badge active">已发布</span></td><td>2026-04-25 09:30</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习框架PyTorch详解</div><div style="font-size: 12px; color: var(--text-muted);">14课时 · 约12小时</div></div></div></td>
+                                        <td>赵讲师</td><td>视频课程</td><td>¥189</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-24 14:00</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
+                                                <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">计算机视觉实战：图像识别</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约8小时</div></div></div></td>
+                                        <td>孙博士</td><td>视频课程</td><td>¥159</td><td><span class="status-badge active">已发布</span></td><td>2026-04-23 10:15</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">AI大模型应用开发</div><div style="font-size: 12px; color: var(--text-muted);">16课时 · 约15小时</div></div></div></td>
+                                        <td>周老师</td><td>视频课程</td><td>¥229</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-22 16:30</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
+                                                <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">云计算与边缘计算</div><div style="font-size: 12px; color: var(--text-muted);">10课时 · 约7小时</div></div></div></td>
+                                        <td>吴教授</td><td>文本课程</td><td>¥99</td><td><span class="status-badge active">已发布</span></td><td>2026-04-21 11:45</td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <div style="font-size: 13px; color: var(--text-muted);">显示 1-5 条，共 156 条</div>
+                            <div class="pagination-btns">
+                                <button class="page-btn">«</button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <button class="page-btn">»</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructor Management -->
+            <div class="content-section" id="section-instructors">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">讲师管理</h3>
+                        <button class="btn btn-primary" onclick="showAddInstructorModal()">+ 添加讲师</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div class="search-bar">
+                            <div class="search-input"><input type="text" placeholder="搜索讲师名称..."><span>🔍</span></div>
+                            <select class="filter-select"><option>全部状态</option><option>已认证</option><option>未认证</option></select>
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>讲师用户名</th><th>职位</th><th>简介</th><th>课程数</th><th>学员数</th><th>总播放量</th><th>状态</th><th>操作</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">元</div><div><div class="instructor-name">元河</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td>北京大学人工智能研究院研究员</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">深耕AI教育领域二十年，培养了数万名优秀AI工程师</td><td>12</td><td>4.2万</td><td>120万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('元河')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('元河')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #E74C3C 0%, #ee5a24 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">王</div><div><div class="instructor-name">王教授</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td>清华大学区块链研究中心教授</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">主要从事区块链、分布式系统、密码学等领域的研究工作</td><td>28</td><td>5.6万</td><td>200万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('王教授')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('王教授')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">李</div><div><div class="instructor-name">李明</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td>阿里巴巴达摩院算法专家</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专注于多模态学习和计算机视觉领域</td><td>15</td><td>3.2万</td><td>80万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('李明')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('李明')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #27AE60 0%, #2ecc71 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">张</div><div><div class="instructor-name">张老师</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td>字节跳动AI实验室高级研究员</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专注于推荐系统和深度学习优化</td><td>8</td><td>2.1万</td><td>65万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('张老师')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('张老师')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #F39C12 0%, #f1c40f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">陈</div><div><div class="instructor-name">陈博士</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td>腾讯AI Lab首席科学家</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">在自然语言处理领域发表论文50余篇</td><td>22</td><td>4.8万</td><td>150万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('陈博士')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('陈博士')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3498DB 0%, #2980b9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">刘</div><div><div class="instructor-name">刘教授</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td>复旦大学计算机学院教授</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">从事数据挖掘和机器学习研究十余年</td><td>18</td><td>3.5万</td><td>110万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('刘教授')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('刘教授')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">赵</div><div><div class="instructor-name">赵讲师</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td>华为云AI技术专家</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专注于云原生AI应用开发</td><td>10</td><td>1.8万</td><td>45万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('赵讲师')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('赵讲师')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #E74C3C 0%, #c0392b 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">孙</div><div><div class="instructor-name">孙博士</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td>浙江大学人工智能研究所副研究员</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">研究方向为计算机视觉和图像处理</td><td>14</td><td>2.9万</td><td>78万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('孙博士')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('孙博士')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">周</div><div><div class="instructor-name">周老师</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td>美团AI平台技术负责人</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">负责大规模AI系统架构设计</td><td>16</td><td>3.1万</td><td>92万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('周老师')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('周老师')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #27AE60 0%, #1e8449 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">吴</div><div><div class="instructor-name">吴教授</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td>上海交通大学电子信息学院教授</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">在智能系统领域有丰富的教学经验</td><td>25</td><td>4.5万</td><td>180万</td><td><span class="status-badge active">已认证</span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <button class="btn btn-secondary" onclick="editInstructor('吴教授')">编辑</button>
+                                                <button class="btn btn-danger" onclick="removeInstructor('吴教授')">移除</button>
+                                                <button class="btn btn-secondary" onclick="viewInstructorDetail()">详情</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <div style="font-size: 13px; color: var(--text-muted);">显示 1-10 条，共 28 条</div>
+                            <div class="pagination-btns">
+                                <button class="page-btn">«</button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <button class="page-btn">»</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Management with Categories -->
+            <div class="content-section" id="section-tags">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">标签管理</h3>
+                        <button class="btn btn-primary" onclick="showAddCategoryModal()">+ 新增分类</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div class="search-bar">
+                            <div class="search-input"><input type="text" placeholder="搜索标签名称..."><span>🔍</span></div>
+                        </div>
+
+                        <div class="category-tree">
+                            <div class="category-item">
+                                <div class="category-header">
+                                    <span class="category-name">🤖 人工智能</span>
+                                    <div class="action-btns">
+                                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="editCategory('人工智能')">编辑</button>
+                                        <button class="btn btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="deleteCategory('人工智能')">删除</button>
+                                    </div>
+                                </div>
+                                <div class="subtags-list">
+                                    <span class="subtag">深度学习</span>
+                                    <span class="subtag">神经网络</span>
+                                    <span class="subtag">强化学习</span>
+                                    <span class="subtag">机器学习</span>
+                                    <span class="add-subtag" onclick="showAddSubtagModal('人工智能')">+ 添加子标签</span>
+                                </div>
+                            </div>
+
+                            <div class="category-item">
+                                <div class="category-header">
+                                    <span class="category-name">📝 自然语言处理</span>
+                                    <div class="action-btns">
+                                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="editCategory('自然语言处理')">编辑</button>
+                                        <button class="btn btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="deleteCategory('自然语言处理')">删除</button>
+                                    </div>
+                                </div>
+                                <div class="subtags-list">
+                                    <span class="subtag">NLP</span>
+                                    <span class="subtag">大模型</span>
+                                    <span class="subtag">Transformer</span>
+                                    <span class="subtag">机器翻译</span>
+                                    <span class="add-subtag" onclick="showAddSubtagModal('自然语言处理')">+ 添加子标签</span>
+                                </div>
+                            </div>
+
+                            <div class="category-item">
+                                <div class="category-header">
+                                    <span class="category-name">⛓️ 区块链</span>
+                                    <div class="action-btns">
+                                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="editCategory('区块链')">编辑</button>
+                                        <button class="btn btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="deleteCategory('区块链')">删除</button>
+                                    </div>
+                                </div>
+                                <div class="subtags-list">
+                                    <span class="subtag">智能合约</span>
+                                    <span class="subtag">DeFi</span>
+                                    <span class="subtag">Web3</span>
+                                    <span class="add-subtag" onclick="showAddSubtagModal('区块链')">+ 添加子标签</span>
+                                </div>
+                            </div>
+
+                            <div class="category-item">
+                                <div class="category-header">
+                                    <span class="category-name">🖼️ 计算机视觉</span>
+                                    <div class="action-btns">
+                                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="editCategory('计算机视觉')">编辑</button>
+                                        <button class="btn btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="deleteCategory('计算机视觉')">删除</button>
+                                    </div>
+                                </div>
+                                <div class="subtags-list">
+                                    <span class="subtag">图像识别</span>
+                                    <span class="subtag">目标检测</span>
+                                    <span class="subtag">图像分类</span>
+                                    <span class="subtag">多模态</span>
+                                    <span class="add-subtag" onclick="showAddSubtagModal('计算机视觉')">+ 添加子标签</span>
+                                </div>
+                            </div>
+
+                            <div class="category-item">
+                                <div class="category-header">
+                                    <span class="category-name">📊 数据分析</span>
+                                    <div class="action-btns">
+                                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="editCategory('数据分析')">编辑</button>
+                                        <button class="btn btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="deleteCategory('数据分析')">删除</button>
+                                    </div>
+                                </div>
+                                <div class="subtags-list">
+                                    <span class="subtag">数据挖掘</span>
+                                    <span class="subtag">数据可视化</span>
+                                    <span class="subtag">统计分析</span>
+                                    <span class="add-subtag" onclick="showAddSubtagModal('数据分析')">+ 添加子标签</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="categoryModalTitle">新增分类</h3><button class="modal-close" onclick="closeModal('categoryModal')">✕</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">分类名称</label><input type="text" class="form-input" id="categoryName" placeholder="请输入分类名称"></div>
+                <div class="form-group"><label class="form-label">分类图标</label><input type="text" class="form-input" id="categoryIcon" placeholder="例如：🤖"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('categoryModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveCategory()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Subtag Modal -->
+    <div class="modal-overlay" id="subtagModal">
+        <div class="modal">
+            <div class="modal-header"><h3>添加子标签</h3><button class="modal-close" onclick="closeModal('subtagModal')">✕</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">子标签名称</label><input type="text" class="form-input" id="subtagName" placeholder="请输入子标签名称"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('subtagModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveSubtag()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Instructor Modal -->
+    <div class="modal-overlay" id="instructorModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="instructorModalTitle">添加讲师</h3><button class="modal-close" onclick="closeModal('instructorModal')">✕</button></div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">讲师用户名</label>
+                    <div class="searchable-select">
+                        <input type="text" class="form-input" id="instructorNameSearch" placeholder="搜索讲师用户名..." onkeyup="filterInstructorOptions()" onclick="showInstructorOptions()">
+                        <div id="instructorOptions" class="select-options" style="display: none;">
+                            <div class="option-item" onclick="selectInstructor('元河')">元河</div>
+                            <div class="option-item" onclick="selectInstructor('王教授')">王教授</div>
+                            <div class="option-item" onclick="selectInstructor('李明')">李明</div>
+                            <div class="option-item" onclick="selectInstructor('张老师')">张老师</div>
+                            <div class="option-item" onclick="selectInstructor('陈博士')">陈博士</div>
+                            <div class="option-item" onclick="selectInstructor('刘教授')">刘教授</div>
+                            <div class="option-item" onclick="selectInstructor('赵讲师')">赵讲师</div>
+                            <div class="option-item" onclick="selectInstructor('孙博士')">孙博士</div>
+                            <div class="option-item" onclick="selectInstructor('周老师')">周老师</div>
+                            <div class="option-item" onclick="selectInstructor('吴教授')">吴教授</div>
+                            <div class="option-item" onclick="selectInstructor('郑导师')">郑导师</div>
+                            <div class="option-item" onclick="selectInstructor('黄博士')">黄博士</div>
+                            <div class="option-item" onclick="selectInstructor('冯讲师')">冯讲师</div>
+                            <div class="option-item" onclick="selectInstructor('何老师')">何老师</div>
+                            <div class="option-item" onclick="selectInstructor('梁教授')">梁教授</div>
+                            <div class="option-item" onclick="selectInstructor('谢导师')">谢导师</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="instructorName" value="">
+                    <div id="selectedInstructor" style="margin-top: 8px; font-size: 13px; color: var(--primary-color); display: none;"></div>
+                </div>
+                <div class="form-group"><label class="form-label">职位</label><input type="text" class="form-input" id="instructorPosition" placeholder="请输入职位（如：北京大学人工智能研究院研究员）"></div>
+                <div class="form-group"><label class="form-label">讲师简介</label><textarea class="form-input" id="instructorBio" placeholder="请输入讲师简介"></textarea></div>
+                <div class="form-group"><label class="form-label">状态</label>
+                    <select class="form-input" id="instructorStatus">
+                        <option value="active">已认证</option>
+                        <option value="inactive">未认证</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('instructorModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveInstructor()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Course Modal -->
+    <div class="modal-overlay" id="editCourseModal">
+        <div class="modal">
+            <div class="modal-header"><h3>编辑课程</h3><button class="modal-close" onclick="closeModal('editCourseModal')">✕</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">课程名称</label><input type="text" class="form-input" id="editCourseName" placeholder="请输入课程名称"></div>
+                <div class="form-group"><label class="form-label">讲师</label><input type="text" class="form-input" id="editCourseInstructor" placeholder="请输入讲师姓名"></div>
+                <div class="form-group"><label class="form-label">课程类型</label>
+                    <select class="form-input" id="editCourseType">
+                        <option>视频课程</option>
+                        <option>文本课程</option>
+                    </select>
+                </div>
+                <div class="form-group"><label class="form-label">课程价格</label><input type="text" class="form-input" id="editCoursePrice" placeholder="请输入课程价格"></div>
+                <div class="form-group"><label class="form-label">课程简介</label><textarea class="form-input" id="editCourseDesc" placeholder="请输入课程简介"></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('editCourseModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveCourseEdit()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reject Modal -->
+    <div class="modal-overlay" id="rejectModal">
+        <div class="modal">
+            <div class="modal-header"><h3>拒绝原因</h3><button class="modal-close" onclick="closeModal('rejectModal')">✕</button></div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">请输入拒绝原因</label><textarea class="form-input" id="rejectReason" placeholder="请详细说明拒绝原因..."></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('rejectModal')">取消</button>
+                <button class="btn btn-danger" onclick="confirmReject()">确认拒绝</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentRejectRow = null;
+        let currentCategory = '';
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-' + sectionId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+            
+            const titles = {
+                'dashboard': '数据统计', 'courses': '课程管理', 'instructors': '讲师管理',
+                'tags': '标签管理'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionId] || '数据统计';
+        }
+
+        function switchCourseTab(el, tab) {
+            document.querySelectorAll('#section-courses .tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function showAddCategoryModal() {
+            document.getElementById('categoryModalTitle').textContent = '新增分类';
+            document.getElementById('categoryName').value = '';
+            document.getElementById('categoryIcon').value = '';
+            document.getElementById('categoryModal').classList.add('show');
+        }
+
+        function editCategory(name) {
+            document.getElementById('categoryModalTitle').textContent = '编辑分类';
+            document.getElementById('categoryName').value = name.replace(/^[^\s]+\s*/, '');
+            document.getElementById('categoryIcon').value = name.charAt(0);
+            document.getElementById('categoryModal').classList.add('show');
+        }
+
+        function deleteCategory(name) {
+            if (confirm('确定要删除分类 "' + name + '" 吗？')) showToast('删除成功', 'success');
+        }
+
+        function saveCategory() {
+            const name = document.getElementById('categoryName').value;
+            if (!name) { showToast('请输入分类名称', 'error'); return; }
+            closeModal('categoryModal');
+            showToast('保存成功', 'success');
+        }
+
+        function showAddSubtagModal(category) {
+            currentCategory = category;
+            document.getElementById('subtagName').value = '';
+            document.getElementById('subtagModal').classList.add('show');
+        }
+
+        function saveSubtag() {
+            const name = document.getElementById('subtagName').value;
+            if (!name) { showToast('请输入子标签名称', 'error'); return; }
+            closeModal('subtagModal');
+            showToast('已在 "' + currentCategory + '" 下添加子标签 "' + name + '"', 'success');
+        }
+
+        function showAddInstructorModal() {
+            document.getElementById('instructorModalTitle').textContent = '添加讲师';
+            document.getElementById('instructorName').value = '';
+            document.getElementById('instructorNameSearch').value = '';
+            document.getElementById('selectedInstructor').style.display = 'none';
+            document.getElementById('instructorOptions').style.display = 'none';
+            document.getElementById('instructorPosition').value = '';
+            document.getElementById('instructorBio').value = '';
+            document.getElementById('instructorStatus').value = 'active';
+            document.getElementById('instructorModal').classList.add('show');
+        }
+
+        function editInstructor(name) {
+            document.getElementById('instructorModalTitle').textContent = '编辑讲师 - ' + name;
+            document.getElementById('instructorName').value = name;
+            document.getElementById('instructorModal').classList.add('show');
+        }
+
+        function saveInstructor() {
+            const name = document.getElementById('instructorName').value;
+            if (!name) { showToast('请输入讲师用户名', 'error'); return; }
+            const position = document.getElementById('instructorPosition').value;
+            if (!position) { showToast('请输入职位', 'error'); return; }
+            closeModal('instructorModal');
+            showToast('保存成功', 'success');
+        }
+
+        function approveCourse(el) {
+            const row = el.closest('tr');
+            showToast('课程已通过审核', 'success');
+            setTimeout(() => row.remove(), 500);
+        }
+
+        function showRejectModal(el) {
+            currentRejectRow = el.closest('tr');
+            document.getElementById('rejectReason').value = '';
+            document.getElementById('rejectModal').classList.add('show');
+        }
+
+        function confirmReject() {
+            const reason = document.getElementById('rejectReason').value;
+            if (!reason) { showToast('请输入拒绝原因', 'error'); return; }
+            closeModal('rejectModal');
+            showToast('已拒绝该课程', 'success');
+            if (currentRejectRow) { currentRejectRow.remove(); currentRejectRow = null; }
+        }
+
+        function showEditCourseModal() {
+            document.getElementById('editCourseName').value = '';
+            document.getElementById('editCourseInstructor').value = '';
+            document.getElementById('editCourseType').value = '视频课程';
+            document.getElementById('editCoursePrice').value = '';
+            document.getElementById('editCourseDesc').value = '';
+            document.getElementById('editCourseModal').classList.add('show');
+        }
+
+        function saveCourseEdit() {
+            const name = document.getElementById('editCourseName').value;
+            if (!name) { showToast('请输入课程名称', 'error'); return; }
+            closeModal('editCourseModal');
+            showToast('课程编辑成功', 'success');
+        }
+        function deleteCourse() { if (confirm('确定要下架该课程吗？')) showToast('课程已下架', 'success'); }
+        function viewInstructorDetail() { window.location.href = 'instructor-detail.html?instructor=元河'; }
+        function removeInstructor(name) {
+            if (confirm('确定要移除讲师 "' + name + '" 吗？')) {
+                showToast('讲师已移除', 'success');
+            }
+        }
+
+        function showInstructorOptions() {
+            const optionsContainer = document.getElementById('instructorOptions');
+            optionsContainer.style.display = 'block';
+        }
+
+        function filterInstructorOptions() {
+            const searchText = document.getElementById('instructorNameSearch').value.toLowerCase();
+            const options = document.querySelectorAll('.option-item');
+            const optionsContainer = document.getElementById('instructorOptions');
+            
+            optionsContainer.style.display = 'block';
+            options.forEach(opt => {
+                opt.style.display = opt.textContent.toLowerCase().includes(searchText) ? 'block' : 'none';
+            });
+        }
+
+        function selectInstructor(name) {
+            document.getElementById('instructorName').value = name;
+            document.getElementById('selectedInstructor').textContent = '已选择：' + name;
+            document.getElementById('selectedInstructor').style.display = 'block';
+            document.getElementById('instructorOptions').style.display = 'none';
+            document.getElementById('instructorNameSearch').value = name;
+        }
+
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(m => {
+            m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); });
+        });
+    </script>
+</body>
+</html>

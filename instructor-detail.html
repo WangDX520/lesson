@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>讲师详情 - 魔乐学堂</title>
+    <style>
+        :root {
+            --dark-bg: #0a0e1a;
+            --dark-card: #111827;
+            --dark-border: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --primary-color: #00d4ff;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            --accent-color: #00ff88;
+            --glow-primary: 0 4px 16px rgba(0, 212, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--dark-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 200px;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Instructor Header */
+        .instructor-header {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(128, 0, 255, 0.1) 100%);
+            border-radius: 16px;
+            border: 1px solid var(--dark-border);
+            padding: 40px;
+            display: flex;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .instructor-avatar-large {
+            width: 180px;
+            height: 180px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 56px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+        }
+
+        .instructor-info {
+            flex: 1;
+        }
+
+        .instructor-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .instructor-title {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .instructor-stats {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .instructor-bio {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        /* Courses Section */
+        .courses-section {
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid var(--dark-border);
+            padding: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .course-count {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
+        }
+
+        .course-cover {
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .course-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .course-info {
+            padding: 16px;
+        }
+
+        .course-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .meta-tag {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .meta-tag.difficulty {
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        .meta-tag.duration {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .course-students {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .instructor-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .instructor-avatar-large {
+                margin: 0 auto;
+            }
+            
+            .instructor-stats {
+                justify-content: center;
+            }
+            
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🎓 魔乐学堂</div>
+            <nav class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="#">课程中心</a>
+                <a href="#">讲师团队</a>
+                <a href="#">关于我们</a>
+            </nav>
+            <div class="header-right">
+                <button class="back-btn" onclick="goBack()">← 返回首页</button>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索课程、讲师...">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Instructor Header -->
+        <div class="instructor-header">
+            <div class="instructor-avatar-large" id="instructorAvatar">王</div>
+            <div class="instructor-info">
+                <h1 class="instructor-name" id="instructorName">王教授</h1>
+                <div class="instructor-title" id="instructorTitle">清华大学区块链研究中心主任</div>
+                <div class="instructor-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="courseCount">28</div>
+                        <div class="stat-label">课程数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="studentCount">5.6万</div>
+                        <div class="stat-label">学员数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalViews">120万</div>
+                        <div class="stat-label">总播放量</div>
+                    </div>
+                </div>
+                <div class="instructor-bio" id="instructorBio">
+                    王教授，清华大学计算机系教授，博士生导师，清华大学区块链研究中心主任。主要从事区块链、分布式系统、密码学等领域的研究工作。在国际顶级会议和期刊发表论文100余篇，主持多项国家级科研项目。教学经验丰富，授课风格深入浅出，深受学生喜爱。
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Section -->
+        <div class="courses-section">
+            <div class="section-header">
+                <h2 class="section-title">📚 讲师课程</h2>
+                <span class="course-count">共 <span id="totalCourses">28</span> 门课程</span>
+            </div>
+            <div class="course-grid" id="courseGrid">
+                <!-- Courses will be populated dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 讲师数据
+        const instructors = {
+            '王教授': {
+                name: '王教授',
+                title: '清华大学区块链研究中心主任',
+                bio: '王教授，清华大学计算机系教授，博士生导师，清华大学区块链研究中心主任。主要从事区块链、分布式系统、密码学等领域的研究工作。在国际顶级会议和期刊发表论文100余篇，主持多项国家级科研项目。教学经验丰富，授课风格深入浅出，深受学生喜爱。',
+                courses: 28,
+                students: '5.6万',
+                totalViews: '120万',
+                courseList: [
+                    { title: '科技创造未来 区块链技术创新高端峰会论坛', difficulty: '中级难度', duration: '2小时', students: '1500', rating: 4.9, cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=640&h=360&fit=crop' },
+                    { title: '区块链技术原理与应用', difficulty: '进阶级', duration: '8小时', students: '3200', rating: 4.8, cover: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=640&h=360&fit=crop' },
+                    { title: '智能合约开发实战', difficulty: '高级难度', duration: '12小时', students: '2100', rating: 4.9, cover: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?w=640&h=360&fit=crop' },
+                    { title: '去中心化应用(DApp)开发', difficulty: '高级难度', duration: '10小时', students: '1800', rating: 4.7, cover: 'https://images.unsplash.com/photo-1620321023374-d1a68fddadb3?w=640&h=360&fit=crop' },
+                    { title: '密码学基础', difficulty: '中级难度', duration: '6小时', students: '2800', rating: 4.8, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' },
+                    { title: '分布式系统设计', difficulty: '进阶级', duration: '15小时', students: '1500', rating: 4.9, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' }
+                ]
+            },
+            '李明': {
+                name: '李明',
+                title: '阿里巴巴达摩院算法专家',
+                bio: '李明，阿里巴巴达摩院算法专家，专注于多模态学习和计算机视觉领域。在CVPR、ICCV、ECCV等顶级会议发表多篇论文，主导开发了多个视觉语言模型。具有丰富的工业界实践经验，擅长将前沿算法应用到实际产品中。',
+                courses: 15,
+                students: '3.2万',
+                totalViews: '85万',
+                courseList: [
+                    { title: 'Qwen2.5-VL 视觉语言模型实战教程', difficulty: '高级难度', duration: '5小时', students: '2800', rating: 4.8, cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=640&h=360&fit=crop' },
+                    { title: '计算机视觉基础', difficulty: '入门级', duration: '10小时', students: '4500', rating: 4.9, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' },
+                    { title: '深度学习与图像识别', difficulty: '中级难度', duration: '12小时', students: '3200', rating: 4.8, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' }
+                ]
+            },
+            '元河': {
+                name: '元河',
+                title: '北京大学人工智能研究院研究员',
+                bio: '元河，北京大学人工智能研究院研究员，博士生导师。主要研究方向为深度学习、神经网络、强化学习等。在NeurIPS、ICML、ICLR等顶级会议发表多篇论文，主持多项国家级科研项目。教学经验丰富，善于将复杂概念简单化。',
+                courses: 22,
+                students: '4.8万',
+                totalViews: '150万',
+                courseList: [
+                    { title: '深度学习基础：神经网络入门到实践', difficulty: '入门级', duration: '4小时', students: '4200', rating: 4.9, cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=640&h=360&fit=crop' },
+                    { title: '强化学习入门与实践', difficulty: '中级难度', duration: '8小时', students: '3500', rating: 4.8, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' },
+                    { title: '深度学习进阶：高级神经网络', difficulty: '进阶级', duration: '15小时', students: '2100', rating: 4.9, cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=640&h=360&fit=crop' }
+                ]
+            },
+            '历波': {
+                name: '历波',
+                title: '中科院自动化所研究员',
+                bio: '历波，中科院自动化所研究员，博士生导师。主要研究方向为自然语言处理、大语言模型、机器翻译等。在ACL、EMNLP、NAACL等顶级会议发表多篇论文，参与多个国家级重点项目。对Transformer架构有深入研究，是该领域的知名专家。',
+                courses: 18,
+                students: '2.9万',
+                totalViews: '95万',
+                courseList: [
+                    { title: '自然语言处理进阶：Transformer架构详解', difficulty: '进阶级', duration: '6小时', students: '1800', rating: 4.8, cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=640&h=360&fit=crop' },
+                    { title: '大语言模型原理与应用', difficulty: '高级难度', duration: '10小时', students: '2500', rating: 4.9, cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=640&h=360&fit=crop' },
+                    { title: '机器翻译技术详解', difficulty: '中级难度', duration: '8小时', students: '1900', rating: 4.7, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' }
+                ]
+            },
+            '陶馨璧': {
+                name: '陶馨璧',
+                title: '上海交通大学计算机系教授',
+                bio: '陶馨璧，上海交通大学计算机系教授，博士生导师。主要研究方向为多模态学习、计算机视觉、自然语言处理等。在CVPR、ICCV、ACL等顶级会议发表多篇论文，主持多项国家级科研项目。对多模态融合技术有深入研究，是该领域的知名专家。',
+                courses: 12,
+                students: '1.8万',
+                totalViews: '65万',
+                courseList: [
+                    { title: '多模态学习：视觉与语言的融合', difficulty: '大师级', duration: '8小时', students: '1200', rating: 4.9, cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=640&h=360&fit=crop' },
+                    { title: '计算机视觉前沿技术', difficulty: '高级难度', duration: '12小时', students: '1500', rating: 4.8, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' }
+                ]
+            },
+            '张华': {
+                name: '张华',
+                title: '复旦大学数据科学与大数据研究院研究员',
+                bio: '张华，复旦大学数据科学与大数据研究院研究员。主要研究方向为数据挖掘、自然语言处理、数据集构建等。在KDD、WWW、ACL等顶级会议发表多篇论文，参与多个国家级重点项目。对中文数据集构建有丰富经验。',
+                courses: 8,
+                students: '9500',
+                totalViews: '35万',
+                courseList: [
+                    { title: 'SmolTalk Chinese 数据集构建与应用', difficulty: '初级难度', duration: '1.5小时', students: '950', rating: 4.7, cover: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=640&h=360&fit=crop' },
+                    { title: '数据清洗与预处理', difficulty: '入门级', duration: '4小时', students: '1200', rating: 4.8, cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=360&fit=crop' }
+                ]
+            }
+        };
+
+        // 获取URL参数
+        function getUrlParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+
+        // 渲染讲师课程
+        function renderInstructorCourses(courses) {
+            const courseGrid = document.getElementById('courseGrid');
+            courseGrid.innerHTML = courses.map(course => {
+                const courseKey = course.title.toLowerCase().replace(/[\s\-\:\(\)]+/g, '');
+                return `
+                <div class="course-card" onclick="goToCourse('${courseKey}')">
+                    <div class="course-cover">
+                        <img src="${course.cover}" alt="${course.title}">
+                        <div class="course-badge">📺 ${course.duration}</div>
+                    </div>
+                    <div class="course-info">
+                        <h3>${course.title}</h3>
+                        <div class="course-meta">
+                            <span class="meta-tag difficulty">${course.difficulty}</span>
+                            <span class="meta-tag duration">⏱ ${course.duration}</span>
+                        </div>
+                        <div class="course-footer">
+                            <span class="course-students">👥 ${course.students}</span>
+                            <span class="course-rating">⭐ ${course.rating}</span>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // 跳转到课程详情
+        function goToCourse(courseKey) {
+            window.location.href = 'course-detail.html?course=' + encodeURIComponent(courseKey);
+        }
+
+        // 返回首页
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            const instructorName = getUrlParam('instructor');
+            
+            if (instructorName && instructors[instructorName]) {
+                const instructor = instructors[instructorName];
+                
+                // 更新讲师信息
+                document.getElementById('instructorAvatar').textContent = instructor.name.charAt(0);
+                document.getElementById('instructorName').textContent = instructor.name;
+                document.getElementById('instructorTitle').textContent = instructor.title;
+                document.getElementById('instructorBio').textContent = instructor.bio;
+                document.getElementById('courseCount').textContent = instructor.courses;
+                document.getElementById('studentCount').textContent = instructor.students;
+                document.getElementById('totalViews').textContent = instructor.totalViews;
+                document.getElementById('totalCourses').textContent = instructor.courses;
+
+                // 渲染讲师课程
+                renderInstructorCourses(instructor.courseList);
+            }
+        });
+    </script>
+</body>
+</html>

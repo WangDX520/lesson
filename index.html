@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魔乐学堂 - AI学习平台</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d4ff'/%3E%3Cstop offset='100%25' style='stop-color:%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='24' font-size='18' font-weight='bold' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" alt="魔乐社区">
+                <span>魔乐社区</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#">首页</a>
+                <a href="#">模型</a>
+                <a href="#">数据</a>
+                <a href="#">工具</a>
+                <a href="#">空间</a>
+                <a href="#">专区</a>
+                <a href="#" class="active">学习交流</a>
+                <a href="#">关于魔乐</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="lang-switch">
+                <span>代码</span>
+                <span>中文</span>
+                <span class="dropdown">▼</span>
+            </div>
+            <div class="glss-dropdown">
+                <span>GLSS</span>
+                <span class="dropdown">▼</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">魔乐学堂</h1>
+            <div class="page-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索课程、讲师...">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <button class="upload-btn" onclick="openUploadModal()">📤 上传课程</button>
+            </div>
+        </div>
+        
+        <div class="content-wrapper">
+            <!-- 左侧筛选栏 -->
+            <aside class="sidebar">
+                <div class="filter-section">
+                    <h3>任务类型</h3>
+                    <div class="filter-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="task" value="nlp">
+                            <span>自然语言处理</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="task" value="cv">
+                            <span>计算机视觉</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="task" value="multimodal">
+                            <span>多模态</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="task" value="audio">
+                            <span>音频处理</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>难度级别</h3>
+                    <div class="filter-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="level" value="community">
+                            <span>社区教程</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="level" value="entry">
+                            <span>入门级</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="level" value="intermediate">
+                            <span>进阶级</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="level" value="advanced">
+                            <span>大师级</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>课程时长</h3>
+                    <div class="filter-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="duration" value="short">
+                            <span>时长&lt;10分钟</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="duration" value="medium">
+                            <span>10-30分钟</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="duration" value="long">
+                            <span>30-60分钟</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="duration" value="extra-long">
+                            <span>时长&gt;60分钟</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>讲师</h3>
+                    <div class="filter-options instructor-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="yanjia">
+                            <span>严家</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="baohui">
+                            <span>保辉</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="duxing">
+                            <span>杜行</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="pangwei">
+                            <span>庞维</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="weiren">
+                            <span>魏仁</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="qianfeng">
+                            <span>钱锋</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="lujing">
+                            <span>陆静</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="longbei">
+                            <span>龙背</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="tianyue">
+                            <span>田悦</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="instructor" value="hulan">
+                            <span>呼兰</span>
+                        </label>
+                    </div>
+                    <button class="expand-btn" id="expandInstructors">展开全部讲师</button>
+                </div>
+            </aside>
+
+            <!-- 右侧内容区 -->
+            <div class="main-content">
+                <!-- 推荐讲师 -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">🏆 推荐讲师</h2>
+                        <a href="#" class="view-all">查看全部 →</a>
+                    </div>
+                    <div class="instructor-showcase">
+                        <div class="instructor-featured" onclick="goToInstructorDetail('元河')">
+                            <div class="featured-avatar">
+                                <div class="avatar-circle" style="background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);">元</div>
+                                <div class="featured-badge">明星讲师</div>
+                            </div>
+                            <h3>元河</h3>
+                            <div class="featured-meta">
+                                <span class="course-count">📚 12门课程</span>
+                                <span class="students-count">👥 42000+ 学员</span>
+                            </div>
+                            <p class="featured-desc">大连大学资深教授，人工智能领域权威专家。深耕AI教育领域二十年，培养了数万名优秀AI工程师。精通深度学习、自然语言处理等前沿技术。</p>
+                        </div>
+
+                        <div class="instructor-list">
+                            <div class="mini-instructor-card" onclick="goToInstructorDetail('历波')">
+                                <div class="mini-avatar" style="background: linear-gradient(135deg, #E74C3C 0%, #ee5a24 100%);">历</div>
+                                <div class="mini-info">
+                                    <h4>历波</h4>
+                                    <p class="mini-desc">计算机视觉专家</p>
+                                    <div class="mini-stats">
+                                        <span class="mini-course">📚 8门</span>
+                                        <span class="mini-students">👥 18000+</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mini-instructor-card" onclick="goToInstructorDetail('陶馨璧')">
+                                <div class="mini-avatar" style="background: linear-gradient(135deg, #27AE60 0%, #2ecc71 100%);">陶</div>
+                                <div class="mini-info">
+                                    <h4>陶馨璧</h4>
+                                    <p class="mini-desc">多模态AI专家</p>
+                                    <div class="mini-stats">
+                                        <span class="mini-course">📚 6门</span>
+                                        <span class="mini-students">👥 12000+</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mini-instructor-card" onclick="goToInstructorDetail('李明')">
+                                <div class="mini-avatar" style="background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%);">李</div>
+                                <div class="mini-info">
+                                    <h4>李明</h4>
+                                    <p class="mini-desc">大模型应用专家</p>
+                                    <div class="mini-stats">
+                                        <span class="mini-course">📚 10门</span>
+                                        <span class="mini-students">👥 28000+</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mini-instructor-card" onclick="goToInstructorDetail('张华')">
+                                <div class="mini-avatar" style="background: linear-gradient(135deg, #3498DB 0%, #2980b9 100%);">张</div>
+                                <div class="mini-info">
+                                    <h4>张华</h4>
+                                    <p class="mini-desc">数据工程专家</p>
+                                    <div class="mini-stats">
+                                        <span class="mini-course">📚 5门</span>
+                                        <span class="mini-students">👥 9500+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 全部课程 -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">📚 全部课程 <span class="course-count">(200)</span></h2>
+                        <div class="section-actions">
+                            <div class="search-box-small">
+                                <input type="text" placeholder="搜索课程..." id="courseSearch">
+                                <button class="search-btn">🔍</button>
+                            </div>
+                            <div class="sort-dropdown">
+                                <select id="sortSelect">
+                                    <option value="default">综合排序</option>
+                                    <option value="newest">更新时间</option>
+                                    <option value="popular">最受欢迎</option>
+                                    <option value="duration">课程时长</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-grid" id="allCourses">
+                        <!-- Courses will be populated dynamically by script.js -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js?v=2"></script>
+
+<!-- Course Detail Modal -->
+<div class="course-detail-overlay" id="courseDetailModal" onclick="closeCourseDetail()">
+    <div class="course-detail-modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>📖 课程详情</h2>
+            <button class="modal-close" onclick="closeCourseDetail()">✕</button>
+        </div>
+        
+        <div class="course-detail-content">
+            <!-- Course Header -->
+            <div class="detail-header">
+                <div class="detail-cover">
+                    <img id="detailCover" src="" alt="课程封面">
+                    <div class="cover-overlay">
+                        <button class="play-btn" onclick="playCourse()">▶ 立即学习</button>
+                    </div>
+                </div>
+                <div class="detail-info">
+                    <h1 id="detailTitle">课程标题</h1>
+                    <div class="detail-meta">
+                        <span class="detail-difficulty" id="detailDifficulty">中级难度</span>
+                        <span class="detail-duration" id="detailDuration">⏱ 2小时</span>
+                        <span class="detail-rating">⭐ 4.9</span>
+                    </div>
+                    <div class="detail-stats">
+                        <span>👥 <span id="detailStudents">1500</span> 人已学</span>
+                        <span>📺 <span id="detailLessons">12</span> 课时</span>
+                        <span>📁 <span id="detailChapters">3</span> 章节</span>
+                    </div>
+                    <p id="detailDesc">课程简介描述...</p>
+                </div>
+            </div>
+
+            <!-- Course Tabs -->
+            <div class="detail-tabs">
+                <button class="tab-btn active" id="tabOutline" onclick="showDetailTab('outline')">📚 课程大纲</button>
+                <button class="tab-btn" id="tabIntro" onclick="showDetailTab('intro')">📝 课程介绍</button>
+                <button class="tab-btn" id="tabComments" onclick="showDetailTab('comments')">💬 学员评论</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="tabContent">
+                <!-- Course Outline -->
+                <div id="contentOutline" class="tab-pane active">
+                    <div class="chapter-list" id="chapterList">
+                        <!-- Chapters will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Course Intro -->
+                <div id="contentIntro" class="tab-pane">
+                    <h3>📝 课程介绍</h3>
+                    <p id="detailFullDesc">详细的课程介绍内容...</p>
+                    <h4>🎯 学习目标</h4>
+                    <ul id="detailObjectives">
+                        <li>理解课程核心概念</li>
+                        <li>掌握关键技术技能</li>
+                        <li>能够独立完成项目实践</li>
+                    </ul>
+                    <h4>📋 适合人群</h4>
+                    <ul id="detailAudience">
+                        <li>有一定编程基础的学习者</li>
+                        <li>对人工智能感兴趣的开发者</li>
+                        <li>希望提升技能的在职人员</li>
+                    </ul>
+                </div>
+
+                <!-- Comments -->
+                <div id="contentComments" class="tab-pane">
+                    <div class="comment-list" id="commentList">
+                        <!-- Comments will be populated dynamically -->
+                    </div>
+                    <div class="comment-input">
+                        <textarea placeholder="发表您的评价..."></textarea>
+                        <button class="submit-comment-btn">发表评论</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="detail-footer">
+                <button class="enroll-btn">🎯 立即报名</button>
+                <button class="wishlist-btn">❤️ 收藏课程</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Course Modal -->
+<div class="upload-modal-overlay" id="uploadModal" onclick="closeUploadModal()">
+    <div class="upload-modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>📤 上传新课程</h2>
+            <button class="modal-close" onclick="closeUploadModal()">✕</button>
+        </div>
+        
+        <!-- Stepper -->
+        <div class="modal-stepper">
+            <div class="modal-step active" id="uploadStep1" onclick="goUploadStep(1)">
+                <span class="step-num">1</span><span>基本信息</span>
+            </div>
+            <div class="modal-step-line" id="uploadLine1"></div>
+            <div class="modal-step" id="uploadStep2" onclick="goUploadStep(2)">
+                <span class="step-num">2</span><span>课程内容</span>
+            </div>
+            <div class="modal-step-line" id="uploadLine2"></div>
+            <div class="modal-step" id="uploadStep3" onclick="goUploadStep(3)">
+                <span class="step-num">3</span><span>发布设置</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Basic Info -->
+        <div id="uploadPanel1" class="upload-panel">
+            <div class="upload-form-card">
+                <h3>📋 基本信息</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">课程封面 <span class="required">*</span></label>
+                    <div class="cover-upload-zone" id="coverUploadZone">
+                        <div class="cover-placeholder" id="coverPlaceholder">
+                            <div class="cover-icon">🖼️</div>
+                            <div class="cover-text">点击或拖放上传封面</div>
+                            <div class="cover-hint">建议尺寸 800×450px，最大 5MB</div>
+                        </div>
+                        <img class="cover-preview" id="coverPreview" style="display:none;">
+                        <input type="file" id="coverInput" accept="image/*" onchange="handleCoverUpload(this)">
+                        <button class="cover-remove" id="coverRemove" onclick="removeCover()" style="display:none;">✕</button>
+                    </div>
+                    <div class="cover-info" id="coverInfo" style="display:none;">
+                        <span class="cover-name" id="coverName"></span>
+                        <span class="cover-size" id="coverSize"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">课程类型 <span class="required">*</span></label>
+                    <div class="type-selector">
+                        <div class="type-option selected" onclick="selectCourseType(this,'video')">
+                            <div class="type-icon">📹</div>
+                            <div class="type-label">视频课程</div>
+                            <div class="type-desc">录制视频讲解</div>
+                        </div>
+                        <div class="type-option" onclick="selectCourseType(this,'text')">
+                            <div class="type-icon">📄</div>
+                            <div class="type-label">文本教程</div>
+                            <div class="type-desc">图文并茂的技术文档</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">课程标题 <span class="required">*</span></label>
+                    <input class="form-input" id="uploadTitle" placeholder="输入课程标题">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">课程简介 <span class="required">*</span></label>
+                    <textarea class="form-textarea" id="uploadDesc" placeholder="详细描述课程内容..." rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">任务类型</label>
+                        <select class="form-select" id="uploadTaskType">
+                            <option value="">请选择</option>
+                            <option value="nlp">自然语言处理</option>
+                            <option value="cv">计算机视觉</option>
+                            <option value="multimodal">多模态</option>
+                            <option value="audio">音频处理</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">难度级别</label>
+                        <select class="form-select" id="uploadDifficulty">
+                            <option value="">请选择</option>
+                            <option value="beginner">入门级</option>
+                            <option value="intermediate">进阶级</option>
+                            <option value="master">大师级</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Content -->
+        <div id="uploadPanel2" class="upload-panel" style="display:none;">
+            <!-- Video Upload -->
+            <div id="uploadVideo" class="upload-form-card">
+                <h3>📹 视频内容</h3>
+                <div class="upload-zone">
+                    <div class="upload-icon">🎬</div>
+                    <div class="upload-text">拖放视频文件到此处，或 <span>点击选择</span></div>
+                    <div class="upload-hint">支持 MP4/MOV/AVI 格式</div>
+                    <input type="file" accept="video/*" multiple onchange="handleVideoUpload(this)">
+                </div>
+                <div class="file-list" id="videoList"></div>
+            </div>
+
+            <!-- Text Content -->
+            <div id="uploadText" class="upload-form-card" style="display:none;">
+                <h3>📄 文本内容</h3>
+                <div class="form-group">
+                    <label class="form-label">教程正文</label>
+                    <textarea class="form-textarea" id="uploadTextBody" placeholder="支持 Markdown 格式..." rows="5"></textarea>
+                </div>
+            </div>
+
+            <div class="upload-form-card">
+                <h3>📚 章节结构</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">已有章节模板</label>
+                    <select class="form-select" id="chapterTemplate" onchange="applyChapterTemplate(this)">
+                        <option value="">选择已有章节结构</option>
+                        <option value="intro">课程介绍（2课时）</option>
+                        <option value="basic">基础入门（3课时）</option>
+                        <option value="advanced">进阶实战（4课时）</option>
+                        <option value="project">项目实战（5课时）</option>
+                    </select>
+                </div>
+
+                <div class="chapter-editor" id="chapterEditor">
+                    <div class="chapter-block">
+                        <div class="chapter-header">
+                            <span class="chapter-num">1</span>
+                            <input class="chapter-input" placeholder="第一章标题">
+                            <span class="chapter-delete" onclick="deleteChapter(this)">✕</span>
+                        </div>
+                        <div class="lesson-list">
+                            <div class="lesson-row">
+                                <span class="lesson-icon video">▶</span>
+                                <input class="lesson-input" placeholder="课时标题">
+                                <select class="lesson-select" onchange="updateLessonIcon(this)">
+                                    <option value="video">视频</option>
+                                    <option value="text">文本</option>
+                                </select>
+                                <span class="lesson-delete" onclick="this.closest('.lesson-row').remove()">✕</span>
+                            </div>
+                        </div>
+                        <button class="add-lesson-btn" onclick="addLesson(this)">+ 添加课时</button>
+                    </div>
+                </div>
+                <button class="add-chapter-btn" onclick="addChapter()">+ 添加章节</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Publish -->
+        <div id="uploadPanel3" class="upload-panel" style="display:none;">
+            <div class="upload-form-card">
+                <h3>🚀 发布设置</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">课程价格</label>
+                    <div class="type-selector">
+                        <div class="type-option selected" onclick="selectPriceType(this,'free')">
+                            <div class="type-icon">🆓</div>
+                            <div class="type-label">免费公开</div>
+                            <div class="type-desc">所有人可免费学习</div>
+                        </div>
+                        <div class="type-option" onclick="selectPriceType(this,'paid')">
+                            <div class="type-icon">💰</div>
+                            <div class="type-label">付费课程</div>
+                            <div class="type-desc">设置课程售价</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="priceGroup" style="display:none;">
+                    <label class="form-label">课程售价 (¥)</label>
+                    <input class="form-input" id="priceInput" type="number" placeholder="输入价格" style="max-width:150px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">预计学习时长</label>
+                    <select class="form-select" id="uploadDuration">
+                        <option value="">请选择</option>
+                        <option value="short">≤10min</option>
+                        <option value="medium_short">10min＜时长≤30min</option>
+                        <option value="medium_long">30min＜时长≤60min</option>
+                        <option value="long">＞60min</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">课程大纲</label>
+                    <textarea class="form-textarea" id="uploadOutline" placeholder="列出学习目标..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">发布选项</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label"><input type="checkbox" checked> 立即发布</label>
+                        <label class="checkbox-label"><input type="checkbox"> 允许学员评论</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeUploadModal()">取消</button>
+            <button class="btn btn-secondary" id="prevBtn" style="display:none;" onclick="goUploadStep(currentUploadStep-1)">← 上一步</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="goUploadStep(currentUploadStep+1)">下一步 →</button>
+            <button class="btn btn-success" id="publishBtn" style="display:none;" onclick="publishCourse()">🚀 发布课程</button>
+        </div>
+    </div>
+</div>
+
+<!-- Success Toast -->
+<div class="toast" id="uploadToast"></div>
+
+<script>
+// 跳转到讲师详情页
+function goToInstructorDetail(instructorName) {
+    window.location.href = 'instructor-detail.html?instructor=' + encodeURIComponent(instructorName);
+}
+
+let currentUploadStep = 1;
+let uploadCourseType = 'video';
+let chapterCount = 1;
+
+function openUploadModal() {
+    document.getElementById('uploadModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeUploadModal() {
+    document.getElementById('uploadModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function goUploadStep(n) {
+    if (n > currentUploadStep) {
+        if (currentUploadStep === 1) {
+            const title = document.getElementById('uploadTitle').value.trim();
+            if (!title) { showUploadToast('请填写课程标题'); return; }
+        }
+    }
+
+    currentUploadStep = n;
+    document.querySelectorAll('.upload-panel').forEach(p => p.style.display = 'none');
+    document.getElementById('uploadPanel' + n).style.display = 'block';
+
+    // Update stepper
+    for (let i = 1; i <= 3; i++) {
+        const step = document.getElementById('uploadStep' + i);
+        step.classList.remove('active', 'done');
+        if (i < n) step.classList.add('done');
+        if (i === n) step.classList.add('active');
+    }
+    document.getElementById('uploadLine1').classList.toggle('done', n > 1);
+    document.getElementById('uploadLine2').classList.toggle('done', n > 2);
+
+    // Update buttons
+    document.getElementById('prevBtn').style.display = n > 1 ? 'block' : 'none';
+    document.getElementById('nextBtn').style.display = n < 3 ? 'block' : 'none';
+    document.getElementById('publishBtn').style.display = n === 3 ? 'block' : 'none';
+}
+
+function selectCourseType(el, type) {
+    el.closest('.type-selector').querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    uploadCourseType = type;
+    document.getElementById('uploadVideo').style.display = type === 'video' ? 'block' : 'none';
+    document.getElementById('uploadText').style.display = type === 'text' ? 'block' : 'none';
+}
+
+function selectPriceType(el, type) {
+    el.closest('.type-selector').querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('priceGroup').style.display = type === 'paid' ? 'block' : 'none';
+}
+
+function handleVideoUpload(input) {
+    const list = document.getElementById('videoList');
+    for (const file of input.files) {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.innerHTML = `
+            <span class="file-icon">🎬</span>
+            <div class="file-info">
+                <div class="file-name">${file.name}</div>
+                <div class="file-size">${formatFileSize(file.size)}</div>
+            </div>
+            <span class="file-status done">✓ 就绪</span>
+            <span class="file-remove" onclick="this.closest('.file-item').remove()">✕</span>
+        `;
+        list.appendChild(item);
+    }
+    input.value = '';
+}
+
+function handleCoverUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        showUploadToast('封面大小不能超过 5MB');
+        input.value = '';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('coverPreview').src = e.target.result;
+        document.getElementById('coverPreview').style.display = 'block';
+        document.getElementById('coverPlaceholder').style.display = 'none';
+        document.getElementById('coverRemove').style.display = 'block';
+        document.getElementById('coverInfo').style.display = 'flex';
+        document.getElementById('coverName').textContent = file.name;
+        document.getElementById('coverSize').textContent = formatFileSize(file.size);
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeCover() {
+    document.getElementById('coverInput').value = '';
+    document.getElementById('coverPreview').style.display = 'none';
+    document.getElementById('coverPreview').src = '';
+    document.getElementById('coverPlaceholder').style.display = 'block';
+    document.getElementById('coverRemove').style.display = 'none';
+    document.getElementById('coverInfo').style.display = 'none';
+}
+
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+}
+
+function addChapter() {
+    chapterCount++;
+    const editor = document.getElementById('chapterEditor');
+    const block = document.createElement('div');
+    block.className = 'chapter-block';
+    block.innerHTML = `
+        <div class="chapter-header">
+            <span class="chapter-num">${chapterCount}</span>
+            <input class="chapter-input" placeholder="第${chapterCount}章标题">
+            <span class="chapter-delete" onclick="deleteChapter(this)">✕</span>
+        </div>
+        <div class="lesson-list"></div>
+        <button class="add-lesson-btn" onclick="addLesson(this)">+ 添加课时</button>
+    `;
+    editor.appendChild(block);
+}
+
+function deleteChapter(el) {
+    if (document.querySelectorAll('.chapter-block').length <= 1) {
+        showUploadToast('至少保留一个章节'); return;
+    }
+    el.closest('.chapter-block').remove();
+    document.querySelectorAll('.chapter-block').forEach((block, i) => {
+        block.querySelector('.chapter-num').textContent = i + 1;
+    });
+    chapterCount = document.querySelectorAll('.chapter-block').length;
+}
+
+function applyChapterTemplate(select) {
+    const template = select.value;
+    if (!template) return;
+
+    const templates = {
+        intro: {
+            title: '课程介绍',
+            lessons: ['课程简介与学习目标', '前置知识要求']
+        },
+        basic: {
+            title: '基础入门',
+            lessons: ['核心概念讲解', '基础操作演示', '简单案例练习']
+        },
+        advanced: {
+            title: '进阶实战',
+            lessons: ['进阶概念深入', '高级技巧讲解', '综合案例实战', '常见问题解答']
+        },
+        project: {
+            title: '项目实战',
+            lessons: ['项目需求分析', '环境搭建与配置', '核心功能开发', '功能测试与调试', '项目部署上线']
+        }
+    };
+
+    const data = templates[template];
+    const editor = document.getElementById('chapterEditor');
+    
+    const newBlock = document.createElement('div');
+    newBlock.className = 'chapter-block';
+    chapterCount++;
+    
+    let lessonsHtml = '';
+    data.lessons.forEach((lesson, index) => {
+        lessonsHtml += `
+            <div class="lesson-row">
+                <span class="lesson-icon video">▶</span>
+                <input class="lesson-input" value="${lesson}">
+                <select class="lesson-select" onchange="updateLessonIcon(this)">
+                    <option value="video">视频</option>
+                    <option value="text">文本</option>
+                </select>
+                <span class="lesson-delete" onclick="this.closest('.lesson-row').remove()">✕</span>
+            </div>
+        `;
+    });
+    
+    newBlock.innerHTML = `
+        <div class="chapter-header">
+            <span class="chapter-num">${chapterCount}</span>
+            <input class="chapter-input" value="${data.title}">
+            <span class="chapter-delete" onclick="deleteChapter(this)">✕</span>
+        </div>
+        <div class="lesson-list">${lessonsHtml}</div>
+        <button class="add-lesson-btn" onclick="addLesson(this)">+ 添加课时</button>
+    `;
+    
+    editor.appendChild(newBlock);
+    select.value = '';
+    showUploadToast(`已添加「${data.title}」章节模板`);
+}
+
+function addLesson(btn) {
+    const list = btn.previousElementSibling;
+    const row = document.createElement('div');
+    row.className = 'lesson-row';
+    row.innerHTML = `
+        <span class="lesson-icon video">▶</span>
+        <input class="lesson-input" placeholder="课时标题">
+        <select class="lesson-select" onchange="updateLessonIcon(this)">
+            <option value="video">视频</option>
+            <option value="text">文本</option>
+        </select>
+        <span class="lesson-delete" onclick="this.closest('.lesson-row').remove()">✕</span>
+    `;
+    list.appendChild(row);
+}
+
+function updateLessonIcon(select) {
+    const icon = select.closest('.lesson-row').querySelector('.lesson-icon');
+    const isVideo = select.value === 'video';
+    icon.className = 'lesson-icon ' + (isVideo ? 'video' : 'text');
+    icon.textContent = isVideo ? '▶' : '¶';
+}
+
+function publishCourse() {
+    const title = document.getElementById('uploadTitle').value || '未命名课程';
+    showUploadToast('🎉 课程「' + title + '」发布成功！');
+    closeUploadModal();
+}
+
+function showUploadToast(msg) {
+    const t = document.getElementById('uploadToast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
