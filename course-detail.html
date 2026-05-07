@@ -547,6 +547,25 @@
             color: #000;
         }
 
+        .lesson-item.active {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .lesson-type {
+            margin-left: auto;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+        }
+
+        .lesson-item.active .lesson-type {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--primary-color);
+        }
+
         .lesson-title {
             flex: 1;
             color: var(--text-secondary);
@@ -875,6 +894,193 @@
                 grid-template-columns: 2fr 2fr;
             }
         }
+
+        /* Text Reader Styles */
+        .reader-container {
+            flex: 1;
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid var(--dark-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reader-header {
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reader-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .reader-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .reader-control-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .reader-control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .fullscreen-btn {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+            color: var(--primary-color);
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        /* Fullscreen Mode */
+        .reader-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            border-radius: 0;
+            border: none;
+        }
+
+        .reader-fullscreen .reader-content {
+            padding: 40px;
+            font-size: 18px;
+        }
+
+        body.fullscreen-mode {
+            overflow: hidden;
+        }
+
+        .reader-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .reader-content h1 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .reader-content h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin: 24px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .reader-content h3 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin: 20px 0 12px;
+        }
+
+        .reader-content p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+
+        .reader-content ul,
+        .reader-content ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .reader-content li {
+            margin-bottom: 8px;
+        }
+
+        .reader-content code {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+        }
+
+        .reader-content pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid var(--dark-border);
+        }
+
+        .reader-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 16px;
+            margin: 16px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .reader-footer {
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--dark-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: var(--gradient-primary);
+            border: none;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-primary);
+        }
+
+        .nav-btn:disabled {
+            background: var(--dark-border);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
@@ -901,7 +1107,7 @@
         <!-- Top Section -->
         <div class="top-section">
             <!-- Video Player -->
-            <div class="player-container">
+            <div class="player-container" id="videoPlayer">
                 <div class="player-placeholder">
                     <div class="play-button" onclick="playVideo()">▶</div>
                     <div class="player-title">第1章 - 区块链技术概述</div>
@@ -911,6 +1117,57 @@
                         <div class="progress-fill"></div>
                     </div>
                     <div class="time-display">12:35 / 30:00</div>
+                </div>
+            </div>
+
+            <!-- Text Reader -->
+            <div class="reader-container" id="textReader" style="display: none;">
+                <div class="reader-header">
+                    <div class="reader-title" id="readerLessonTitle">第1章 - 数据分析环境搭建</div>
+                    <div class="reader-controls">
+                        <button class="reader-control-btn" onclick="adjustFontSize(-1)">A-</button>
+                        <button class="reader-control-btn" onclick="adjustFontSize(1)">A+</button>
+                        <button class="reader-control-btn fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()">⛶ 全屏</button>
+                    </div>
+                </div>
+                <div class="reader-content" id="readerContent">
+                    <h1>数据分析环境搭建</h1>
+                    <p>在开始数据分析之前，我们需要搭建一个合适的开发环境。本章将介绍如何安装和配置数据分析所需的工具和库。</p>
+                    
+                    <h2>1.1 Anaconda安装与配置</h2>
+                    <p>Anaconda是一个用于数据科学和机器学习的Python发行版，包含了众多常用的数据处理和分析库。</p>
+                    
+                    <h3>下载Anaconda</h3>
+                    <p>访问<a href="https://www.anaconda.com/products/distribution" target="_blank">Anaconda官网</a>下载适合您操作系统的版本。</p>
+                    
+                    <h3>安装步骤</h3>
+                    <ol>
+                        <li>运行下载的安装程序</li>
+                        <li>按照向导提示完成安装</li>
+                        <li>选择安装路径（建议使用默认路径）</li>
+                        <li>完成安装后，启动Anaconda Navigator</li>
+                    </ol>
+                    
+                    <h2>1.2 Jupyter Notebook使用入门</h2>
+                    <p>Jupyter Notebook是一个交互式的笔记本环境，可以让您编写和运行代码，同时添加说明文档。</p>
+                    
+                    <h3>启动Jupyter Notebook</h3>
+                    <p>打开Anaconda Navigator，找到Jupyter Notebook并点击"Launch"按钮，或者在终端中运行以下命令：</p>
+                    <pre><code>jupyter notebook</code></pre>
+                    
+                    <h3>创建新笔记本</h3>
+                    <p>在Jupyter Notebook界面中，点击右上角的"New"按钮，选择"Python 3"创建一个新的笔记本。</p>
+                    
+                    <blockquote>提示：Jupyter Notebook支持Markdown语法，您可以在单元格中编写文档说明。</blockquote>
+                </div>
+                <div class="reader-footer">
+                    <div class="progress-info">
+                        <span class="progress-text" id="readerProgress">1/2 课时</span>
+                    </div>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" id="prevLessonBtn" disabled>← 上一课时</button>
+                        <button class="nav-btn" id="nextLessonBtn" onclick="goToNextLesson()">下一课时 →</button>
+                    </div>
                 </div>
             </div>
 
@@ -1038,89 +1295,315 @@
 
     <script>
         // 课程数据
-        const courseData = {
-            title: '科技创造未来 区块链技术创新高端峰会论坛',
-            viewCount: '15.6万',
-            studentCount: '1.2万',
-            likeCount: '1.2k',
-            chapterCount: 12,
-            duration: '2小时',
-            progress: 35,
-            description: '本课程邀请了多位区块链领域的专家学者，共同探讨区块链技术的前沿发展。课程内容涵盖区块链基础原理、智能合约开发、去中心化应用(DApp)构建等核心知识。通过实际案例分析和现场演示，帮助学员全面了解区块链技术的应用场景和商业价值。',
-            chapters: [
-                {
-                    title: '区块链技术概述',
-                    duration: '30分钟',
-                    lessons: [
-                        { title: '区块链基础概念', duration: '10分钟', completed: true },
-                        { title: '区块链发展历程', duration: '12分钟', completed: true },
-                        { title: '核心技术原理', duration: '8分钟', completed: false }
-                    ]
-                },
-                {
-                    title: '智能合约开发',
-                    duration: '45分钟',
-                    lessons: [
-                        { title: 'Solidity语言基础', duration: '15分钟', completed: false },
-                        { title: '智能合约设计模式', duration: '20分钟', completed: false },
-                        { title: '实战案例演示', duration: '10分钟', completed: false }
-                    ]
-                },
-                {
-                    title: 'DApp应用实践',
-                    duration: '45分钟',
-                    lessons: [
-                        { title: 'DApp架构设计', duration: '12分钟', completed: false },
-                        { title: '前端交互开发', duration: '18分钟', completed: false },
-                        { title: '部署与测试', duration: '15分钟', completed: false }
-                    ]
+        const coursesData = {
+            // 视频文本混合课程
+            '区块链技术创新高端峰会论坛': {
+                title: '科技创造未来 区块链技术创新高端峰会论坛',
+                viewCount: '15.6万',
+                studentCount: '1.2万',
+                likeCount: '1.2k',
+                chapterCount: 12,
+                duration: '2小时',
+                progress: 35,
+                price: 199,
+                type: 'mixed',
+                description: '本课程邀请了多位区块链领域的专家学者，共同探讨区块链技术的前沿发展。课程采用视频+文本混合模式，既有专家精彩演讲视频，又有详细的技术文档供您深入学习。',
+                chapters: [
+                    {
+                        title: '区块链技术概述',
+                        duration: '视频30分钟 + 文档20分钟',
+                        lessons: [
+                            { title: '区块链基础概念（视频）', duration: '10分钟', type: 'video', completed: true },
+                            { title: '区块链发展历程（视频）', duration: '12分钟', type: 'video', completed: true },
+                            { title: '核心技术原理详解（文本）', duration: '20分钟', type: 'text', completed: false }
+                        ]
+                    },
+                    {
+                        title: '智能合约开发',
+                        duration: '视频35分钟 + 文档30分钟',
+                        lessons: [
+                            { title: 'Solidity语言基础（视频）', duration: '15分钟', type: 'video', completed: false },
+                            { title: '智能合约设计模式（文本）', duration: '30分钟', type: 'text', completed: false },
+                            { title: '实战案例演示（视频）', duration: '20分钟', type: 'video', completed: false }
+                        ]
+                    },
+                    {
+                        title: 'DApp应用实践',
+                        duration: '视频25分钟 + 文档40分钟',
+                        lessons: [
+                            { title: 'DApp架构设计（文本）', duration: '20分钟', type: 'text', completed: false },
+                            { title: '前端交互开发（视频）', duration: '25分钟', type: 'video', completed: false },
+                            { title: '部署与测试指南（文本）', duration: '20分钟', type: 'text', completed: false }
+                        ]
+                    }
+                ],
+                comments: [
+                    { author: '张同学', date: '2024-01-15', text: '课程内容非常详实，讲师讲解清晰，收获很大！', likes: 28 },
+                    { author: '李工程师', date: '2024-01-12', text: '案例分析很实用，对实际工作帮助很大。', likes: 15 },
+                    { author: '王经理', date: '2024-01-10', text: '作为入门课程非常合适，推荐给大家。', likes: 32 }
+                ],
+                recommendedCourses: [
+                    { title: '深度学习基础：神经网络入门到实践', author: '元河', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '4200' },
+                    { title: 'Qwen2.5-VL 视觉语言模型实战教程', author: '李明', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '2800' },
+                    { title: '自然语言处理进阶：Transformer架构详解', author: '历波', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1800' },
+                    { title: '多模态学习：视觉与语言的融合', author: '陶馨璧', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1200' },
+                    { title: 'SmolTalk Chinese 数据集构建与应用', author: '张华', cover: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=320&h=180&fit=crop', students: '950' },
+                    { title: 'Python机器学习实战', author: '刘伟', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '3500' },
+                    { title: '数据分析与可视化', author: '陈静', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '2100' },
+                    { title: '强化学习入门与实践', author: '赵强', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1500' }
+                ],
+                instructor: {
+                    name: '王教授',
+                    title: '清华大学区块链研究中心主任',
+                    courses: 28,
+                    students: '5.6万'
                 }
-            ],
-            comments: [
-                { author: '张同学', date: '2024-01-15', text: '课程内容非常详实，讲师讲解清晰，收获很大！', likes: 28 },
-                { author: '李工程师', date: '2024-01-12', text: '案例分析很实用，对实际工作帮助很大。', likes: 15 },
-                { author: '王经理', date: '2024-01-10', text: '作为入门课程非常合适，推荐给大家。', likes: 32 }
-            ],
-            recommendedCourses: [
-                { title: '深度学习基础：神经网络入门到实践', author: '元河', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '4200' },
-                { title: 'Qwen2.5-VL 视觉语言模型实战教程', author: '李明', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '2800' },
-                { title: '自然语言处理进阶：Transformer架构详解', author: '历波', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1800' },
-                { title: '多模态学习：视觉与语言的融合', author: '陶馨璧', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1200' },
-                { title: 'SmolTalk Chinese 数据集构建与应用', author: '张华', cover: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=320&h=180&fit=crop', students: '950' },
-                { title: 'Python机器学习实战', author: '刘伟', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '3500' },
-                { title: '数据分析与可视化', author: '陈静', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '2100' },
-                { title: '强化学习入门与实践', author: '赵强', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '1500' }
-            ],
-            instructor: {
-                name: '王教授',
-                title: '清华大学区块链研究中心主任',
-                courses: 28,
-                students: '5.6万'
+            },
+            // 纯文本课程
+            'python数据分析实战指南': {
+                title: 'Python数据分析实战指南',
+                viewCount: '8.2万',
+                studentCount: '5800',
+                likeCount: '856',
+                chapterCount: 8,
+                duration: '约4小时',
+                progress: 20,
+                price: 0,
+                type: 'text',
+                description: '本课程是一本完整的Python数据分析实战手册，涵盖从数据清洗、处理到可视化的全流程。通过丰富的实战案例，帮助您快速掌握Pandas、NumPy等数据分析工具的使用。',
+                chapters: [
+                    {
+                        title: '数据分析环境搭建',
+                        duration: '30分钟',
+                        lessons: [
+                            { title: 'Anaconda安装与配置', duration: '15分钟', completed: true },
+                            { title: 'Jupyter Notebook使用入门', duration: '15分钟', completed: false }
+                        ]
+                    },
+                    {
+                        title: 'NumPy数组操作',
+                        duration: '60分钟',
+                        lessons: [
+                            { title: '数组创建与索引', duration: '20分钟', completed: false },
+                            { title: '数组运算与广播', duration: '20分钟', completed: false },
+                            { title: '矩阵操作', duration: '20分钟', completed: false }
+                        ]
+                    },
+                    {
+                        title: 'Pandas数据处理',
+                        duration: '90分钟',
+                        lessons: [
+                            { title: 'DataFrame基础操作', duration: '30分钟', completed: false },
+                            { title: '数据清洗与转换', duration: '30分钟', completed: false },
+                            { title: '数据聚合与分组', duration: '30分钟', completed: false }
+                        ]
+                    }
+                ],
+                comments: [
+                    { author: '数据分析爱好者', date: '2024-01-14', text: '非常实用的文本教程，代码示例清晰易懂！', likes: 45 },
+                    { author: '数据工程师小王', date: '2024-01-11', text: '作为入门书籍非常棒，推荐给初学者。', likes: 28 }
+                ],
+                recommendedCourses: [
+                    { title: '数据可视化实战', author: '刘老师', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '2800' },
+                    { title: '机器学习入门', author: '张博士', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '3500' }
+                ],
+                instructor: {
+                    name: '刘教授',
+                    title: '复旦大学计算机学院教授',
+                    courses: 18,
+                    students: '3.5万'
+                }
+            },
+            // 文本视频混合课程1
+            '深度学习入门实战': {
+                title: '深度学习入门实战：理论与实践结合',
+                viewCount: '12.5万',
+                studentCount: '8900',
+                likeCount: '1.1k',
+                chapterCount: 10,
+                duration: '约6小时',
+                progress: 45,
+                price: 149,
+                type: 'mixed',
+                description: '本课程采用视频讲解与文本教程相结合的方式，既有深入浅出的理论讲解视频，又有详细的代码实现文档。适合希望系统学习深度学习的同学。',
+                chapters: [
+                    {
+                        title: '深度学习概述',
+                        duration: '视频30分钟 + 阅读20分钟',
+                        lessons: [
+                            { title: '深度学习发展历程（视频）', duration: '15分钟', completed: true },
+                            { title: '神经网络基础概念（视频）', duration: '15分钟', completed: true },
+                            { title: '深度学习应用场景（文本）', duration: '20分钟', completed: false }
+                        ]
+                    },
+                    {
+                        title: '神经网络基础',
+                        duration: '视频60分钟 + 阅读30分钟',
+                        lessons: [
+                            { title: '感知机模型（视频）', duration: '20分钟', completed: false },
+                            { title: '多层神经网络（视频）', duration: '20分钟', completed: false },
+                            { title: '激活函数详解（文本）', duration: '30分钟', completed: false }
+                        ]
+                    },
+                    {
+                        title: '反向传播算法',
+                        duration: '视频45分钟 + 阅读45分钟',
+                        lessons: [
+                            { title: '梯度下降法（视频）', duration: '20分钟', completed: false },
+                            { title: '反向传播原理（视频）', duration: '25分钟', completed: false },
+                            { title: '代码实现详解（文本）', duration: '45分钟', completed: false }
+                        ]
+                    }
+                ],
+                comments: [
+                    { author: 'AI学习者', date: '2024-01-13', text: '视频+文本的形式很棒，既能看讲解又能看详细文档！', likes: 56 },
+                    { author: '研究生小李', date: '2024-01-10', text: '课程结构清晰，知识点覆盖全面。', likes: 34 }
+                ],
+                recommendedCourses: [
+                    { title: 'PyTorch实战', author: '孙博士', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '4200' },
+                    { title: 'CNN卷积神经网络', author: '周老师', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '3100' }
+                ],
+                instructor: {
+                    name: '陈博士',
+                    title: '腾讯AI Lab首席科学家',
+                    courses: 22,
+                    students: '4.8万'
+                }
+            },
+            // 文本视频混合课程2
+            'web前端开发实战': {
+                title: 'Web前端开发实战：从入门到精通',
+                viewCount: '25.8万',
+                studentCount: '2.1万',
+                likeCount: '2.3k',
+                chapterCount: 15,
+                duration: '约10小时',
+                progress: 15,
+                price: 199,
+                type: 'mixed',
+                description: '本课程采用视频演示与代码文档相结合的方式，帮助您快速掌握HTML、CSS、JavaScript等前端核心技术。每个章节都配有实战项目练习。',
+                chapters: [
+                    {
+                        title: 'HTML基础',
+                        duration: '视频40分钟 + 实践30分钟',
+                        lessons: [
+                            { title: 'HTML标签详解（视频）', duration: '20分钟', completed: true },
+                            { title: '表单与表格（视频）', duration: '20分钟', completed: true },
+                            { title: '实战练习（文本）', duration: '30分钟', completed: false }
+                        ]
+                    },
+                    {
+                        title: 'CSS样式设计',
+                        duration: '视频60分钟 + 实践40分钟',
+                        lessons: [
+                            { title: '选择器与属性（视频）', duration: '25分钟', completed: false },
+                            { title: 'Flexbox布局（视频）', duration: '35分钟', completed: false },
+                            { title: '响应式设计实践（文本）', duration: '40分钟', completed: false }
+                        ]
+                    },
+                    {
+                        title: 'JavaScript编程',
+                        duration: '视频90分钟 + 实践60分钟',
+                        lessons: [
+                            { title: '变量与数据类型（视频）', duration: '20分钟', completed: false },
+                            { title: '函数与作用域（视频）', duration: '30分钟', completed: false },
+                            { title: 'DOM操作实战（文本）', duration: '60分钟', completed: false }
+                        ]
+                    }
+                ],
+                comments: [
+                    { author: '前端新人', date: '2024-01-12', text: '跟着视频学，配合文档练习，进步很快！', likes: 89 },
+                    { author: '全栈开发者', date: '2024-01-09', text: '内容很全面，项目实战很有价值。', likes: 67 }
+                ],
+                recommendedCourses: [
+                    { title: 'React框架入门', author: '吴教授', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '5600' },
+                    { title: 'Vue.js实战', author: '郑导师', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '4800' }
+                ],
+                instructor: {
+                    name: '周老师',
+                    title: '美团AI平台技术负责人',
+                    courses: 16,
+                    students: '3.1万'
+                }
             }
         };
+
+        // 获取当前课程数据
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseKey = urlParams.get('course') || '区块链技术创新高端峰会论坛';
+        const courseData = coursesData[courseKey] || coursesData['区块链技术创新高端峰会论坛'];
 
         // 渲染章节列表
         function renderChapters() {
             const chapterList = document.getElementById('chapterList');
-            chapterList.innerHTML = courseData.chapters.map((chapter, index) => `
-                <div class="chapter-item">
-                    <div class="chapter-header" onclick="toggleChapter(this)">
-                        <span class="chapter-number">${index + 1}</span>
-                        <span class="chapter-title">${chapter.title}</span>
-                        <span class="chapter-duration">${chapter.duration}</span>
-                        <span class="chapter-expand">▼</span>
+            let lessonIndex = 0;
+            chapterList.innerHTML = courseData.chapters.map((chapter, chapterIndex) => {
+                const lessonsHtml = chapter.lessons.map((lesson, idx) => {
+                    const globalIndex = lessonIndex++;
+                    const lessonType = lesson.type || 'video';
+                    const typeIcon = lessonType === 'video' ? '📹' : '📝';
+                    return `
+                        <div class="lesson-item ${lesson.completed ? 'completed' : ''}" onclick="selectLesson(${globalIndex})">
+                            <span class="lesson-icon">${lesson.completed ? '✓' : typeIcon}</span>
+                            <span class="lesson-title">${lesson.title}</span>
+                            <span class="lesson-duration">${lesson.duration}</span>
+                            <span class="lesson-type">${lessonType === 'video' ? '视频' : '文本'}</span>
+                        </div>
+                    `;
+                }).join('');
+                return `
+                    <div class="chapter-item">
+                        <div class="chapter-header" onclick="toggleChapter(this)">
+                            <span class="chapter-number">${chapterIndex + 1}</span>
+                            <span class="chapter-title">${chapter.title}</span>
+                            <span class="chapter-duration">${chapter.duration}</span>
+                            <span class="chapter-expand">▼</span>
+                        </div>
+                        <div class="lesson-list">
+                            ${lessonsHtml}
+                        </div>
                     </div>
-                    <div class="lesson-list">
-                        ${chapter.lessons.map(lesson => `
-                            <div class="lesson-item ${lesson.completed ? 'completed' : ''}">
-                                <span class="lesson-icon">${lesson.completed ? '✓' : '▶'}</span>
-                                <span class="lesson-title">${lesson.title}</span>
-                                <span class="lesson-duration">${lesson.duration}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+        }
+
+        // 选择课时
+        function selectLesson(lessonIndex) {
+            currentLessonIndex = lessonIndex;
+            
+            // 获取当前课时信息
+            let idx = lessonIndex;
+            let currentChapter = null;
+            let currentLesson = null;
+            
+            for (let i = 0; i < courseData.chapters.length; i++) {
+                if (idx < courseData.chapters[i].lessons.length) {
+                    currentChapter = courseData.chapters[i];
+                    currentLesson = courseData.chapters[i].lessons[idx];
+                    break;
+                }
+                idx -= courseData.chapters[i].lessons.length;
+            }
+            
+            // 根据课时类型切换视图
+            const videoPlayer = document.getElementById('videoPlayer');
+            const textReader = document.getElementById('textReader');
+            
+            if (currentLesson.type === 'text') {
+                videoPlayer.style.display = 'none';
+                textReader.style.display = 'flex';
+                updateReaderContent();
+            } else {
+                videoPlayer.style.display = 'block';
+                textReader.style.display = 'none';
+                // 更新视频播放器标题
+                document.querySelector('.player-title').textContent = currentLesson.title;
+            }
+            
+            // 高亮选中的课时
+            document.querySelectorAll('.lesson-item').forEach((item, i) => {
+                item.classList.toggle('active', i === lessonIndex);
+            });
         }
 
         // 展开/收起章节
@@ -1218,9 +1701,53 @@
             alert('正在播放课程视频...');
         }
 
+        // 获取课程类型名称
+        function getCourseTypeName(type) {
+            switch(type) {
+                case 'video': return '视频课程';
+                case 'text': return '纯文本课程';
+                case 'mixed': return '文本视频混合课程';
+                default: return '课程';
+            }
+        }
+
         // 加入学习
         function joinCourse() {
-            alert('已成功加入学习！开始您的学习之旅吧！');
+            const price = courseData.price;
+            const type = courseData.type;
+            const typeName = getCourseTypeName(type);
+            
+            // 如果是收费课程
+            if (price > 0) {
+                const confirmPurchase = confirm(`本课程需要付费购买，价格为 ¥${price}。\n\n课程类型：${typeName}\n\n确定要购买并加入学习吗？`);
+                
+                if (confirmPurchase) {
+                    // 模拟支付流程
+                    alert(`正在跳转支付页面...\n\n支付金额：¥${price}\n课程类型：${typeName}\n\n支付成功！已成功加入学习！`);
+                    startLearning();
+                } else {
+                    alert('已取消购买，您可以继续浏览课程内容。');
+                }
+            } else {
+                // 免费课程
+                if (type === 'video') {
+                    alert(`已成功加入学习！\n\n课程类型：${typeName}\n\n即将开始播放课程视频...`);
+                    startLearning();
+                } else if (type === 'text') {
+                    alert(`已成功加入学习！\n\n课程类型：${typeName}\n\n即将跳转到课程阅读页面...`);
+                    startLearning();
+                } else {
+                    alert(`已成功加入学习！\n\n课程类型：${typeName}\n\n本课程包含视频讲解和文本教程，您可以根据学习偏好选择学习方式...`);
+                    startLearning();
+                }
+            }
+        }
+
+        // 开始学习
+        function startLearning() {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '100%';
+            document.querySelector('.progress-text').textContent = '100%';
         }
 
         // 评论点赞
@@ -1245,6 +1772,204 @@
             window.location.href = 'index.html';
         }
 
+        // 当前阅读进度
+        let currentLessonIndex = 0;
+        let fontSize = 16;
+
+        // 根据课程类型显示不同内容
+        function initCourseView() {
+            const type = courseData.type || 'video';
+            const videoPlayer = document.getElementById('videoPlayer');
+            const textReader = document.getElementById('textReader');
+
+            if (type === 'text') {
+                // 纯文本课程
+                videoPlayer.style.display = 'none';
+                textReader.style.display = 'flex';
+            } else if (type === 'mixed') {
+                // 混合课程，默认显示视频播放器
+                videoPlayer.style.display = 'block';
+                textReader.style.display = 'none';
+            } else {
+                // 视频课程
+                videoPlayer.style.display = 'block';
+                textReader.style.display = 'none';
+            }
+        }
+
+        // 调整字体大小
+        function adjustFontSize(delta) {
+            fontSize += delta;
+            if (fontSize < 12) fontSize = 12;
+            if (fontSize > 24) fontSize = 24;
+            document.getElementById('readerContent').style.fontSize = fontSize + 'px';
+        }
+
+        // 切换全屏模式
+        function toggleFullscreen() {
+            const reader = document.getElementById('textReader');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const isFullscreen = reader.classList.contains('reader-fullscreen');
+
+            if (!isFullscreen) {
+                // 进入全屏模式
+                reader.classList.add('reader-fullscreen');
+                document.body.classList.add('fullscreen-mode');
+                fullscreenBtn.innerHTML = '⛶ 退出';
+                // 隐藏页面其他元素
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('.course-info').style.display = 'none';
+                document.querySelector('.bottom-section').style.display = 'none';
+            } else {
+                // 退出全屏模式
+                reader.classList.remove('reader-fullscreen');
+                document.body.classList.remove('fullscreen-mode');
+                fullscreenBtn.innerHTML = '⛶ 全屏';
+                // 显示页面其他元素
+                document.querySelector('header').style.display = 'block';
+                document.querySelector('.course-info').style.display = 'block';
+                document.querySelector('.bottom-section').style.display = 'flex';
+            }
+        }
+
+        // 跳转到下一课时
+        function goToNextLesson() {
+            currentLessonIndex++;
+            updateReaderContent();
+        }
+
+        // 跳转到上一课时
+        function goToPrevLesson() {
+            currentLessonIndex--;
+            updateReaderContent();
+        }
+
+        // 更新阅读器内容
+        function updateReaderContent() {
+            const totalLessons = courseData.chapters.reduce((sum, ch) => sum + ch.lessons.length, 0);
+            const prevBtn = document.getElementById('prevLessonBtn');
+            const nextBtn = document.getElementById('nextLessonBtn');
+
+            // 更新进度显示
+            document.getElementById('readerProgress').textContent = `${currentLessonIndex + 1}/${totalLessons} 课时`;
+
+            // 更新按钮状态
+            prevBtn.disabled = currentLessonIndex === 0;
+            nextBtn.disabled = currentLessonIndex >= totalLessons - 1;
+
+            // 获取当前章节和课时
+            let lessonIndex = currentLessonIndex;
+            let currentChapter = null;
+            let currentLesson = null;
+
+            for (let i = 0; i < courseData.chapters.length; i++) {
+                if (lessonIndex < courseData.chapters[i].lessons.length) {
+                    currentChapter = courseData.chapters[i];
+                    currentLesson = courseData.chapters[i].lessons[lessonIndex];
+                    break;
+                }
+                lessonIndex -= courseData.chapters[i].lessons.length;
+            }
+
+            if (currentChapter && currentLesson) {
+                document.getElementById('readerLessonTitle').textContent = `${currentChapter.title} - ${currentLesson.title}`;
+                
+                // 根据课程类型生成内容
+                if (currentLesson.title.includes('视频')) {
+                    document.getElementById('readerContent').innerHTML = `
+                        <h1>${currentLesson.title}</h1>
+                        <p>这是一个视频课时。由于课程是混合类型，您可以点击下方按钮观看视频内容。</p>
+                        <button class="nav-btn" style="width:100%;margin-top:20px;" onclick="playVideo()">▶ 播放视频</button>
+                    `;
+                } else {
+                    document.getElementById('readerContent').innerHTML = generateTextContent(currentChapter.title, currentLesson.title);
+                }
+            }
+        }
+
+        // 生成文本内容
+        function generateTextContent(chapterTitle, lessonTitle) {
+            const contentMap = {
+                '数据分析环境搭建': {
+                    'Anaconda安装与配置': `
+                        <h1>Anaconda安装与配置</h1>
+                        <p>Anaconda是一个用于数据科学和机器学习的Python发行版，包含了众多常用的数据处理和分析库。</p>
+                        <h2>下载Anaconda</h2>
+                        <p>访问Anaconda官网下载适合您操作系统的版本。</p>
+                        <h2>安装步骤</h2>
+                        <ol>
+                            <li>运行下载的安装程序</li>
+                            <li>按照向导提示完成安装</li>
+                            <li>选择安装路径（建议使用默认路径）</li>
+                            <li>完成安装后，启动Anaconda Navigator</li>
+                        </ol>
+                    `,
+                    'Jupyter Notebook使用入门': `
+                        <h1>Jupyter Notebook使用入门</h1>
+                        <p>Jupyter Notebook是一个交互式的笔记本环境，可以让您编写和运行代码，同时添加说明文档。</p>
+                        <h2>启动Jupyter Notebook</h2>
+                        <p>打开Anaconda Navigator，找到Jupyter Notebook并点击"Launch"按钮，或者在终端中运行以下命令：</p>
+                        <pre><code>jupyter notebook</code></pre>
+                        <h2>创建新笔记本</h2>
+                        <p>在Jupyter Notebook界面中，点击右上角的"New"按钮，选择"Python 3"创建一个新的笔记本。</p>
+                        <blockquote>提示：Jupyter Notebook支持Markdown语法，您可以在单元格中编写文档说明。</blockquote>
+                    `
+                },
+                'NumPy数组操作': {
+                    '数组创建与索引': `
+                        <h1>数组创建与索引</h1>
+                        <p>NumPy是Python中用于数值计算的核心库，提供了高性能的数组对象。</p>
+                        <h2>创建数组</h2>
+                        <p>使用numpy.array()函数可以创建数组：</p>
+                        <pre><code>import numpy as np
+arr = np.array([1, 2, 3, 4, 5])</code></pre>
+                        <h2>数组索引</h2>
+                        <p>NumPy数组支持多种索引方式：</p>
+                        <pre><code># 索引第一个元素
+print(arr[0])  # 输出: 1
+
+# 切片
+print(arr[1:4])  # 输出: [2 3 4]
+
+# 布尔索引
+print(arr[arr > 2])  # 输出: [3 4 5]</code></pre>
+                    `,
+                    '数组运算与广播': `
+                        <h1>数组运算与广播</h1>
+                        <p>NumPy支持向量化运算，可以高效地对整个数组进行操作。</p>
+                        <h2>基本运算</h2>
+                        <pre><code>arr1 = np.array([1, 2, 3])
+arr2 = np.array([4, 5, 6])
+
+# 加法
+result = arr1 + arr2  # [5 7 9]
+
+# 乘法
+result = arr1 * arr2  # [4 10 18]</code></pre>
+                        <h2>广播机制</h2>
+                        <p>NumPy的广播机制允许不同形状的数组进行运算：</p>
+                        <pre><code>arr = np.array([1, 2, 3])
+scalar = 2
+
+result = arr * scalar  # [2 4 6]</code></pre>
+                    `
+                }
+            };
+
+            const chapterContent = contentMap[chapterTitle] || {};
+            return chapterContent[lessonTitle] || `
+                <h1>${lessonTitle}</h1>
+                <p>这是"${chapterTitle}"章节中的"${lessonTitle}"课时内容。</p>
+                <p>本课程涵盖数据分析的核心知识和实践技能。</p>
+                <h2>学习目标</h2>
+                <ul>
+                    <li>理解课程核心概念</li>
+                    <li>掌握关键技术技能</li>
+                    <li>能够独立完成项目实践</li>
+                </ul>
+            `;
+        }
+
         // 页面加载时初始化
         document.addEventListener('DOMContentLoaded', () => {
             // 更新课程统计数据
@@ -1255,6 +1980,9 @@
             document.getElementById('duration').textContent = courseData.duration;
             document.getElementById('progressText').textContent = `${courseData.progress}%`;
             document.getElementById('progressBar').style.width = `${courseData.progress}%`;
+
+            // 根据课程类型初始化视图
+            initCourseView();
 
             // 渲染章节列表
             renderChapters();
