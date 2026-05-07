@@ -12,7 +12,8 @@ const coursesData = [
         isImage: false,
         task: "nlp",
         level: "entry",
-        durationValue: 180
+        durationValue: 180,
+        price: 0
     },
     {
         id: 2,
@@ -25,7 +26,8 @@ const coursesData = [
         isImage: true,
         task: "cv",
         level: "intermediate",
-        durationValue: 180
+        durationValue: 180,
+        price: 199
     },
     {
         id: 3,
@@ -38,7 +40,8 @@ const coursesData = [
         isImage: true,
         task: "nlp",
         level: "entry",
-        durationValue: 180
+        durationValue: 180,
+        price: 0
     },
     {
         id: 4,
@@ -53,7 +56,8 @@ const coursesData = [
         isDarkBadge: true,
         task: "multimodal",
         level: "intermediate",
-        durationValue: 120
+        durationValue: 120,
+        price: 199
     },
     {
         id: 5,
@@ -66,7 +70,8 @@ const coursesData = [
         isImage: true,
         task: "cv",
         level: "advanced",
-        durationValue: 300
+        durationValue: 300,
+        price: 299
     },
     {
         id: 6,
@@ -79,7 +84,8 @@ const coursesData = [
         isImage: true,
         task: "nlp",
         level: "entry",
-        durationValue: 90
+        durationValue: 90,
+        price: 0
     },
     {
         id: 7,
@@ -93,7 +99,8 @@ const coursesData = [
         isImage: false,
         task: "cv",
         level: "entry",
-        durationValue: 240
+        durationValue: 240,
+        price: 0
     },
     {
         id: 8,
@@ -107,7 +114,8 @@ const coursesData = [
         isImage: false,
         task: "nlp",
         level: "intermediate",
-        durationValue: 360
+        durationValue: 360,
+        price: 149
     },
     {
         id: 9,
@@ -121,7 +129,56 @@ const coursesData = [
         isImage: false,
         task: "multimodal",
         level: "advanced",
-        durationValue: 480
+        durationValue: 480,
+        price: 399
+    },
+    {
+        id: 10,
+        title: "Python数据分析实战指南",
+        difficulty: "入门难度",
+        duration: "4小时",
+        instructor: "刘教授",
+        students: 5800,
+        image: "linear-gradient(135deg, #27AE60 0%, #2ecc71 100%)",
+        badge: "Python<br>数据分析",
+        isImage: false,
+        task: "nlp",
+        level: "entry",
+        durationValue: 240,
+        price: 0,
+        type: "text"
+    },
+    {
+        id: 11,
+        title: "深度学习入门实战：理论与实践结合",
+        difficulty: "中级难度",
+        duration: "6小时",
+        instructor: "陈博士",
+        students: 8900,
+        image: "linear-gradient(135deg, #F39C12 0%, #f1c40f 100%)",
+        badge: "深度学习<br>理论实践",
+        isImage: false,
+        task: "cv",
+        level: "intermediate",
+        durationValue: 360,
+        price: 149,
+        type: "mixed"
+    },
+    {
+        id: 12,
+        title: "Web前端开发实战：从入门到精通",
+        difficulty: "中级难度",
+        duration: "10小时",
+        instructor: "周老师",
+        students: 21000,
+        image: "linear-gradient(135deg, #3498DB 0%, #2980b9 100%)",
+        badge: "Web前端<br>开发实战",
+        isImage: false,
+        task: "multimodal",
+        level: "intermediate",
+        durationValue: 600,
+        price: 199,
+        type: "mixed"
     }
 ];
 
@@ -136,7 +193,8 @@ let activeFilters = {
     task: [],
     level: [],
     duration: [],
-    instructor: []
+    instructor: [],
+    price: []
 };
 
 // 初始化
@@ -163,18 +221,24 @@ function renderAllCourses(courses = coursesData) {
 
 // 创建课程卡片HTML
 function createCourseCard(course) {
-    const imageHtml = course.isImage 
+    const imageHtml = course.isImage
         ? `<img src="${course.image}" alt="${course.title}">`
         : `<div class="course-badge ${course.isDarkBadge ? 'dark' : ''}">${course.badge}</div>`;
-    
+
     // 根据课程标题生成唯一的key
     const courseKey = course.title.toLowerCase().replace(/[\s\-\:\(\)]+/g, '');
-    
+
+    // 价格标签
+    const priceLabel = course.price === 0
+        ? '<span class="price-tag free">免费</span>'
+        : `<span class="price-tag paid">¥${course.price}</span>`;
+
     return `
         <div class="course-card" data-id="${course.id}" onclick="openCourseDetail('${courseKey}')">
             <div class="course-image" style="background: ${course.isImage ? '#f0f0f0' : course.image}">
                 ${imageHtml}
                 <div class="play-icon">▶</div>
+                <div class="course-price-tag">${priceLabel}</div>
             </div>
             <div class="course-info">
                 <h3>${course.title}</h3>
@@ -194,16 +258,26 @@ function createCourseCard(course) {
 // 筛选课程
 function filterCourses(courses) {
     return courses.filter(course => {
+        // 价格筛选
+        if (activeFilters.price.length > 0) {
+            const priceMatch = activeFilters.price.some(p => {
+                if (p === 'free') return course.price === 0;
+                if (p === 'paid') return course.price > 0;
+                return false;
+            });
+            if (!priceMatch) return false;
+        }
+
         // 任务筛选
         if (activeFilters.task.length > 0 && !activeFilters.task.includes(course.task)) {
             return false;
         }
-        
+
         // 难度筛选
         if (activeFilters.level.length > 0 && !activeFilters.level.includes(course.level)) {
             return false;
         }
-        
+
         // 时长筛选
         if (activeFilters.duration.length > 0) {
             const durationMatch = activeFilters.duration.some(range => {
@@ -217,13 +291,13 @@ function filterCourses(courses) {
             });
             if (!durationMatch) return false;
         }
-        
+
         // 讲师筛选
         if (activeFilters.instructor.length > 0) {
             // 这里简化处理，实际应该根据讲师姓名匹配
             return true;
         }
-        
+
         return true;
     });
 }
