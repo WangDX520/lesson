@@ -127,6 +127,80 @@
             .main-content { margin-left: 0; }
             .admin-layout { flex-direction: column; }
         }
+
+        .dashboard-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+        .stat-card { background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px; transition: transform 0.2s, box-shadow 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .stat-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .stat-icon { font-size: 28px; }
+        .stat-trend { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+        .stat-trend.up { background: rgba(16,185,129,0.15); color: var(--success-color); }
+        .stat-trend.down { background: rgba(239,68,68,0.15); color: var(--danger-color); }
+        .stat-trend.warn { background: rgba(245,158,11,0.15); color: var(--warning-color); }
+        .stat-value { font-size: 28px; font-weight: 700; color: var(--primary-color); margin-bottom: 4px; }
+        .stat-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+        .stat-sub { font-size: 12px; color: var(--text-muted); }
+
+        .dashboard-section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
+
+        .dashboard-metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+        .metric-card { background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px; }
+        .metric-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .metric-card-header h3 { font-size: 15px; font-weight: 600; }
+        .metric-period { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; }
+        .metric-rows { display: flex; flex-direction: column; gap: 2px; }
+        .metric-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-name { font-size: 13px; color: var(--text-secondary); flex: 1; }
+        .metric-val { font-size: 14px; font-weight: 600; color: var(--text-primary); min-width: 80px; text-align: right; margin-right: 12px; }
+        .metric-change { font-size: 12px; font-weight: 500; min-width: 60px; text-align: right; }
+        .metric-change.up { color: var(--success-color); }
+        .metric-change.down { color: var(--danger-color); }
+
+        .dashboard-charts-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 28px; }
+        .chart-card { background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px; }
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .chart-header h3 { font-size: 15px; font-weight: 600; }
+        .chart-legend { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 180px; padding-top: 20px; }
+        .bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+        .bar { width: 100%; background: linear-gradient(to top, var(--primary-color), rgba(0,212,255,0.4)); border-radius: 4px 4px 0 0; position: relative; min-height: 4px; transition: height 0.6s ease; }
+        .bar-val { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+        .bar-label { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+
+        .dashboard-rank-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+        .rank-card { background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px; }
+        .rank-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .rank-card-header h3 { font-size: 15px; font-weight: 600; }
+        .rank-list-compact { display: flex; flex-direction: column; gap: 4px; }
+        .rank-row { display: flex; align-items: center; gap: 12px; padding: 10px 8px; border-radius: 8px; transition: background 0.2s; }
+        .rank-row:hover { background: rgba(255,255,255,0.03); }
+        .rank-num { width: 22px; height: 22px; border-radius: 5px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+        .rank-name { flex: 1; font-size: 13px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .rank-val { font-size: 13px; font-weight: 600; color: var(--primary-color); }
+
+        .source-list { display: flex; flex-direction: column; gap: 12px; }
+        .source-row { display: flex; align-items: center; gap: 12px; }
+        .source-name { font-size: 13px; color: var(--text-secondary); min-width: 60px; }
+        .source-bar-wrap { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+        .source-bar { height: 100%; background: var(--primary-color); border-radius: 4px; transition: width 0.6s ease; }
+        .source-val { font-size: 13px; font-weight: 600; color: var(--text-primary); min-width: 36px; text-align: right; }
+
+        .dashboard-bottom-row { display: flex; gap: 16px; margin-bottom: 28px; }
+        .heatmap-chart { display: flex; flex-direction: column; gap: 6px; }
+        .heatmap-row { display: flex; align-items: center; gap: 12px; }
+        .heatmap-label { font-size: 12px; color: var(--text-muted); min-width: 48px; }
+        .heatmap-cells { display: flex; gap: 4px; flex: 1; }
+        .h-cell { flex: 1; height: 28px; background: var(--primary-color); border-radius: 4px; transition: opacity 0.3s; }
+
+        @media (max-width: 1200px) {
+            .dashboard-stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-metrics-grid { grid-template-columns: 1fr; }
+            .dashboard-charts-row { grid-template-columns: 1fr; }
+            .dashboard-rank-row { grid-template-columns: 1fr; }
+            .dashboard-bottom-row { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -169,46 +243,234 @@
 
             <!-- Dashboard -->
             <div class="content-section active" id="section-dashboard">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px;">
-                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
-                        <div style="font-size: 32px; margin-bottom: 12px;">📚</div>
-                        <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">156</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">全部课程</div>
+                <!-- 核心指标卡片 -->
+                <div class="dashboard-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">📚</span><span class="stat-trend up">↑ 12%</span></div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">全部课程</div>
+                        <div class="stat-sub">本月新增 <span style="color:var(--success-color);">+18</span></div>
                     </div>
-                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
-                        <div style="font-size: 32px; margin-bottom: 12px;">👨‍🏫</div>
-                        <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">28</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">入驻讲师</div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">👨‍🏫</span><span class="stat-trend up">↑ 5%</span></div>
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">入驻讲师</div>
+                        <div class="stat-sub">本月新增 <span style="color:var(--success-color);">+3</span></div>
                     </div>
-                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
-                        <div style="font-size: 32px; margin-bottom: 12px;">👥</div>
-                        <div style="font-size: 28px; font-weight: 700; color: var(--primary-color);">5.2万</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">加入学习用户</div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">👥</span><span class="stat-trend up">↑ 23%</span></div>
+                        <div class="stat-value">52,340</div>
+                        <div class="stat-label">注册用户</div>
+                        <div class="stat-sub">今日新增 <span style="color:var(--success-color);">+186</span></div>
                     </div>
-                    <div style="background: var(--dark-card); border-radius: 12px; border: 1px solid var(--dark-border); padding: 20px;">
-                        <div style="font-size: 32px; margin-bottom: 12px;">⏳</div>
-                        <div style="font-size: 28px; font-weight: 700; color: var(--warning-color);">3</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">待审核课程</div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">🟢</span><span class="stat-trend up">↑ 8%</span></div>
+                        <div class="stat-value">3,420</div>
+                        <div class="stat-label">实时在线</div>
+                        <div class="stat-sub">峰值 5,120（今日 14:30）</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">👁️</span><span class="stat-trend up">↑ 15%</span></div>
+                        <div class="stat-value">89.6万</div>
+                        <div class="stat-label">累计访问量</div>
+                        <div class="stat-sub">今日 <span style="color:var(--success-color);">12,580</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">🎓</span><span class="stat-trend up">↑ 18%</span></div>
+                        <div class="stat-value">18,920</div>
+                        <div class="stat-label">课程报名数</div>
+                        <div class="stat-sub">本月 <span style="color:var(--success-color);">+2,340</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">💰</span><span class="stat-trend up">↑ 32%</span></div>
+                        <div class="stat-value">¥68.5万</div>
+                        <div class="stat-label">累计营收</div>
+                        <div class="stat-sub">本月 <span style="color:var(--success-color);">¥12.3万</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><span class="stat-icon">⏳</span><span class="stat-trend warn">待处理</span></div>
+                        <div class="stat-value" style="color:var(--warning-color);">3</div>
+                        <div class="stat-label">待审核课程</div>
+                        <div class="stat-sub">平均审核耗时 <span>2.4h</span></div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header"><h3 class="card-title">最近审核动态</h3></div>
-                    <div style="padding: 20px;">
-                        <div class="table-container">
-                            <table>
-                                <thead><tr><th>课程名称</th><th>讲师</th><th>提交时间</th><th>状态</th></tr></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习进阶：Transformer架构详解</div><div style="font-size: 12px; color: var(--text-muted);">讲师：元河</div></div></div></td>
-                                        <td>元河</td><td>2026-04-30 10:30</td><td><span class="status-badge pending">⏳ 待审核</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">区块链技术原理与应用</div><div style="font-size: 12px; color: var(--text-muted);">讲师：王教授</div></div></div></td>
-                                        <td>王教授</td><td>2026-04-29 15:20</td><td><span class="status-badge approved">✅ 已通过</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <!-- 数据埋点指标 -->
+                <div class="dashboard-section-title">📊 数据埋点总览</div>
+                <div class="dashboard-metrics-grid">
+                    <!-- 用户行为数据 -->
+                    <div class="metric-card">
+                        <div class="metric-card-header">
+                            <h3>🧑‍💻 用户行为数据</h3>
+                            <span class="metric-period">近7日</span>
+                        </div>
+                        <div class="metric-rows">
+                            <div class="metric-row"><span class="metric-name">页面浏览量 (PV)</span><span class="metric-val">256,800</span><span class="metric-change up">↑ 12.3%</span></div>
+                            <div class="metric-row"><span class="metric-name">独立访客数 (UV)</span><span class="metric-val">38,450</span><span class="metric-change up">↑ 8.7%</span></div>
+                            <div class="metric-row"><span class="metric-name">平均会话时长</span><span class="metric-val">18m 32s</span><span class="metric-change up">↑ 5.2%</span></div>
+                            <div class="metric-row"><span class="metric-name">跳出率</span><span class="metric-val">32.4%</span><span class="metric-change down">↓ 3.1%</span></div>
+                            <div class="metric-row"><span class="metric-name">新用户占比</span><span class="metric-val">41.2%</span><span class="metric-change up">↑ 6.8%</span></div>
+                            <div class="metric-row"><span class="metric-name">次日留存率</span><span class="metric-val">58.6%</span><span class="metric-change up">↑ 2.4%</span></div>
+                            <div class="metric-row"><span class="metric-name">7日留存率</span><span class="metric-val">34.2%</span><span class="metric-change down">↓ 1.2%</span></div>
+                        </div>
+                    </div>
+                    <!-- 课程数据 -->
+                    <div class="metric-card">
+                        <div class="metric-card-header">
+                            <h3>📖 课程数据</h3>
+                            <span class="metric-period">近7日</span>
+                        </div>
+                        <div class="metric-rows">
+                            <div class="metric-row"><span class="metric-name">课程点击量</span><span class="metric-val">128,500</span><span class="metric-change up">↑ 15.6%</span></div>
+                            <div class="metric-row"><span class="metric-name">课程报名数</span><span class="metric-val">2,340</span><span class="metric-change up">↑ 18.2%</span></div>
+                            <div class="metric-row"><span class="metric-name">完课率</span><span class="metric-val">42.8%</span><span class="metric-change up">↑ 3.5%</span></div>
+                            <div class="metric-row"><span class="metric-name">平均学习进度</span><span class="metric-val">67.3%</span><span class="metric-change up">↑ 4.1%</span></div>
+                            <div class="metric-row"><span class="metric-name">视频播放量</span><span class="metric-val">89,200</span><span class="metric-change up">↑ 22.1%</span></div>
+                            <div class="metric-row"><span class="metric-name">平均观看时长</span><span class="metric-val">12m 45s</span><span class="metric-change up">↑ 8.3%</span></div>
+                            <div class="metric-row"><span class="metric-name">课程评分</span><span class="metric-val">4.6/5.0</span><span class="metric-change up">↑ 0.2</span></div>
+                        </div>
+                    </div>
+                    <!-- 互动与营收 -->
+                    <div class="metric-card">
+                        <div class="metric-card-header">
+                            <h3>💬 互动与营收</h3>
+                            <span class="metric-period">近7日</span>
+                        </div>
+                        <div class="metric-rows">
+                            <div class="metric-row"><span class="metric-name">讨论区发帖</span><span class="metric-val">1,856</span><span class="metric-change up">↑ 28.4%</span></div>
+                            <div class="metric-row"><span class="metric-name">作业提交数</span><span class="metric-val">642</span><span class="metric-change up">↑ 15.7%</span></div>
+                            <div class="metric-row"><span class="metric-name">证书颁发数</span><span class="metric-val">189</span><span class="metric-change up">↑ 42.1%</span></div>
+                            <div class="metric-row"><span class="metric-name">订单数</span><span class="metric-val">876</span><span class="metric-change up">↑ 21.3%</span></div>
+                            <div class="metric-row"><span class="metric-name">支付转化率</span><span class="metric-val">18.6%</span><span class="metric-change up">↑ 2.8%</span></div>
+                            <div class="metric-row"><span class="metric-name">客单价</span><span class="metric-val">¥142</span><span class="metric-change up">↑ ¥12</span></div>
+                            <div class="metric-row"><span class="metric-name">退款率</span><span class="metric-val">2.1%</span><span class="metric-change down">↓ 0.5%</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 趋势图表 -->
+                <div class="dashboard-section-title">📈 趋势分析</div>
+                <div class="dashboard-charts-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>用户注册趋势（近7日）</h3>
+                            <div class="chart-legend"><span class="legend-dot" style="background:var(--primary-color);"></span>注册数</div>
+                        </div>
+                        <div class="bar-chart" id="userChart">
+                            <div class="bar-item"><div class="bar" style="height:55%;"><span class="bar-val">126</span></div><span class="bar-label">5/26</span></div>
+                            <div class="bar-item"><div class="bar" style="height:42%;"><span class="bar-val">98</span></div><span class="bar-label">5/27</span></div>
+                            <div class="bar-item"><div class="bar" style="height:68%;"><span class="bar-val">158</span></div><span class="bar-label">5/28</span></div>
+                            <div class="bar-item"><div class="bar" style="height:78%;"><span class="bar-val">182</span></div><span class="bar-label">5/29</span></div>
+                            <div class="bar-item"><div class="bar" style="height:60%;"><span class="bar-val">140</span></div><span class="bar-label">5/30</span></div>
+                            <div class="bar-item"><div class="bar" style="height:85%;"><span class="bar-val">198</span></div><span class="bar-label">5/31</span></div>
+                            <div class="bar-item"><div class="bar" style="height:80%;"><span class="bar-val">186</span></div><span class="bar-label">6/1</span></div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>课程访问趋势（近7日）</h3>
+                            <div class="chart-legend"><span class="legend-dot" style="background:#8b5cf6;"></span>访问量</div>
+                        </div>
+                        <div class="bar-chart">
+                            <div class="bar-item"><div class="bar" style="height:60%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">3.2万</span></div><span class="bar-label">5/26</span></div>
+                            <div class="bar-item"><div class="bar" style="height:45%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">2.4万</span></div><span class="bar-label">5/27</span></div>
+                            <div class="bar-item"><div class="bar" style="height:72%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">3.8万</span></div><span class="bar-label">5/28</span></div>
+                            <div class="bar-item"><div class="bar" style="height:65%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">3.5万</span></div><span class="bar-label">5/29</span></div>
+                            <div class="bar-item"><div class="bar" style="height:80%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">4.2万</span></div><span class="bar-label">5/30</span></div>
+                            <div class="bar-item"><div class="bar" style="height:90%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">4.8万</span></div><span class="bar-label">5/31</span></div>
+                            <div class="bar-item"><div class="bar" style="height:85%;background:linear-gradient(to top,#8b5cf6,#a78bfa);"><span class="bar-val">4.5万</span></div><span class="bar-label">6/1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 热门排行 + 渠道来源 -->
+                <div class="dashboard-section-title">🔥 热门排行 & 流量来源</div>
+                <div class="dashboard-rank-row">
+                    <!-- 热门课程 -->
+                    <div class="rank-card">
+                        <div class="rank-card-header"><h3>🏆 热门课程 TOP5</h3><span class="metric-period">按访问量</span></div>
+                        <div class="rank-list-compact">
+                            <div class="rank-row"><span class="rank-num" style="background:#f59e0b;">1</span><span class="rank-name">深度学习进阶：Transformer架构详解</span><span class="rank-val">12,580</span></div>
+                            <div class="rank-row"><span class="rank-num" style="background:#94a3b8;">2</span><span class="rank-name">Python机器学习实战</span><span class="rank-val">9,840</span></div>
+                            <div class="rank-row"><span class="rank-num" style="background:#cd7f32;">3</span><span class="rank-name">NLP自然语言处理入门</span><span class="rank-val">8,260</span></div>
+                            <div class="rank-row"><span class="rank-num">4</span><span class="rank-name">AI大模型应用开发</span><span class="rank-val">7,120</span></div>
+                            <div class="rank-row"><span class="rank-num">5</span><span class="rank-name">计算机视觉实战：图像识别</span><span class="rank-val">6,540</span></div>
+                        </div>
+                    </div>
+                    <!-- 热门讲师 -->
+                    <div class="rank-card">
+                        <div class="rank-card-header"><h3>👨‍🏫 热门讲师 TOP5</h3><span class="metric-period">按学员数</span></div>
+                        <div class="rank-list-compact">
+                            <div class="rank-row"><span class="rank-num" style="background:#f59e0b;">1</span><span class="rank-name">元河</span><span class="rank-val">42,000+</span></div>
+                            <div class="rank-row"><span class="rank-num" style="background:#94a3b8;">2</span><span class="rank-name">王教授</span><span class="rank-val">38,500+</span></div>
+                            <div class="rank-row"><span class="rank-num" style="background:#cd7f32;">3</span><span class="rank-name">陈博士</span><span class="rank-val">28,200+</span></div>
+                            <div class="rank-row"><span class="rank-num">4</span><span class="rank-name">吴教授</span><span class="rank-val">25,800+</span></div>
+                            <div class="rank-row"><span class="rank-num">5</span><span class="rank-name">刘教授</span><span class="rank-val">22,100+</span></div>
+                        </div>
+                    </div>
+                    <!-- 流量来源 -->
+                    <div class="rank-card">
+                        <div class="rank-card-header"><h3>📡 流量来源分布</h3><span class="metric-period">近7日</span></div>
+                        <div class="source-list">
+                            <div class="source-row"><span class="source-name">搜索引擎</span><div class="source-bar-wrap"><div class="source-bar" style="width:38%;"></div></div><span class="source-val">38%</span></div>
+                            <div class="source-row"><span class="source-name">直接访问</span><div class="source-bar-wrap"><div class="source-bar" style="width:25%;background:#8b5cf6;"></div></div><span class="source-val">25%</span></div>
+                            <div class="source-row"><span class="source-name">社交媒体</span><div class="source-bar-wrap"><div class="source-bar" style="width:18%;background:#f59e0b;"></div></div><span class="source-val">18%</span></div>
+                            <div class="source-row"><span class="source-name">外部链接</span><div class="source-bar-wrap"><div class="source-bar" style="width:12%;background:#10b981;"></div></div><span class="source-val">12%</span></div>
+                            <div class="source-row"><span class="source-name">其他</span><div class="source-bar-wrap"><div class="source-bar" style="width:7%;background:#6b7280;"></div></div><span class="source-val">7%</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用户活跃时段 -->
+                <div class="dashboard-section-title">⏰ 用户活跃时段 & 审核动态</div>
+                <div class="dashboard-bottom-row">
+                    <div class="chart-card" style="flex:1;">
+                        <div class="chart-header"><h3>用户活跃时段分布（今日）</h3></div>
+                        <div class="heatmap-chart">
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">0-3时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.15;"></div><div class="h-cell" style="opacity:0.1;"></div><div class="h-cell" style="opacity:0.08;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">3-6时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.05;"></div><div class="h-cell" style="opacity:0.08;"></div><div class="h-cell" style="opacity:0.12;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">6-9时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.25;"></div><div class="h-cell" style="opacity:0.45;"></div><div class="h-cell" style="opacity:0.6;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">9-12时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.75;"></div><div class="h-cell" style="opacity:0.85;"></div><div class="h-cell" style="opacity:0.7;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">12-15时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.55;"></div><div class="h-cell" style="opacity:0.9;"></div><div class="h-cell" style="opacity:0.95;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">15-18时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.8;"></div><div class="h-cell" style="opacity:0.7;"></div><div class="h-cell" style="opacity:0.65;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">18-21时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.88;"></div><div class="h-cell" style="opacity:0.92;"></div><div class="h-cell" style="opacity:0.85;"></div></div>
+                            </div>
+                            <div class="heatmap-row">
+                                <span class="heatmap-label">21-24时</span><div class="heatmap-cells"><div class="h-cell" style="opacity:0.6;"></div><div class="h-cell" style="opacity:0.4;"></div><div class="h-cell" style="opacity:0.25;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="flex:1.2;margin-bottom:0;">
+                        <div class="card-header"><h3 class="card-title">最近审核动态</h3></div>
+                        <div style="padding:12px 20px;">
+                            <div class="table-container">
+                                <table>
+                                    <thead><tr><th>课程名称</th><th>讲师</th><th>提交时间</th><th>状态</th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习进阶：Transformer架构详解</div><div style="font-size: 12px; color: var(--text-muted);">讲师：元河</div></div></div></td>
+                                            <td>元河</td><td>2026-04-30 10:30</td><td><span class="status-badge pending">⏳ 待审核</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">区块链技术原理与应用</div><div style="font-size: 12px; color: var(--text-muted);">讲师：王教授</div></div></div></td>
+                                            <td>王教授</td><td>2026-04-29 15:20</td><td><span class="status-badge approved">✅ 已通过</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -236,129 +498,129 @@
                         <div class="table-container">
                             <table>
                                 <thead>
-                                    <tr><th>课程信息</th><th>讲师</th><th>类型</th><th>价格</th><th>状态</th><th>提交/更新时间</th><th>操作</th></tr>
+                                    <tr><th>课程信息</th><th>讲师</th><th>价格</th><th>状态</th><th>提交/更新时间</th><th>操作</th></tr>
                                 </thead>
                                 <tbody id="coursesTable">
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习进阶：Transformer架构详解</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约8小时</div></div></div></td>
-                                        <td>元河</td><td>视频课程</td><td>¥199</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-30 10:30</td>
+                                        <td>元河</td><td>¥199</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-30 10:30</td>
                                         <td>
                                             <div class="action-btns">
                                                 <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
                                                 <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('深度学习进阶：Transformer架构详解','元河','¥199','待审核','12课时 · 约8小时')">详情</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">分布式系统设计</div><div style="font-size: 12px; color: var(--text-muted);">8课时 · 约15小时</div></div></div></td>
-                                        <td>王教授</td><td>视频课程</td><td>¥149</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-30 09:15</td>
+                                        <td>王教授</td><td>¥149</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-30 09:15</td>
                                         <td>
                                             <div class="action-btns">
                                                 <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
                                                 <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('分布式系统设计','王教授','¥149','待审核','8课时 · 约15小时')">详情</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">区块链技术原理与应用</div><div style="font-size: 12px; color: var(--text-muted);">8课时 · 约8小时</div></div></div></td>
-                                        <td>王教授</td><td>视频课程</td><td>¥99</td><td><span class="status-badge active">已发布</span></td><td>2026-04-29 15:20</td>
+                                        <td>王教授</td><td>¥99</td><td><span class="status-badge active">已发布</span></td><td>2026-04-29 15:20</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('区块链技术原理与应用','王教授','¥99','已发布','8课时 · 约8小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习基础：神经网络入门到实践</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约4小时</div></div></div></td>
-                                        <td>元河</td><td>视频课程</td><td>免费</td><td><span class="status-badge active">已发布</span></td><td>2026-04-28 14:30</td>
+                                        <td>元河</td><td>免费</td><td><span class="status-badge active">已发布</span></td><td>2026-04-28 14:30</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('深度学习基础：神经网络入门到实践','元河','免费','已发布','12课时 · 约4小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">智能合约开发实战</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约12小时</div></div></div></td>
-                                        <td>李明</td><td>视频课程</td><td>¥129</td><td><span class="status-badge rejected">❌ 未通过</span></td><td>2026-04-29 09:15</td>
+                                        <td>李明</td><td>¥129</td><td><span class="status-badge rejected">❌ 未通过</span></td><td>2026-04-29 09:15</td>
                                         <td>
                                             <div class="action-btns">
                                                 <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('智能合约开发实战','李明','¥129','未通过','12课时 · 约12小时')">详情</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">Python机器学习实战</div><div style="font-size: 12px; color: var(--text-muted);">15课时 · 约10小时</div></div></div></td>
-                                        <td>张老师</td><td>视频课程</td><td>¥169</td><td><span class="status-badge active">已发布</span></td><td>2026-04-27 16:45</td>
+                                        <td>张老师</td><td>¥169</td><td><span class="status-badge active">已发布</span></td><td>2026-04-27 16:45</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('Python机器学习实战','张老师','¥169','已发布','15课时 · 约10小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">NLP自然语言处理入门</div><div style="font-size: 12px; color: var(--text-muted);">10课时 · 约6小时</div></div></div></td>
-                                        <td>陈博士</td><td>视频课程</td><td>¥139</td><td><span class="status-badge active">已发布</span></td><td>2026-04-26 11:20</td>
+                                        <td>陈博士</td><td>¥139</td><td><span class="status-badge active">已发布</span></td><td>2026-04-26 11:20</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('NLP自然语言处理入门','陈博士','¥139','已发布','10课时 · 约6小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">数据挖掘与分析</div><div style="font-size: 12px; color: var(--text-muted);">8课时 · 约5小时</div></div></div></td>
-                                        <td>刘教授</td><td>文本课程</td><td>¥79</td><td><span class="status-badge active">已发布</span></td><td>2026-04-25 09:30</td>
+                                        <td>刘教授</td><td>¥79</td><td><span class="status-badge active">已发布</span></td><td>2026-04-25 09:30</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('数据挖掘与分析','刘教授','¥79','已发布','8课时 · 约5小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">深度学习框架PyTorch详解</div><div style="font-size: 12px; color: var(--text-muted);">14课时 · 约12小时</div></div></div></td>
-                                        <td>赵讲师</td><td>视频课程</td><td>¥189</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-24 14:00</td>
+                                        <td>赵讲师</td><td>¥189</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-24 14:00</td>
                                         <td>
                                             <div class="action-btns">
                                                 <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
                                                 <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('深度学习框架PyTorch详解','赵讲师','¥189','待审核','14课时 · 约12小时')">详情</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad903?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">计算机视觉实战：图像识别</div><div style="font-size: 12px; color: var(--text-muted);">12课时 · 约8小时</div></div></div></td>
-                                        <td>孙博士</td><td>视频课程</td><td>¥159</td><td><span class="status-badge active">已发布</span></td><td>2026-04-23 10:15</td>
+                                        <td>孙博士</td><td>¥159</td><td><span class="status-badge active">已发布</span></td><td>2026-04-23 10:15</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('计算机视觉实战：图像识别','孙博士','¥159','已发布','12课时 · 约8小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">AI大模型应用开发</div><div style="font-size: 12px; color: var(--text-muted);">16课时 · 约15小时</div></div></div></td>
-                                        <td>周老师</td><td>视频课程</td><td>¥229</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-22 16:30</td>
+                                        <td>周老师</td><td>¥229</td><td><span class="status-badge pending">⏳ 待审核</span></td><td>2026-04-22 16:30</td>
                                         <td>
                                             <div class="action-btns">
                                                 <button class="btn btn-success" onclick="approveCourse(this)">通过</button>
                                                 <button class="btn btn-danger" onclick="showRejectModal(this)">拒绝</button>
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('AI大模型应用开发','周老师','¥229','待审核','16课时 · 约15小时')">详情</button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><div class="course-info"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=120&h=80&fit=crop" class="course-thumb"><div><div class="course-title">云计算与边缘计算</div><div style="font-size: 12px; color: var(--text-muted);">10课时 · 约7小时</div></div></div></td>
-                                        <td>吴教授</td><td>文本课程</td><td>¥99</td><td><span class="status-badge active">已发布</span></td><td>2026-04-21 11:45</td>
+                                        <td>吴教授</td><td>¥99</td><td><span class="status-badge active">已发布</span></td><td>2026-04-21 11:45</td>
                                         <td>
                                             <div class="action-btns">
-                                                <button class="btn btn-secondary" onclick="showEditCourseModal()">编辑</button>
+                                                <button class="btn btn-secondary" onclick="showCourseDetail('云计算与边缘计算','吴教授','¥99','已发布','10课时 · 约7小时')">详情</button>
                                                 <button class="btn btn-danger" onclick="deleteCourse()">下架</button>
                                             </div>
                                         </td>
@@ -397,11 +659,12 @@
                         <div class="table-container">
                             <table>
                                 <thead>
-                                    <tr><th>讲师用户名</th><th>职位</th><th>简介</th><th>课程数</th><th>学员数</th><th>总播放量</th><th>状态</th><th>操作</th></tr>
+                                    <tr><th>用户名</th><th>讲师名</th><th>职位</th><th>简介</th><th>课程数</th><th>学员数</th><th>总播放量</th><th>状态</th><th>操作</th></tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">元</div><div><div class="instructor-name">元河</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">元</div><span class="instructor-name">yuanhe</span></div></td>
+                                        <td><div><div class="instructor-name">元河</div><div style="font-size: 11px; color: var(--text-muted);">⭐ 明星讲师</div></div></td>
                                         <td>北京大学人工智能研究院研究员</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">深耕AI教育领域二十年，培养了数万名优秀AI工程师</td><td>12</td><td>4.2万</td><td>120万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -412,7 +675,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #E74C3C 0%, #ee5a24 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">王</div><div><div class="instructor-name">王教授</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #E74C3C 0%, #ee5a24 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">王</div><span class="instructor-name">wangjiaoshou</span></div></td>
+                                        <td><div><div class="instructor-name">王教授</div><div style="font-size: 11px; color: var(--text-muted);">⭐ 明星讲师</div></div></td>
                                         <td>清华大学区块链研究中心教授</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">主要从事区块链、分布式系统、密码学等领域的研究工作</td><td>28</td><td>5.6万</td><td>200万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -423,7 +687,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">李</div><div><div class="instructor-name">李明</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">李</div><span class="instructor-name">liming</span></div></td>
+                                        <td><div><div class="instructor-name">李明</div><div style="font-size: 11px; color: var(--text-muted);">普通讲师</div></div></td>
                                         <td>阿里巴巴达摩院算法专家</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专注于多模态学习和计算机视觉领域</td><td>15</td><td>3.2万</td><td>80万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -434,7 +699,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #27AE60 0%, #2ecc71 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">张</div><div><div class="instructor-name">张老师</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #27AE60 0%, #2ecc71 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">张</div><span class="instructor-name">zhanglaoshi</span></div></td>
+                                        <td><div><div class="instructor-name">张老师</div><div style="font-size: 11px; color: var(--text-muted);">普通讲师</div></div></td>
                                         <td>字节跳动AI实验室高级研究员</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专注于推荐系统和深度学习优化</td><td>8</td><td>2.1万</td><td>65万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -445,7 +711,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #F39C12 0%, #f1c40f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">陈</div><div><div class="instructor-name">陈博士</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #F39C12 0%, #f1c40f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">陈</div><span class="instructor-name">chenboshi</span></div></td>
+                                        <td><div><div class="instructor-name">陈博士</div><div style="font-size: 11px; color: var(--text-muted);">⭐ 明星讲师</div></div></td>
                                         <td>腾讯AI Lab首席科学家</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">在自然语言处理领域发表论文50余篇</td><td>22</td><td>4.8万</td><td>150万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -456,7 +723,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3498DB 0%, #2980b9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">刘</div><div><div class="instructor-name">刘教授</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3498DB 0%, #2980b9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">刘</div><span class="instructor-name">liujiaoshou</span></div></td>
+                                        <td><div><div class="instructor-name">刘教授</div><div style="font-size: 11px; color: var(--text-muted);">⭐ 明星讲师</div></div></td>
                                         <td>复旦大学计算机学院教授</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">从事数据挖掘和机器学习研究十余年</td><td>18</td><td>3.5万</td><td>110万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -467,7 +735,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">赵</div><div><div class="instructor-name">赵讲师</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #9B59B6 0%, #8e44ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">赵</div><span class="instructor-name">zhaojiangshi</span></div></td>
+                                        <td><div><div class="instructor-name">赵讲师</div><div style="font-size: 11px; color: var(--text-muted);">普通讲师</div></div></td>
                                         <td>华为云AI技术专家</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">专注于云原生AI应用开发</td><td>10</td><td>1.8万</td><td>45万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -478,7 +747,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #E74C3C 0%, #c0392b 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">孙</div><div><div class="instructor-name">孙博士</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #E74C3C 0%, #c0392b 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">孙</div><span class="instructor-name">sunboshi</span></div></td>
+                                        <td><div><div class="instructor-name">孙博士</div><div style="font-size: 11px; color: var(--text-muted);">普通讲师</div></div></td>
                                         <td>浙江大学人工智能研究所副研究员</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">研究方向为计算机视觉和图像处理</td><td>14</td><td>2.9万</td><td>78万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -489,7 +759,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">周</div><div><div class="instructor-name">周老师</div><div style="font-size: 12px; color: var(--text-muted);">普通讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">周</div><span class="instructor-name">zhoulaoshi</span></div></td>
+                                        <td><div><div class="instructor-name">周老师</div><div style="font-size: 11px; color: var(--text-muted);">普通讲师</div></div></td>
                                         <td>美团AI平台技术负责人</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">负责大规模AI系统架构设计</td><td>16</td><td>3.1万</td><td>92万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -500,7 +771,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><div class="instructor-info"><div style="width: 50px; height: 50px; background: linear-gradient(135deg, #27AE60 0%, #1e8449 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">吴</div><div><div class="instructor-name">吴教授</div><div style="font-size: 12px; color: var(--text-muted);">⭐ 明星讲师</div></div></div></td>
+                                        <td><div class="instructor-info"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, #27AE60 0%, #1e8449 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;">吴</div><span class="instructor-name">wujiaoshou</span></div></td>
+                                        <td><div><div class="instructor-name">吴教授</div><div style="font-size: 11px; color: var(--text-muted);">⭐ 明星讲师</div></div></td>
                                         <td>上海交通大学电子信息学院教授</td><td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">在智能系统领域有丰富的教学经验</td><td>25</td><td>4.5万</td><td>180万</td><td><span class="status-badge active">已认证</span></td>
                                         <td>
                                             <div class="action-btns">
@@ -665,31 +937,26 @@
             <div class="modal-header"><h3 id="instructorModalTitle">添加讲师</h3><button class="modal-close" onclick="closeModal('instructorModal')">✕</button></div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">讲师用户名</label>
+                    <label class="form-label">用户名</label>
                     <div class="searchable-select">
-                        <input type="text" class="form-input" id="instructorNameSearch" placeholder="搜索讲师用户名..." onkeyup="filterInstructorOptions()" onclick="showInstructorOptions()">
+                        <input type="text" class="form-input" id="instructorNameSearch" placeholder="搜索用户名..." onkeyup="filterInstructorOptions()" onclick="showInstructorOptions()">
                         <div id="instructorOptions" class="select-options" style="display: none;">
-                            <div class="option-item" onclick="selectInstructor('元河')">元河</div>
-                            <div class="option-item" onclick="selectInstructor('王教授')">王教授</div>
-                            <div class="option-item" onclick="selectInstructor('李明')">李明</div>
-                            <div class="option-item" onclick="selectInstructor('张老师')">张老师</div>
-                            <div class="option-item" onclick="selectInstructor('陈博士')">陈博士</div>
-                            <div class="option-item" onclick="selectInstructor('刘教授')">刘教授</div>
-                            <div class="option-item" onclick="selectInstructor('赵讲师')">赵讲师</div>
-                            <div class="option-item" onclick="selectInstructor('孙博士')">孙博士</div>
-                            <div class="option-item" onclick="selectInstructor('周老师')">周老师</div>
-                            <div class="option-item" onclick="selectInstructor('吴教授')">吴教授</div>
-                            <div class="option-item" onclick="selectInstructor('郑导师')">郑导师</div>
-                            <div class="option-item" onclick="selectInstructor('黄博士')">黄博士</div>
-                            <div class="option-item" onclick="selectInstructor('冯讲师')">冯讲师</div>
-                            <div class="option-item" onclick="selectInstructor('何老师')">何老师</div>
-                            <div class="option-item" onclick="selectInstructor('梁教授')">梁教授</div>
-                            <div class="option-item" onclick="selectInstructor('谢导师')">谢导师</div>
+                            <div class="option-item" onclick="selectInstructor('yuanhe','元河')">yuanhe（元河）</div>
+                            <div class="option-item" onclick="selectInstructor('wangjiaoshou','王教授')">wangjiaoshou（王教授）</div>
+                            <div class="option-item" onclick="selectInstructor('liming','李明')">liming（李明）</div>
+                            <div class="option-item" onclick="selectInstructor('zhanglaoshi','张老师')">zhanglaoshi（张老师）</div>
+                            <div class="option-item" onclick="selectInstructor('chenboshi','陈博士')">chenboshi（陈博士）</div>
+                            <div class="option-item" onclick="selectInstructor('liujiaoshou','刘教授')">liujiaoshou（刘教授）</div>
+                            <div class="option-item" onclick="selectInstructor('zhaojiangshi','赵讲师')">zhaojiangshi（赵讲师）</div>
+                            <div class="option-item" onclick="selectInstructor('sunboshi','孙博士')">sunboshi（孙博士）</div>
+                            <div class="option-item" onclick="selectInstructor('zhoulaoshi','周老师')">zhoulaoshi（周老师）</div>
+                            <div class="option-item" onclick="selectInstructor('wujiaoshou','吴教授')">wujiaoshou（吴教授）</div>
                         </div>
                     </div>
                     <input type="hidden" id="instructorName" value="">
                     <div id="selectedInstructor" style="margin-top: 8px; font-size: 13px; color: var(--primary-color); display: none;"></div>
                 </div>
+                <div class="form-group"><label class="form-label">讲师名</label><input type="text" class="form-input" id="instructorDisplayName" placeholder="请输入讲师显示名称（如：元河）"></div>
                 <div class="form-group"><label class="form-label">职位</label><input type="text" class="form-input" id="instructorPosition" placeholder="请输入职位（如：北京大学人工智能研究院研究员）"></div>
                 <div class="form-group"><label class="form-label">讲师简介</label><textarea class="form-input" id="instructorBio" placeholder="请输入讲师简介"></textarea></div>
                 <div class="form-group"><label class="form-label">状态</label>
@@ -706,25 +973,20 @@
         </div>
     </div>
 
-    <!-- Edit Course Modal -->
+    <!-- Course Detail Modal -->
     <div class="modal-overlay" id="editCourseModal">
         <div class="modal">
-            <div class="modal-header"><h3>编辑课程</h3><button class="modal-close" onclick="closeModal('editCourseModal')">✕</button></div>
+            <div class="modal-header"><h3>📋 课程详情</h3><button class="modal-close" onclick="closeModal('editCourseModal')">✕</button></div>
             <div class="modal-body">
-                <div class="form-group"><label class="form-label">课程名称</label><input type="text" class="form-input" id="editCourseName" placeholder="请输入课程名称"></div>
-                <div class="form-group"><label class="form-label">讲师</label><input type="text" class="form-input" id="editCourseInstructor" placeholder="请输入讲师姓名"></div>
-                <div class="form-group"><label class="form-label">课程类型</label>
-                    <select class="form-input" id="editCourseType">
-                        <option>视频课程</option>
-                        <option>文本课程</option>
-                    </select>
-                </div>
-                <div class="form-group"><label class="form-label">课程价格</label><input type="text" class="form-input" id="editCoursePrice" placeholder="请输入课程价格"></div>
-                <div class="form-group"><label class="form-label">课程简介</label><textarea class="form-input" id="editCourseDesc" placeholder="请输入课程简介"></textarea></div>
+                <div class="form-group"><label class="form-label">课程名称</label><div class="form-input" id="detailCourseName" style="background:rgba(255,255,255,0.02);cursor:default;"></div></div>
+                <div class="form-group"><label class="form-label">讲师</label><div class="form-input" id="detailCourseInstructor" style="background:rgba(255,255,255,0.02);cursor:default;"></div></div>
+                <div class="form-group"><label class="form-label">价格</label><div class="form-input" id="detailCoursePrice" style="background:rgba(255,255,255,0.02);cursor:default;"></div></div>
+                <div class="form-group"><label class="form-label">状态</label><div class="form-input" id="detailCourseStatus" style="background:rgba(255,255,255,0.02);cursor:default;"></div></div>
+                <div class="form-group"><label class="form-label">课时</label><div class="form-input" id="detailCourseLessons" style="background:rgba(255,255,255,0.02);cursor:default;"></div></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('editCourseModal')">取消</button>
-                <button class="btn btn-primary" onclick="saveCourseEdit()">保存</button>
+                <button class="btn btn-secondary" onclick="closeModal('editCourseModal')">关闭</button>
+                <button class="btn btn-primary" onclick="window.location.href='course-detail.html'">进入课程</button>
             </div>
         </div>
     </div>
@@ -811,6 +1073,7 @@
             document.getElementById('instructorNameSearch').value = '';
             document.getElementById('selectedInstructor').style.display = 'none';
             document.getElementById('instructorOptions').style.display = 'none';
+            document.getElementById('instructorDisplayName').value = '';
             document.getElementById('instructorPosition').value = '';
             document.getElementById('instructorBio').value = '';
             document.getElementById('instructorStatus').value = 'active';
@@ -820,12 +1083,15 @@
         function editInstructor(name) {
             document.getElementById('instructorModalTitle').textContent = '编辑讲师 - ' + name;
             document.getElementById('instructorName').value = name;
+            document.getElementById('instructorDisplayName').value = name;
             document.getElementById('instructorModal').classList.add('show');
         }
 
         function saveInstructor() {
             const name = document.getElementById('instructorName').value;
-            if (!name) { showToast('请输入讲师用户名', 'error'); return; }
+            if (!name) { showToast('请选择用户名', 'error'); return; }
+            const displayName = document.getElementById('instructorDisplayName').value;
+            if (!displayName) { showToast('请输入讲师名', 'error'); return; }
             const position = document.getElementById('instructorPosition').value;
             if (!position) { showToast('请输入职位', 'error'); return; }
             closeModal('instructorModal');
@@ -852,21 +1118,15 @@
             if (currentRejectRow) { currentRejectRow.remove(); currentRejectRow = null; }
         }
 
-        function showEditCourseModal() {
-            document.getElementById('editCourseName').value = '';
-            document.getElementById('editCourseInstructor').value = '';
-            document.getElementById('editCourseType').value = '视频课程';
-            document.getElementById('editCoursePrice').value = '';
-            document.getElementById('editCourseDesc').value = '';
+        function showCourseDetail(name, instructor, price, status, lessons) {
+            document.getElementById('detailCourseName').textContent = name;
+            document.getElementById('detailCourseInstructor').textContent = instructor;
+            document.getElementById('detailCoursePrice').textContent = price;
+            document.getElementById('detailCourseStatus').textContent = status;
+            document.getElementById('detailCourseLessons').textContent = lessons;
             document.getElementById('editCourseModal').classList.add('show');
         }
 
-        function saveCourseEdit() {
-            const name = document.getElementById('editCourseName').value;
-            if (!name) { showToast('请输入课程名称', 'error'); return; }
-            closeModal('editCourseModal');
-            showToast('课程编辑成功', 'success');
-        }
         function deleteCourse() { if (confirm('确定要下架该课程吗？')) showToast('课程已下架', 'success'); }
         function viewInstructorDetail() { window.location.href = 'instructor-detail.html?instructor=元河'; }
         function removeInstructor(name) {
@@ -891,12 +1151,13 @@
             });
         }
 
-        function selectInstructor(name) {
-            document.getElementById('instructorName').value = name;
-            document.getElementById('selectedInstructor').textContent = '已选择：' + name;
+        function selectInstructor(username, displayName) {
+            document.getElementById('instructorName').value = username;
+            document.getElementById('instructorNameSearch').value = username;
+            document.getElementById('instructorDisplayName').value = displayName || '';
+            document.getElementById('selectedInstructor').textContent = '已选择：' + username + '（' + (displayName || username) + '）';
             document.getElementById('selectedInstructor').style.display = 'block';
             document.getElementById('instructorOptions').style.display = 'none';
-            document.getElementById('instructorNameSearch').value = name;
         }
 
         function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的学习 - 魔乐学堂</title>
+    <style>
+        :root {
+            --dark-bg: #0a0e1a;
+            --dark-card: #111827;
+            --dark-border: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --primary-color: #00d4ff;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            --accent-color: #00ff88;
+            --danger-color: #f85149;
+            --warning-color: #ffb347;
+            --success-color: #00ff88;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(10, 14, 26, 0.95);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* 内容网格布局 */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+        }
+
+        .section-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-action {
+            color: var(--primary-color);
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .section-action:hover {
+            opacity: 0.8;
+        }
+
+        .section-body {
+            padding: 16px 20px;
+        }
+
+        /* Tab切换 */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        .tab {
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        /* 在学课程卡片 */
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .course-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .course-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-color: rgba(0, 212, 255, 0.2);
+            transform: translateX(4px);
+        }
+
+        .course-thumb {
+            width: 120px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .course-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .course-thumb-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .course-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .course-title-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-instructor-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .course-progress-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: 600;
+            min-width: 36px;
+        }
+
+        .course-chapter {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .course-action-btn {
+            align-self: flex-end;
+            padding: 6px 16px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .course-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 已完成课程 */
+        .completed-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px;
+            background: rgba(0, 255, 136, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .completed-item:hover {
+            background: rgba(0, 255, 136, 0.06);
+        }
+
+        .completed-badge {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+            align-self: center;
+        }
+
+        .completed-info {
+            flex: 1;
+        }
+
+        .completed-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .completed-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .completed-cert {
+            align-self: center;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 6px;
+            color: #1a1a2e;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .completed-cert:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .empty-btn {
+            padding: 10px 24px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .empty-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .course-item {
+                flex-direction: column;
+            }
+            .course-thumb {
+                width: 100%;
+                height: 140px;
+            }
+            .achievement-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">🎓 魔乐学堂</div>
+            <nav class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="#" class="active">我的学习</a>
+                <a href="instructors.html">讲师团队</a>
+            </nav>
+            <div>
+                <button class="back-btn" onclick="window.location.href='index.html'">← 返回首页</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1 class="page-title">📚 我的学习</h1>
+            <p class="page-subtitle">持续学习，不断进步</p>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="content-grid">
+            <!-- 左侧：课程列表 -->
+            <div class="left-column">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="tabs">
+                            <button class="tab active" onclick="switchCourseTab('learning')">学习中的课程 (5)</button>
+                            <button class="tab" onclick="switchCourseTab('completed')">已完成课程 (3)</button>
+                        </div>
+                        <!-- <span class="section-action">共 8 门</span> -->
+                    </div>
+                    <div class="section-body">
+                        
+                        <!-- 学习中的课程 -->
+                        <div class="course-list" id="learningCourses">
+                            <!-- 课程1 -->
+                            <div class="course-item" onclick="goToCourse('区块链技术创新高端峰会论坛')">
+                                <div class="course-thumb">
+                                    <div class="course-thumb-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">⛓️</div>
+                                </div>
+                                <div class="course-info">
+                                    <div>
+                                        <div class="course-title-text">区块链技术创新高端峰会论坛</div>
+                                        <div class="course-instructor-text">讲师：王教授</div>
+                                    </div>
+                                    <div>
+                                        <div class="course-progress-bar">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: 35%;"></div>
+                                            </div>
+                                            <span class="progress-text">35%</span>
+                                        </div>
+                                        <div class="course-chapter">学习至 第4章 · 共识机制详解</div>
+                                    </div>
+                                </div>
+                                <button class="course-action-btn" onclick="event.stopPropagation(); goToCourse('区块链技术创新高端峰会论坛')">继续学习</button>
+                            </div>
+
+                            <!-- 课程2 -->
+                            <div class="course-item" onclick="goToCourse('data-analysis')">
+                                <div class="course-thumb">
+                                    <div class="course-thumb-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">📊</div>
+                                </div>
+                                <div class="course-info">
+                                    <div>
+                                        <div class="course-title-text">数据分析实战指南</div>
+                                        <div class="course-instructor-text">讲师：元河</div>
+                                    </div>
+                                    <div>
+                                        <div class="course-progress-bar">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: 68%;"></div>
+                                            </div>
+                                            <span class="progress-text">68%</span>
+                                        </div>
+                                        <div class="course-chapter">学习至 第8章 · 数据建模</div>
+                                    </div>
+                                </div>
+                                <button class="course-action-btn" onclick="event.stopPropagation(); goToCourse('data-analysis')">继续学习</button>
+                            </div>
+
+                            <!-- 课程3 -->
+                            <div class="course-item" onclick="goToCourse('深度学习入门实战')">
+                                <div class="course-thumb">
+                                    <div class="course-thumb-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🧠</div>
+                                </div>
+                                <div class="course-info">
+                                    <div>
+                                        <div class="course-title-text">深度学习入门实战：理论与实践结合</div>
+                                        <div class="course-instructor-text">讲师：陈博士</div>
+                                    </div>
+                                    <div>
+                                        <div class="course-progress-bar">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: 15%;"></div>
+                                            </div>
+                                            <span class="progress-text">15%</span>
+                                        </div>
+                                        <div class="course-chapter">学习至 第2章 · Python基础回顾</div>
+                                    </div>
+                                </div>
+                                <button class="course-action-btn" onclick="event.stopPropagation(); goToCourse('深度学习入门实战')">继续学习</button>
+                            </div>
+
+                            <!-- 课程4 -->
+                            <div class="course-item" onclick="goToCourse('web前端开发实战')">
+                                <div class="course-thumb">
+                                    <div class="course-thumb-placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">💻</div>
+                                </div>
+                                <div class="course-info">
+                                    <div>
+                                        <div class="course-title-text">Web前端开发实战：从入门到精通</div>
+                                        <div class="course-instructor-text">讲师：周老师</div>
+                                    </div>
+                                    <div>
+                                        <div class="course-progress-bar">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: 82%;"></div>
+                                            </div>
+                                            <span class="progress-text">82%</span>
+                                        </div>
+                                        <div class="course-chapter">学习至 第12章 · React高级特性</div>
+                                    </div>
+                                </div>
+                                <button class="course-action-btn" onclick="event.stopPropagation(); goToCourse('web前端开发实战')">继续学习</button>
+                            </div>
+
+                            <!-- 课程5 -->
+                            <div class="course-item" onclick="goToCourse('Python机器学习实战')">
+                                <div class="course-thumb">
+                                    <div class="course-thumb-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">🐍</div>
+                                </div>
+                                <div class="course-info">
+                                    <div>
+                                        <div class="course-title-text">Python机器学习实战</div>
+                                        <div class="course-instructor-text">讲师：刘伟</div>
+                                    </div>
+                                    <div>
+                                        <div class="course-progress-bar">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: 50%;"></div>
+                                            </div>
+                                            <span class="progress-text">50%</span>
+                                        </div>
+                                        <div class="course-chapter">学习至 第6章 · 分类算法</div>
+                                    </div>
+                                </div>
+                                <button class="course-action-btn" onclick="event.stopPropagation(); goToCourse('Python机器学习实战')">继续学习</button>
+                            </div>
+                        </div>
+
+                        <!-- 已完成课程 -->
+                        <div class="completed-list" id="completedCourses" style="display: none;">
+                            <div class="completed-item">
+                                <div class="completed-badge">✓</div>
+                                <div class="completed-info">
+                                    <div class="completed-title">自然语言处理基础</div>
+                                    <div class="completed-meta">讲师：李明 · 完成于 2024-01-15 · 获得证书</div>
+                                </div>
+                                <button class="completed-cert" onclick="downloadCert('nlp')">🎓 证书</button>
+                            </div>
+                            <div class="completed-item">
+                                <div class="completed-badge">✓</div>
+                                <div class="completed-info">
+                                    <div class="completed-title">计算机视觉入门教程</div>
+                                    <div class="completed-meta">讲师：历波 · 完成于 2024-01-08 · 获得证书</div>
+                                </div>
+                                <button class="completed-cert" onclick="downloadCert('cv')">🎓 证书</button>
+                            </div>
+                            <div class="completed-item">
+                                <div class="completed-badge">✓</div>
+                                <div class="completed-info">
+                                    <div class="completed-title">SmolTalk Chinese 数据集应用</div>
+                                    <div class="completed-meta">讲师：张华 · 完成于 2023-12-20 · 获得证书</div>
+                                </div>
+                                <button class="completed-cert" onclick="downloadCert('smoltalk')">🎓 证书</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：学习数据 -->
+            <div class="right-column">
+                <!-- 连续学习天数 -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3 class="section-title">� 连续学习</h3>
+                    </div>
+                    <div class="section-body">
+                        <div style="text-align: center; padding: 20px 0;">
+                            <div style="font-size: 48px; font-weight: 700; color: #ff6b6b; margin-bottom: 8px;">18</div>
+                            <div style="font-size: 14px; color: var(--text-muted);">连续学习天数</div>
+                            <div style="margin-top: 16px; padding: 12px; background: rgba(255, 107, 107, 0.1); border-radius: 10px;">
+                                <div style="font-size: 12px; color: #ff6b6b;">🔥 保持学习热情，继续加油！</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 累计学习时长 -->
+                <div class="section-card" style="margin-top: 16px;">
+                    <div class="section-header">
+                        <h3 class="section-title">⏱️ 累计学习时长</h3>
+                    </div>
+                    <div class="section-body">
+                        <div style="text-align: center; padding: 20px 0;">
+                            <div style="font-size: 48px; font-weight: 700; color: var(--primary-color); margin-bottom: 8px;">126h</div>
+                            <div style="font-size: 14px; color: var(--text-muted);">总学习时长</div>
+                            <div style="margin-top: 16px; display: flex; justify-content: center; gap: 24px;">
+                                <div class="stat-mini">
+                                    <div style="font-size: 20px; font-weight: 600; color: #00ff88;">89</div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">完成章节</div>
+                                </div>
+                                <div class="stat-mini">
+                                    <div style="font-size: 20px; font-weight: 600; color: #8b5cf6;">8</div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">学习课程</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function goToCourse(courseKey) {
+            window.location.href = `course-detail.html?course=${encodeURIComponent(courseKey)}`;
+        }
+
+        function switchCourseTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const learningCourses = document.getElementById('learningCourses');
+            const completedCourses = document.getElementById('completedCourses');
+
+            if (tab === 'learning') {
+                learningCourses.style.display = 'flex';
+                completedCourses.style.display = 'none';
+            } else if (tab === 'completed') {
+                learningCourses.style.display = 'none';
+                completedCourses.style.display = 'block';
+            }
+        }
+
+        function downloadCert(course) {
+            const certContent = `
+===========================================================
+                课程完成证书
+===========================================================
+
+恭喜您完成以下课程学习：
+
+课程名称：${course === 'nlp' ? '自然语言处理基础' : course === 'cv' ? '计算机视觉入门教程' : 'SmolTalk Chinese 数据集应用'}
+完成时间：${course === 'nlp' ? '2024-01-15' : course === 'cv' ? '2024-01-08' : '2023-12-20'}
+学习状态：已完成
+
+===========================================================
+                魔乐学堂 MOLE LEARNING
+===========================================================
+            `;
+            const blob = new Blob([certContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `证书_${course}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            alert('证书下载成功！');
+        }
+
+    </script>
+</body>
+</html>

@@ -536,10 +536,20 @@
         <div class="form-hint">支持 Markdown 语法，代码块会自动高亮</div>
       </div>
       <div class="form-group">
-        <label class="form-label">附件上传</label>
+        <label class="form-label">文档上传（PDF）</label>
+        <div class="upload-zone" id="pdfUploadZone" style="padding:24px;">
+          <div class="icon">📕</div>
+          <div class="text">上传 PDF 文档</div>
+          <div class="hint">支持 PDF 格式，单文件最大 50MB</div>
+          <input type="file" accept=".pdf" onchange="handlePdfUpload(this)">
+        </div>
+        <div class="file-list" id="pdfFileList"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">其他附件</label>
         <div class="upload-zone" style="padding:24px;">
           <div class="icon">📎</div>
-          <div class="text">上传配套资料（PDF、代码、数据集等）</div>
+          <div class="text">上传配套资料（代码、数据集等）</div>
           <div class="hint">支持任意格式，单文件最大 100MB</div>
           <input type="file" multiple onchange="handle附件Upload(this)">
         </div>
@@ -805,6 +815,29 @@ function renderVideoList() {
       <span class="file-remove" onclick="videoFiles.splice(${i},1);renderVideoList()">✕</span>
     </div>
   `).join('');
+}
+
+// PDF Upload
+function handlePdfUpload(input) {
+  const list = document.getElementById('pdfFileList');
+  // Clear existing PDF files (only allow one PDF)
+  list.innerHTML = '';
+  
+  for (const file of input.files) {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
+      <span class="file-icon">📕</span>
+      <div class="file-info">
+        <div class="file-name">${file.name}</div>
+        <div class="file-size">${(file.size/1024/1024).toFixed(1)} MB</div>
+      </div>
+      <span class="file-status done">✓ 就绪</span>
+      <span class="file-remove" onclick="this.closest('.file-item').remove()">✕</span>
+    `;
+    list.appendChild(item);
+  }
+  input.value = '';
 }
 
 function handle附件Upload(input) {

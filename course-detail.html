@@ -25,6 +25,28 @@
             box-sizing: border-box;
         }
 
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--dark-bg);
@@ -436,6 +458,603 @@
             font-size: 18px;
         }
 
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-label .required {
+            color: #f85149;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            resize: vertical;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        .form-textarea:focus {
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+
+        .form-select:focus {
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        /* Settings Tab */
+        .settings-section {
+            margin-bottom: 28px;
+        }
+
+        .settings-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+        }
+
+        .settings-form-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .settings-cover-zone {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .settings-cover-preview {
+            width: 160px;
+            height: 90px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--dark-border);
+        }
+
+        .settings-cover-btn {
+            padding: 8px 16px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            color: var(--primary-color);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-cover-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .outline-editor .outline-chapter {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .outline-chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .outline-chapter-num {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .outline-chapter-input {
+            flex: 1;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .outline-chapter-input:focus {
+            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .outline-chapter-delete {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .outline-chapter-delete:hover {
+            color: #f85149;
+        }
+
+        .outline-lesson-list {
+            padding: 8px 16px;
+        }
+
+        .outline-lesson-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .outline-lesson-row:last-child {
+            border-bottom: none;
+        }
+
+        .outline-lesson-icon {
+            font-size: 12px;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .outline-lesson-input {
+            flex: 1;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-size: 13px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .outline-lesson-input:focus {
+            border-color: rgba(0, 212, 255, 0.2);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .outline-lesson-upload {
+            padding: 4px 10px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 6px;
+            color: var(--primary-color);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .outline-lesson-upload:hover {
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .outline-lesson-delete {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 4px;
+            transition: color 0.2s;
+        }
+
+        .outline-lesson-delete:hover {
+            color: #f85149;
+        }
+
+        .outline-lesson-file {
+            font-size: 11px;
+            color: var(--text-muted);
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .outline-upload-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 140px;
+        }
+
+        .outline-upload-progress .progress-track {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .outline-upload-progress .progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .outline-upload-progress .progress-text {
+            font-size: 11px;
+            color: var(--primary-color);
+            white-space: nowrap;
+            min-width: 36px;
+            text-align: right;
+        }
+
+        .outline-upload-done {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #00ff88;
+        }
+
+        .add-outline-lesson-btn {
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-outline-lesson-btn:hover {
+            color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .add-outline-lesson-wrap {
+            position: relative;
+        }
+
+        .add-lesson-menu {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            flex-direction: column;
+            background: #1e2a3a;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 10;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+            min-width: 140px;
+            margin-bottom: 4px;
+        }
+
+        .add-lesson-option {
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .add-lesson-option:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .add-chapter-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px dashed rgba(0, 212, 255, 0.25);
+            border-radius: 10px;
+            color: var(--primary-color);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-chapter-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .price-type-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .price-option {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .price-option:has(input:checked) {
+            border-color: rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .price-option input {
+            display: none;
+        }
+
+        .price-option-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .price-option-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .settings-toggle-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .settings-toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .settings-toggle-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .toggle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .toggle-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .toggle-switch {
+            appearance: none;
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch:checked {
+            background: var(--primary-color);
+        }
+
+        .toggle-switch:checked::before {
+            left: 23px;
+        }
+
+        .trial-chapters-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .trial-chapters-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .trial-chapters-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .trial-chapter-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .trial-chapter-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .trial-chapter-item input[type="checkbox"] {
+            accent-color: var(--primary-color);
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .trial-chapter-item .trial-chapter-num {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.1);
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .trial-chapter-item .trial-chapter-title {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .settings-agreement {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .settings-agreement input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--primary-color);
+        }
+
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .settings-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-btn.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+        }
+
+        .settings-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-btn.primary {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--primary-color);
+        }
+
+        .settings-btn.primary:hover {
+            background: rgba(0, 212, 255, 0.25);
+        }
+
+        .settings-btn.success {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000;
+        }
+
+        .settings-btn.success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
         #tabDetail p {
             color: var(--text-secondary);
             line-height: 1.7;
@@ -577,6 +1196,886 @@
             font-size: 12px;
         }
 
+        /* 课程作业 */
+        .homework-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .homework-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .homework-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .homework-tab {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .homework-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .homework-tab.active {
+            background: var(--gradient-primary);
+            border-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .homework-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .homework-list, .submission-list, .all-submission-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .homework-item {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s;
+        }
+
+        .homework-item:hover {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .homework-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .homework-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .homework-status {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-color);
+        }
+
+        .homework-status.draft {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+
+        .homework-status.closed {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--danger-color);
+        }
+
+        .homework-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .homework-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .homework-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .submitted-tag {
+            display: inline-block;
+            font-size: 12px;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 6px;
+            padding: 4px 10px;
+            margin-bottom: 12px;
+        }
+
+        .homework-create-bar {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .homework-create-fields {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .homework-create-title {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .homework-create-title:focus {
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        .homework-editor-wrap {
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .homework-editor-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .het-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .het-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .het-btn.het-upload {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .het-btn.het-upload:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .het-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--dark-border);
+            margin: 0 3px;
+        }
+
+        .homework-editor-body {
+            min-height: 80px;
+            max-height: 160px;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.15);
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-y: auto;
+            outline: none;
+        }
+
+        .homework-editor-body:focus {
+            background: rgba(0, 0, 0, 0.22);
+        }
+
+        .homework-editor-body:empty::before {
+            content: attr(data-placeholder);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .homework-editor-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 10px;
+            border-top: 1px solid var(--dark-border);
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .homework-editor-files:empty {
+            display: none;
+        }
+
+        .hw-file-tag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 5px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .hw-file-tag .hw-file-remove {
+            background: none;
+            border: none;
+            color: #f85149;
+            cursor: pointer;
+            font-size: 11px;
+            padding: 0 2px;
+        }
+
+        .homework-create-bottom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .homework-deadline-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .homework-create-deadline {
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--dark-border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-size: 12px;
+            outline: none;
+        }
+
+        .homework-publish-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            align-self: flex-end;
+        }
+
+        .homework-publish-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .homework-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .homework-action-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .homework-action-btn.primary {
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        .homework-action-btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        .homework-action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .homework-action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 作业提交表单 */
+        .submission-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .submission-form textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .submission-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submission-upload {
+            border: 2px dashed var(--dark-border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .submission-upload:hover {
+            border-color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .submission-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 13px;
+        }
+
+        /* 提交记录 */
+        .submission-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .submission-homework-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .submission-time {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .submission-content {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+        }
+
+        .submission-files {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .submission-file {
+            padding: 4px 10px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--primary-color);
+        }
+
+        .submission-status {
+            margin-top: 8px;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .submission-status.pending {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+
+        .submission-status.approved {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-color);
+        }
+
+        .submission-status.rejected {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--danger-color);
+        }
+
+        .certificate-btn {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: none;
+            border-radius: 8px;
+            color: #1a1a2e;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .certificate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 全部提交列表（讲师视角） */
+        .all-submission-item {
+            display: flex;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            padding: 14px;
+            align-items: center;
+        }
+
+        .submitter-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .submitter-info {
+            flex: 1;
+        }
+
+        .submitter-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .submitter-homework {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .submitter-time {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .review-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .review-btn.approve {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-color);
+        }
+
+        .review-btn.approve:hover {
+            background: rgba(0, 255, 136, 0.25);
+        }
+
+        .review-btn.reject {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--danger-color);
+        }
+
+        .review-btn.reject:hover {
+            background: rgba(248, 81, 73, 0.25);
+        }
+
+        .review-btn.view {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .review-btn.view:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--dark-border);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .modal-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--danger-color);
+        }
+
+        .modal-body {
+            padding: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn.cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-btn.approve {
+            background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .modal-btn.approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .modal-btn.reject {
+            background: linear-gradient(135deg, #f85149 0%, #ff7b72 100%);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .modal-btn.reject:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(248, 81, 73, 0.3);
+        }
+
+        /* 提交作业弹窗样式 */
+        .submit-modal {
+            max-width: 700px;
+            max-height: 85vh;
+        }
+
+        .submit-editor-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--dark-border);
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .toolbar-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.2);
+            color: var(--primary-color);
+        }
+
+        .toolbar-btn.upload-btn {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .toolbar-btn.upload-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .toolbar-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--dark-border);
+            margin: 0 4px;
+        }
+
+        .submit-editor {
+            min-height: 200px;
+            max-height: 300px;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dark-border);
+            border-radius: 0 0 10px 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-y: auto;
+            outline: none;
+        }
+
+        .submit-editor:focus {
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        .submit-editor:empty::before {
+            content: attr(data-placeholder);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .upload-file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .upload-file-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 212, 255, 0.06);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .upload-file-item .file-icon {
+            font-size: 16px;
+        }
+
+        .upload-file-item .file-name {
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .upload-file-item .file-size {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .upload-file-item .file-remove {
+            background: rgba(248, 81, 73, 0.1);
+            border: none;
+            color: #f85149;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .upload-file-item .file-remove:hover {
+            background: rgba(248, 81, 73, 0.25);
+        }
+
+        .upload-file-item .file-preview {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        /* 提交详情内容样式 */
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            word-break: break-word;
+        }
+
+        .detail-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .detail-file {
+            padding: 6px 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+
         /* Discussion Tab */
         .discussion-section {
             display: flex;
@@ -709,6 +2208,159 @@
         }
 
         .comment-action:hover {
+            color: var(--primary-color);
+        }
+
+        .comment-action.liked {
+            color: var(--primary-color);
+        }
+
+        /* 回复输入框 */
+        .reply-input-container {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .reply-input-container textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 13px;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .reply-input-container textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .reply-input-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .reply-cancel-btn {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reply-cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .reply-submit-btn {
+            padding: 6px 14px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reply-submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 回复列表 */
+        .reply-list {
+            margin-top: 12px;
+            padding-left: 12px;
+            border-left: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .reply-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .reply-item:last-child {
+            border-bottom: none;
+        }
+
+        .reply-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .reply-content {
+            flex: 1;
+        }
+
+        .reply-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .reply-author {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .reply-date {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .reply-text {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .reply-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .reply-action {
+            color: var(--text-muted);
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s;
+        }
+
+        .reply-action:hover {
+            color: var(--primary-color);
+        }
+
+        .reply-action.liked {
             color: var(--primary-color);
         }
 
@@ -1231,6 +2883,7 @@
                 <div class="content-tabs">
                     <button class="tab-btn active" onclick="showTab('detail')">📚 课程详情</button>
                     <button class="tab-btn" onclick="showTab('discussion')">💬 讨论区</button>
+                    <button class="tab-btn" onclick="showTab('settings')">⚙️ 设置</button>
                 </div>
 
                 <div class="tab-content">
@@ -1245,6 +2898,152 @@
                                 <!-- Chapters will be populated dynamically -->
                             </div>
                         </div>
+
+                        <div class="homework-section">
+                            <h4>📝 课程作业</h4>
+                            <div class="homework-tabs">
+                                <button class="homework-tab active" onclick="showHomeworkTab('userPublished')">已发布作业（用户）</button>
+                                <button class="homework-tab" onclick="showHomeworkTab('published')">已发布作业（讲师）</button>
+                                <button class="homework-tab" onclick="showHomeworkTab('submitted')">我的提交</button>
+                                <button class="homework-tab" onclick="showHomeworkTab('all-submissions')" style="display:none;">全部提交</button>
+                            </div>
+                            
+                            <!-- 已发布作业（用户） -->
+                            <div id="homeworkUserPublished" class="homework-content">
+                                <div class="homework-list" id="userHomeworkList">
+                                    <!-- User homework items will be populated dynamically -->
+                                </div>
+                            </div>
+                            
+                            <!-- 已发布作业 -->
+                            <div id="homeworkPublished" class="homework-content" style="display:none;">
+                                <div class="homework-create-bar">
+                                    <div class="homework-create-fields">
+                                        <input class="homework-create-title" id="newHomeworkTitle" placeholder="输入作业标题...">
+                                        <div class="homework-editor-wrap">
+                                            <div class="homework-editor-toolbar">
+                                                <button type="button" class="het-btn" onclick="document.execCommand('bold')" title="加粗"><b>B</b></button>
+                                                <button type="button" class="het-btn" onclick="document.execCommand('italic')" title="斜体"><i>I</i></button>
+                                                <button type="button" class="het-btn" onclick="document.execCommand('underline')" title="下划线"><u>U</u></button>
+                                                <div class="het-divider"></div>
+                                                <button type="button" class="het-btn" onclick="document.execCommand('insertUnorderedList')" title="列表">• 列表</button>
+                                                <div class="het-divider"></div>
+                                                <button type="button" class="het-btn het-upload" onclick="document.getElementById('hwCreateFileInput').click()">＋ 附件</button>
+                                            </div>
+                                            <div class="homework-editor-body" id="newHomeworkEditor" contenteditable="true" data-placeholder="输入作业描述..."></div>
+                                            <div class="homework-editor-files" id="hwCreateFileList"></div>
+                                            <input type="file" id="hwCreateFileInput" multiple accept="image/*,.pdf,.doc,.docx,.zip,.rar" style="display:none;" onchange="handleHwCreateFile(this)">
+                                        </div>
+                                        <div class="homework-create-bottom">
+                                            <span class="homework-deadline-label">截止日期</span>
+                                            <input type="date" class="homework-create-deadline" id="newHomeworkDeadline">
+                                        </div>
+                                    </div>
+                                    <button class="homework-publish-btn" onclick="publishNewHomework()">确认发布</button>
+                                </div>
+                                <div class="homework-list" id="homeworkList">
+                                    <!-- Homework items will be populated dynamically -->
+                                </div>
+                            </div>
+                            
+                            <!-- 我的提交 -->
+                            <div id="homeworkSubmitted" class="homework-content" style="display:none;">
+                                <div class="submission-list" id="submissionList">
+                                    <!-- Submissions will be populated dynamically -->
+                                </div>
+                            </div>
+                            
+                            <!-- 全部提交（讲师视角） -->
+                            <div id="homeworkAllSubmissions" class="homework-content" style="display:none;">
+                                <div class="all-submission-list" id="allSubmissionList">
+                                    <!-- All submissions will be populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业提交详情弹窗 -->
+                    <div id="submissionDetailModal" class="modal-overlay" style="display:none;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 id="modalTitle">作业提交详情</h3>
+                                <button class="modal-close" onclick="closeSubmissionModal()">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="submissionDetailContent">
+                                    <!-- 提交详情内容 -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="modal-btn cancel" onclick="closeSubmissionModal()">关闭</button>
+                                <button class="modal-btn approve" onclick="approveSubmission()">✅ 通过</button>
+                                <button class="modal-btn reject" onclick="rejectSubmission()">❌ 不通过</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 提交作业弹窗 -->
+                    <div id="homeworkSubmitModal" class="modal-overlay" style="display:none;">
+                        <div class="modal-content submit-modal">
+                            <div class="modal-header">
+                                <h3 id="submitModalTitle">📝 提交作业</h3>
+                                <button class="modal-close" onclick="closeSubmitModal()">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="submit-editor-section">
+                                    <div class="editor-toolbar">
+                                        <button type="button" class="toolbar-btn" onclick="document.execCommand('bold')" title="加粗"><b>B</b></button>
+                                        <button type="button" class="toolbar-btn" onclick="document.execCommand('italic')" title="斜体"><i>I</i></button>
+                                        <button type="button" class="toolbar-btn" onclick="document.execCommand('underline')" title="下划线"><u>U</u></button>
+                                        <div class="toolbar-divider"></div>
+                                        <button type="button" class="toolbar-btn" onclick="document.execCommand('insertUnorderedList')" title="无序列表">• 列表</button>
+                                        <button type="button" class="toolbar-btn" onclick="document.execCommand('insertOrderedList')" title="有序列表">1. 列表</button>
+                                        <div class="toolbar-divider"></div>
+                                        <button type="button" class="toolbar-btn upload-btn" onclick="triggerFileUpload()" title="上传附件">
+                                            ＋ 附件
+                                        </button>
+                                    </div>
+                                    <div id="submitEditor" class="submit-editor" contenteditable="true" data-placeholder="请输入作业内容..."></div>
+                                    <div class="upload-file-list" id="uploadFileList"></div>
+                                    <input type="file" id="homeworkFileInput" multiple accept="image/*,.pdf,.doc,.docx,.zip,.rar" style="display:none;" onchange="handleHomeworkFileSelect(this)">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="modal-btn cancel" onclick="closeSubmitModal()">取消</button>
+                                <button class="modal-btn approve" onclick="confirmSubmitHomework()">✅ 确认提交</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 实名认证弹窗 -->
+                    <div id="identityVerifyModal" class="modal-overlay" style="display:none;">
+                        <div class="modal-content" style="max-width:480px;">
+                            <div class="modal-header">
+                                <h3>🪪 实名认证</h3>
+                                <button class="modal-close" onclick="closeIdentityModal()">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;line-height:1.6;">
+                                    下载证书前需要完成实名认证，请填写以下信息以核实身份。
+                                </p>
+                                <div class="form-group">
+                                    <label class="form-label">真实姓名 <span class="required">*</span></label>
+                                    <input class="form-input" id="identityName" placeholder="请输入真实姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">身份证号 <span class="required">*</span></label>
+                                    <input class="form-input" id="identityCard" placeholder="请输入18位身份证号码" maxlength="18">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">手机号码</label>
+                                    <input class="form-input" id="identityPhone" placeholder="请输入手机号码" maxlength="11">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="modal-btn cancel" onclick="closeIdentityModal()">取消</button>
+                                <button class="modal-btn approve" onclick="confirmIdentity()">✅ 确认认证</button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Discussion Tab -->
@@ -1252,13 +3051,131 @@
                         <div class="discussion-section">
                             <div class="comment-input">
                                 <div class="comment-avatar-small">我</div>
-                                <textarea placeholder="发表您的看法..."></textarea>
-                                <button class="submit-comment-btn">发布</button>
+                                <textarea id="commentInput" placeholder="发表您的看法..."></textarea>
+                                <button class="submit-comment-btn" onclick="publishComment()">发布</button>
                             </div>
 
                             <div class="comment-list" id="commentList">
                                 <!-- Comments will be populated dynamically -->
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div id="tabSettings" class="tab-pane">
+                        <div class="settings-section">
+                            <h3>📋 基本信息</h3>
+                            <div class="settings-form-card">
+                                <div class="form-group">
+                                    <label class="form-label">课程封面</label>
+                                    <div class="settings-cover-zone">
+                                        <img class="settings-cover-preview" id="settingsCoverPreview" src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400" alt="cover">
+                                        <button class="settings-cover-btn" onclick="document.getElementById('settingsCoverInput').click()">更换封面</button>
+                                        <input type="file" id="settingsCoverInput" accept="image/*" style="display:none;" onchange="updateSettingsCover(this)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">课程标题</label>
+                                    <input class="form-input" id="settingsTitle" value="科技创造未来 区块链技术创新高端峰会论坛">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">课程简介</label>
+                                    <textarea class="form-textarea" id="settingsDesc" rows="4">本课程邀请了多位区块链领域的专家学者，共同探讨区块链技术的前沿发展。课程内容涵盖区块链基础原理、智能合约开发、去中心化应用(DApp)构建等核心知识。通过实际案例分析和现场演示，帮助学员全面了解区块链技术的应用场景和商业价值。</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">难度级别</label>
+                                    <select class="form-select" id="settingsDifficulty">
+                                        <option value="community">社区教程</option>
+                                        <option value="beginner">入门级</option>
+                                        <option value="intermediate" selected>进阶级</option>
+                                        <option value="master">大师级</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>📖 课程大纲编辑</h3>
+                            <div class="settings-form-card">
+                                <div class="outline-editor" id="outlineEditor">
+                                    <!-- Dynamic outline editor -->
+                                </div>
+                                <button class="add-chapter-btn" onclick="addOutlineChapter()">+ 添加章节</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>💰 定价设置</h3>
+                            <div class="settings-form-card">
+                                <div class="price-type-selector">
+                                    <label class="price-option">
+                                        <input type="radio" name="priceType" value="free" checked onchange="togglePriceInput(false)">
+                                        <span class="price-option-label">🆓 免费公开</span>
+                                        <span class="price-option-desc">所有人可免费学习</span>
+                                    </label>
+                                    <label class="price-option">
+                                        <input type="radio" name="priceType" value="paid" onchange="togglePriceInput(true)">
+                                        <span class="price-option-label">💰 付费课程</span>
+                                        <span class="price-option-desc">设置课程售价</span>
+                                    </label>
+                                </div>
+                                <div class="form-group" id="settingsPriceGroup" style="display:none;">
+                                    <label class="form-label">课程售价 (¥)</label>
+                                    <input class="form-input" id="settingsPrice" type="number" placeholder="输入价格" style="max-width:180px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>🚀 发布选项</h3>
+                            <div class="settings-form-card">
+                                <div class="settings-toggle-group">
+                                    <label class="settings-toggle-item">
+                                        <span class="toggle-info">
+                                            <span class="toggle-label">申请公开</span>
+                                            <span class="toggle-desc">提交平台审核后对所有用户可见</span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-switch" checked>
+                                    </label>
+                                    <label class="settings-toggle-item">
+                                        <span class="toggle-info">
+                                            <span class="toggle-label">允许学员评论</span>
+                                            <span class="toggle-desc">学员可在讨论区发表评论和回复</span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-switch" checked>
+                                    </label>
+                                    <label class="settings-toggle-item">
+                                        <span class="toggle-info">
+                                            <span class="toggle-label">启用课程作业</span>
+                                            <span class="toggle-desc">开启后可为课程添加作业任务</span>
+                                        </span>
+                                        <input type="checkbox" class="toggle-switch" checked>
+                                    </label>
+                                </div>
+                                <div class="trial-chapters-section">
+                                    <label class="form-label" style="margin-top:16px;">免费试看章节</label>
+                                    <p class="trial-chapters-hint">选择允许未购买学员免费观看的章节（可多选）</p>
+                                    <div class="trial-chapters-list" id="trialChaptersList">
+                                        <!-- Dynamically populated -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>📜 发布协议</h3>
+                            <div class="settings-form-card">
+                                <label class="settings-agreement">
+                                    <input type="checkbox" id="settingsAgreement">
+                                    <span>我已阅读并同意《课程发布协议》，保证课程内容原创且符合平台规范</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="settings-actions">
+                            <button class="settings-btn secondary" onclick="showTab('detail')">取消</button>
+                            <button class="settings-btn primary" onclick="saveSettings()">💾 保存设置</button>
+                            <button class="settings-btn success" onclick="publishCourse()">🚀 发布课程</button>
                         </div>
                     </div>
                 </div>
@@ -1338,9 +3255,38 @@
                     }
                 ],
                 comments: [
-                    { author: '张同学', date: '2024-01-15', text: '课程内容非常详实，讲师讲解清晰，收获很大！', likes: 28 },
-                    { author: '李工程师', date: '2024-01-12', text: '案例分析很实用，对实际工作帮助很大。', likes: 15 },
-                    { author: '王经理', date: '2024-01-10', text: '作为入门课程非常合适，推荐给大家。', likes: 32 }
+                    { 
+                        id: 'c1',
+                        author: '张同学', 
+                        date: '2024-01-15', 
+                        text: '课程内容非常详实，讲师讲解清晰，收获很大！', 
+                        likes: 28,
+                        liked: false,
+                        replies: [
+                            { id: 'r1', author: '王教授', date: '2024-01-15', text: '感谢支持，欢迎继续学习后续课程！', likes: 12 },
+                            { id: 'r2', author: '李同学', date: '2024-01-16', text: '同感，课程确实很棒！', likes: 5 }
+                        ]
+                    },
+                    { 
+                        id: 'c2',
+                        author: '李工程师', 
+                        date: '2024-01-12', 
+                        text: '案例分析很实用，对实际工作帮助很大。', 
+                        likes: 15,
+                        liked: false,
+                        replies: []
+                    },
+                    { 
+                        id: 'c3',
+                        author: '王经理', 
+                        date: '2024-01-10', 
+                        text: '作为入门课程非常合适，推荐给大家。', 
+                        likes: 32,
+                        liked: false,
+                        replies: [
+                            { id: 'r3', author: '赵同学', date: '2024-01-11', text: '谢谢推荐，已加入学习！', likes: 8 }
+                        ]
+                    }
                 ],
                 recommendedCourses: [
                     { title: '深度学习基础：神经网络入门到实践', author: '元河', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '4200' },
@@ -1357,7 +3303,63 @@
                     title: '清华大学区块链研究中心主任',
                     courses: 28,
                     students: '5.6万'
-                }
+                },
+                homework: [
+                    {
+                        id: 'hw1',
+                        title: '区块链技术调研报告',
+                        description: '请调研并撰写一份关于区块链技术在金融领域应用的调研报告，要求不少于2000字，包含至少3个实际应用案例分析。',
+                        deadline: '2024-02-28',
+                        status: 'active',
+                        submissions: 156
+                    },
+                    {
+                        id: 'hw2',
+                        title: '智能合约开发实践',
+                        description: '使用Solidity编写一个简单的去中心化投票智能合约，要求支持投票、查询投票结果等功能。',
+                        deadline: '2024-03-15',
+                        status: 'active',
+                        submissions: 89
+                    },
+                    {
+                        id: 'hw3',
+                        title: 'DApp前端界面设计',
+                        description: '为您的智能合约设计一个简洁美观的DApp前端界面，实现投票交互功能。',
+                        deadline: '2024-03-30',
+                        status: 'draft',
+                        submissions: 0
+                    }
+                ],
+                submissions: [
+                    {
+                        id: 'sub1',
+                        homeworkId: 'hw1',
+                        homeworkTitle: '区块链技术调研报告',
+                        content: '区块链技术在金融领域的应用越来越广泛，本文将从以下几个方面进行分析...',
+                        files: ['blockchain_report.pdf'],
+                        submitTime: '2024-02-20 14:30',
+                        status: 'approved',
+                        score: 92,
+                        feedback: '报告内容详实，案例分析到位，建议增加更多数据支撑。'
+                    },
+                    {
+                        id: 'sub2',
+                        homeworkId: 'hw2',
+                        homeworkTitle: '智能合约开发实践',
+                        content: '以下是我编写的投票智能合约代码...',
+                        files: ['Voting.sol', 'README.md'],
+                        submitTime: '2024-03-10 09:15',
+                        status: 'pending'
+                    }
+                ],
+                allSubmissions: [
+                    { id: 's1', studentName: '张小明', homeworkTitle: '区块链技术调研报告', submitTime: '2024-02-18', status: 'approved', score: 88 },
+                    { id: 's2', studentName: '李晓华', homeworkTitle: '区块链技术调研报告', submitTime: '2024-02-19', status: 'approved', score: 95 },
+                    { id: 's3', studentName: '王大力', homeworkTitle: '区块链技术调研报告', submitTime: '2024-02-20', status: 'pending' },
+                    { id: 's4', studentName: '赵小云', homeworkTitle: '智能合约开发实践', submitTime: '2024-03-08', status: 'approved', score: 90 },
+                    { id: 's5', studentName: '孙伟', homeworkTitle: '智能合约开发实践', submitTime: '2024-03-09', status: 'rejected' },
+                    { id: 's6', studentName: '周芳', homeworkTitle: '智能合约开发实践', submitTime: '2024-03-10', status: 'pending' }
+                ]
             },
             // 纯文本课程
             'python数据分析实战指南': {
@@ -1400,8 +3402,26 @@
                     }
                 ],
                 comments: [
-                    { author: '数据分析爱好者', date: '2024-01-14', text: '非常实用的文本教程，代码示例清晰易懂！', likes: 45 },
-                    { author: '数据工程师小王', date: '2024-01-11', text: '作为入门书籍非常棒，推荐给初学者。', likes: 28 }
+                    { 
+                        id: 'c4',
+                        author: '数据分析爱好者', 
+                        date: '2024-01-14', 
+                        text: '非常实用的文本教程，代码示例清晰易懂！', 
+                        likes: 45,
+                        liked: false,
+                        replies: [
+                            { id: 'r4', author: '刘教授', date: '2024-01-14', text: '谢谢认可，会继续更新更多内容！', likes: 18 }
+                        ]
+                    },
+                    { 
+                        id: 'c5',
+                        author: '数据工程师小王', 
+                        date: '2024-01-11', 
+                        text: '作为入门书籍非常棒，推荐给初学者。', 
+                        likes: 28,
+                        liked: false,
+                        replies: []
+                    }
                 ],
                 recommendedCourses: [
                     { title: '数据可视化实战', author: '刘老师', cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=320&h=180&fit=crop', students: '2800' },
@@ -1456,8 +3476,26 @@
                     }
                 ],
                 comments: [
-                    { author: 'AI学习者', date: '2024-01-13', text: '视频+文本的形式很棒，既能看讲解又能看详细文档！', likes: 56 },
-                    { author: '研究生小李', date: '2024-01-10', text: '课程结构清晰，知识点覆盖全面。', likes: 34 }
+                    { 
+                        id: 'c6',
+                        author: 'AI学习者', 
+                        date: '2024-01-13', 
+                        text: '视频+文本的形式很棒，既能看讲解又能看详细文档！', 
+                        likes: 56,
+                        liked: false,
+                        replies: [
+                            { id: 'r5', author: '陈博士', date: '2024-01-13', text: '感谢反馈，混合模式确实能提升学习效果！', likes: 22 }
+                        ]
+                    },
+                    { 
+                        id: 'c7',
+                        author: '研究生小李', 
+                        date: '2024-01-10', 
+                        text: '课程结构清晰，知识点覆盖全面。', 
+                        likes: 34,
+                        liked: false,
+                        replies: []
+                    }
                 ],
                 recommendedCourses: [
                     { title: 'PyTorch实战', author: '孙博士', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '4200' },
@@ -1512,8 +3550,27 @@
                     }
                 ],
                 comments: [
-                    { author: '前端新人', date: '2024-01-12', text: '跟着视频学，配合文档练习，进步很快！', likes: 89 },
-                    { author: '全栈开发者', date: '2024-01-09', text: '内容很全面，项目实战很有价值。', likes: 67 }
+                    { 
+                        id: 'c8',
+                        author: '前端新人', 
+                        date: '2024-01-12', 
+                        text: '跟着视频学，配合文档练习，进步很快！', 
+                        likes: 89,
+                        liked: false,
+                        replies: [
+                            { id: 'r6', author: '周老师', date: '2024-01-12', text: '加油，坚持学习一定会有收获！', likes: 35 },
+                            { id: 'r7', author: '前端老鸟', date: '2024-01-13', text: '同感，这个课程真的很实用！', likes: 15 }
+                        ]
+                    },
+                    { 
+                        id: 'c9',
+                        author: '全栈开发者', 
+                        date: '2024-01-09', 
+                        text: '内容很全面，项目实战很有价值。', 
+                        likes: 67,
+                        liked: false,
+                        replies: []
+                    }
                 ],
                 recommendedCourses: [
                     { title: 'React框架入门', author: '吴教授', cover: 'https://images.unsplash.com/photo-1677442136019-21780ecad903?w=320&h=180&fit=crop', students: '5600' },
@@ -1621,10 +3678,13 @@
         }
 
         // 渲染评论列表
+        // 当前回复的评论ID
+        let replyingToCommentId = null;
+
         function renderComments() {
             const commentList = document.getElementById('commentList');
             commentList.innerHTML = courseData.comments.map(comment => `
-                <div class="comment-item">
+                <div class="comment-item" id="comment-${comment.id}">
                     <div class="comment-avatar">${comment.author.charAt(0)}</div>
                     <div class="comment-content">
                         <div class="comment-header">
@@ -1633,12 +3693,143 @@
                         </div>
                         <p class="comment-text">${comment.text}</p>
                         <div class="comment-actions">
-                            <span class="comment-action" onclick="likeComment(this)">👍 ${comment.likes}</span>
-                            <span class="comment-action">💬 回复</span>
+                            <span class="comment-action ${comment.liked ? 'liked' : ''}" onclick="likeComment('${comment.id}')">
+                                👍 ${comment.likes}
+                            </span>
+                            <span class="comment-action" onclick="toggleReplyInput('${comment.id}')">💬 回复</span>
                         </div>
+                        <div class="reply-input-container" id="reply-input-${comment.id}" style="display:none;">
+                            <textarea id="reply-textarea-${comment.id}" placeholder="回复 ${comment.author}..." rows="2"></textarea>
+                            <div class="reply-input-actions">
+                                <button class="reply-cancel-btn" onclick="toggleReplyInput('${comment.id}')">取消</button>
+                                <button class="reply-submit-btn" onclick="submitReply('${comment.id}')">回复</button>
+                            </div>
+                        </div>
+                        ${comment.replies && comment.replies.length > 0 ? `
+                            <div class="reply-list">
+                                ${comment.replies.map(reply => `
+                                    <div class="reply-item">
+                                        <div class="reply-avatar">${reply.author.charAt(0)}</div>
+                                        <div class="reply-content">
+                                            <div class="reply-header">
+                                                <span class="reply-author">${reply.author}</span>
+                                                <span class="reply-date">${reply.date}</span>
+                                            </div>
+                                            <p class="reply-text">${reply.text}</p>
+                                            <div class="reply-actions">
+                                                <span class="reply-action" onclick="likeReply('${comment.id}', '${reply.id}')">👍 ${reply.likes}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `).join('');
+        }
+
+        // 发布评论
+        function publishComment() {
+            const commentInput = document.getElementById('commentInput');
+            const text = commentInput.value.trim();
+            
+            if (!text) {
+                showToast('请输入评论内容');
+                return;
+            }
+
+            const newComment = {
+                id: 'c' + Date.now(),
+                author: '我',
+                date: new Date().toISOString().split('T')[0],
+                text: text,
+                likes: 0,
+                liked: false,
+                replies: []
+            };
+
+            courseData.comments.unshift(newComment);
+            commentInput.value = '';
+            renderComments();
+            showToast('评论发布成功！');
+        }
+
+        // 切换回复输入框显示
+        function toggleReplyInput(commentId) {
+            const replyContainer = document.getElementById(`reply-input-${commentId}`);
+            if (replyContainer.style.display === 'none') {
+                // 关闭其他回复框
+                document.querySelectorAll('.reply-input-container').forEach(el => {
+                    el.style.display = 'none';
+                });
+                replyContainer.style.display = 'block';
+                document.getElementById(`reply-textarea-${commentId}`).focus();
+            } else {
+                replyContainer.style.display = 'none';
+            }
+        }
+
+        // 提交回复
+        function submitReply(commentId) {
+            const textarea = document.getElementById(`reply-textarea-${commentId}`);
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                showToast('请输入回复内容');
+                return;
+            }
+
+            const comment = courseData.comments.find(c => c.id === commentId);
+            if (comment) {
+                const newReply = {
+                    id: 'r' + Date.now(),
+                    author: '我',
+                    date: new Date().toISOString().split('T')[0],
+                    text: text,
+                    likes: 0
+                };
+                
+                if (!comment.replies) {
+                    comment.replies = [];
+                }
+                comment.replies.push(newReply);
+                renderComments();
+                showToast('回复成功！');
+            }
+        }
+
+        // 点赞评论
+        function likeComment(commentId) {
+            const comment = courseData.comments.find(c => c.id === commentId);
+            if (comment) {
+                if (comment.liked) {
+                    comment.likes--;
+                    comment.liked = false;
+                } else {
+                    comment.likes++;
+                    comment.liked = true;
+                }
+                renderComments();
+            }
+        }
+
+        // 点赞回复
+        function likeReply(commentId, replyId) {
+            const comment = courseData.comments.find(c => c.id === commentId);
+            if (comment) {
+                const reply = comment.replies.find(r => r.id === replyId);
+                if (reply) {
+                    if (reply.liked) {
+                        reply.likes--;
+                        reply.liked = false;
+                    } else {
+                        reply.likes++;
+                        reply.liked = true;
+                    }
+                    renderComments();
+                }
+            }
         }
 
         // 渲染推荐课程
@@ -1663,6 +3854,32 @@
             }).join('');
         }
 
+        // 显示Toast提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--gradient-primary);
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 9999;
+                animation: toastIn 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
         // 显示标签页
         function showTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1670,6 +3887,164 @@
             
             document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add('active');
             document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('active');
+
+            if (tabName === 'settings') {
+                renderOutlineEditor();
+                renderTrialChapters();
+            }
+        }
+
+        function renderTrialChapters() {
+            const list = document.getElementById('trialChaptersList');
+            const chapters = courseData.chapters || [];
+            list.innerHTML = chapters.map((chapter, ci) => `
+                <label class="trial-chapter-item">
+                    <input type="checkbox" value="${ci}">
+                    <span class="trial-chapter-num">${ci + 1}</span>
+                    <span class="trial-chapter-title">${chapter.title}</span>
+                </label>
+            `).join('');
+        }
+
+        function renderOutlineEditor() {
+            const editor = document.getElementById('outlineEditor');
+            const chapters = courseData.chapters || [];
+            editor.innerHTML = chapters.map((chapter, ci) => {
+                const lessonsHtml = chapter.lessons.map((lesson, li) => `
+                    <div class="outline-lesson-row">
+                        <span class="outline-lesson-icon">${lesson.type === 'video' ? '📹' : '📝'}</span>
+                        <input class="outline-lesson-input" value="${lesson.title}" data-ch="${ci}" data-les="${li}" onchange="updateLessonTitle(${ci},${li},this.value)">
+                        <button class="outline-lesson-upload" onclick="uploadLessonFile(${ci},${li})">上传${lesson.type === 'video' ? '视频' : '文档'}</button>
+                        <span class="outline-lesson-file" id="lessonFile_${ci}_${li}"></span>
+                        <span class="outline-lesson-delete" onclick="deleteOutlineLesson(${ci},${li})">✕</span>
+                    </div>
+                `).join('');
+                return `
+                    <div class="outline-chapter" data-ch="${ci}">
+                        <div class="outline-chapter-header">
+                            <span class="outline-chapter-num">${ci + 1}</span>
+                            <input class="outline-chapter-input" value="${chapter.title}" onchange="updateChapterTitle(${ci},this.value)">
+                            <span class="outline-chapter-delete" onclick="deleteOutlineChapter(${ci})">✕</span>
+                        </div>
+                        <div class="outline-lesson-list">${lessonsHtml}</div>
+                        <div class="add-outline-lesson-wrap">
+                            <button class="add-outline-lesson-btn" onclick="toggleAddLessonMenu(this)">+ 添加课时</button>
+                            <div class="add-lesson-menu" style="display:none;">
+                                <button class="add-lesson-option" onclick="addOutlineLesson(${ci},'video')">📹 视频课时</button>
+                                <button class="add-lesson-option" onclick="addOutlineLesson(${ci},'text')">📝 文本课时</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateChapterTitle(ci, val) {
+            courseData.chapters[ci].title = val;
+        }
+
+        function updateLessonTitle(ci, li, val) {
+            courseData.chapters[ci].lessons[li].title = val;
+        }
+
+        function addOutlineChapter() {
+            courseData.chapters.push({ title: '新章节', lessons: [{ title: '新课时', type: 'video', duration: '0:00' }] });
+            renderOutlineEditor();
+            renderTrialChapters();
+        }
+
+        function deleteOutlineChapter(ci) {
+            if (courseData.chapters.length <= 1) { alert('至少保留一个章节'); return; }
+            courseData.chapters.splice(ci, 1);
+            renderOutlineEditor();
+            renderTrialChapters();
+        }
+
+        function toggleAddLessonMenu(btn) {
+            const menu = btn.nextElementSibling;
+            const isOpen = menu.style.display !== 'none';
+            document.querySelectorAll('.add-lesson-menu').forEach(m => m.style.display = 'none');
+            if (!isOpen) menu.style.display = 'flex';
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.add-outline-lesson-wrap')) {
+                document.querySelectorAll('.add-lesson-menu').forEach(m => m.style.display = 'none');
+            }
+        });
+
+        function addOutlineLesson(ci, type) {
+            const lessonType = type || 'video';
+            courseData.chapters[ci].lessons.push({ title: '新课时', type: lessonType, duration: '0:00' });
+            renderOutlineEditor();
+        }
+
+        function deleteOutlineLesson(ci, li) {
+            if (courseData.chapters[ci].lessons.length <= 1) { alert('至少保留一个课时'); return; }
+            courseData.chapters[ci].lessons.splice(li, 1);
+            renderOutlineEditor();
+        }
+
+        function uploadLessonFile(ci, li) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            const lesson = courseData.chapters[ci].lessons[li];
+            input.accept = lesson.type === 'video' ? 'video/*' : '.pdf,.doc,.docx,.md';
+            input.onchange = function() {
+                if (!this.files[0]) return;
+                const fileName = this.files[0].name;
+                const el = document.getElementById(`lessonFile_${ci}_${li}`);
+                el.innerHTML = `
+                    <div class="outline-upload-progress">
+                        <div class="progress-track"><div class="progress-bar" style="width:0%"></div></div>
+                        <span class="progress-text">0%</span>
+                    </div>
+                `;
+                const bar = el.querySelector('.progress-bar');
+                const text = el.querySelector('.progress-text');
+                let pct = 0;
+                const timer = setInterval(() => {
+                    pct += Math.random() * 18 + 5;
+                    if (pct >= 100) {
+                        pct = 100;
+                        clearInterval(timer);
+                        setTimeout(() => {
+                            el.innerHTML = `<span class="outline-upload-done">✅ ${fileName}</span>`;
+                            lesson.file = fileName;
+                        }, 300);
+                    }
+                    bar.style.width = pct + '%';
+                    text.textContent = Math.round(pct) + '%';
+                }, 200);
+            };
+            input.click();
+        }
+
+        function togglePriceInput(show) {
+            document.getElementById('settingsPriceGroup').style.display = show ? 'block' : 'none';
+        }
+
+        function updateSettingsCover(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('settingsCoverPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveSettings() {
+            alert('✅ 课程设置已保存！');
+        }
+
+        function publishCourse() {
+            const agreed = document.getElementById('settingsAgreement').checked;
+            if (!agreed) {
+                alert('请先阅读并同意《课程发布协议》');
+                return;
+            }
+            alert('🚀 课程已提交发布审核！');
         }
 
         // 点赞功能
@@ -1770,6 +4145,558 @@
         // 返回首页
         function goBack() {
             window.location.href = 'index.html';
+        }
+
+        // 作业功能
+        function showHomeworkTab(tab) {
+            // 切换标签状态
+            document.querySelectorAll('.homework-tab').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.homework-tab[onclick="showHomeworkTab('${tab}')"]`).classList.add('active');
+            
+            // 切换内容显示
+            document.querySelectorAll('.homework-content').forEach(el => el.style.display = 'none');
+            
+            // 处理tab名称到元素ID的映射
+            const tabIdMap = {
+                'userPublished': 'homeworkUserPublished',
+                'published': 'homeworkPublished',
+                'submitted': 'homeworkSubmitted',
+                'all-submissions': 'homeworkAllSubmissions'
+            };
+            document.getElementById(tabIdMap[tab]).style.display = 'block';
+            
+            // 加载对应内容
+            if (tab === 'userPublished') {
+                loadUserHomeworkList();
+            } else if (tab === 'published') {
+                loadHomeworkList();
+            } else if (tab === 'submitted') {
+                loadSubmissionList();
+            } else if (tab === 'all-submissions') {
+                loadAllSubmissions();
+            }
+        }
+
+        function loadUserHomeworkList() {
+            const userHomeworkList = document.getElementById('userHomeworkList');
+            const homeworkData = courseData.homework || [];
+            
+            if (homeworkData.length === 0) {
+                userHomeworkList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">暂无发布的作业</p>';
+                return;
+            }
+            
+            userHomeworkList.innerHTML = homeworkData.map(hw => {
+                const statusClass = hw.status === 'active' ? '' : hw.status === 'draft' ? 'draft' : 'closed';
+                const statusText = hw.status === 'active' ? '进行中' : hw.status === 'draft' ? '已结束' : '已截止';
+                const hasSubmitted = courseData.submissions?.some(s => s.homeworkId === hw.id);
+                
+                return `
+                    <div class="homework-item">
+                        <div class="homework-header">
+                            <span class="homework-title">${hw.title}</span>
+                            <span class="homework-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <p class="homework-desc">${hw.description}</p>
+                        <div class="homework-meta">
+                            <span>📅 截止日期：${hw.deadline}</span>
+                            <span>📝 已提交：${hw.submissions}人</span>
+                        </div>
+                        ${hasSubmitted ? `
+                            <div class="submitted-tag">✅ 已提交</div>
+                        ` : ''}
+                        <div class="homework-actions">
+                            ${hw.status === 'active' ? 
+                                `<button class="homework-action-btn primary" onclick="showSubmitForm('${hw.id}')">提交作业</button>` : 
+                                ''}
+                            ${hasSubmitted ? 
+                                `<button class="homework-action-btn secondary" onclick="viewSubmission('${hw.id}')">查看我的提交</button>` : 
+                                ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        let hwCreateFiles = [];
+
+        function handleHwCreateFile(input) {
+            const files = Array.from(input.files);
+            files.forEach(f => hwCreateFiles.push(f));
+            renderHwCreateFiles();
+            input.value = '';
+        }
+
+        function renderHwCreateFiles() {
+            const list = document.getElementById('hwCreateFileList');
+            list.innerHTML = hwCreateFiles.map((f, i) => `
+                <span class="hw-file-tag">📎 ${f.name} <button class="hw-file-remove" onclick="removeHwCreateFile(${i})">✕</button></span>
+            `).join('');
+        }
+
+        function removeHwCreateFile(i) {
+            hwCreateFiles.splice(i, 1);
+            renderHwCreateFiles();
+        }
+
+        function publishNewHomework() {
+            const title = document.getElementById('newHomeworkTitle').value.trim();
+            const editor = document.getElementById('newHomeworkEditor');
+            const descText = editor.innerText.trim();
+            const descHtml = editor.innerHTML.trim();
+            const deadline = document.getElementById('newHomeworkDeadline').value;
+
+            if (!title) { alert('请输入作业标题'); return; }
+            if (!descText) { alert('请输入作业描述'); return; }
+
+            if (!courseData.homework) courseData.homework = [];
+            courseData.homework.unshift({
+                id: 'hw_' + Date.now(),
+                title: title,
+                description: descHtml,
+                deadline: deadline || '未设置',
+                status: 'active',
+                submissions: 0,
+                attachments: hwCreateFiles.map(f => f.name)
+            });
+
+            document.getElementById('newHomeworkTitle').value = '';
+            editor.innerHTML = '';
+            document.getElementById('newHomeworkDeadline').value = '';
+            hwCreateFiles = [];
+            renderHwCreateFiles();
+
+            loadHomeworkList();
+            alert('✅ 作业已发布！');
+        }
+
+        function loadHomeworkList() {
+            const homeworkList = document.getElementById('homeworkList');
+            const homeworkData = courseData.homework || [];
+            
+            if (homeworkData.length === 0) {
+                homeworkList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">暂无发布的作业</p>';
+                return;
+            }
+            
+            homeworkList.innerHTML = homeworkData.map(hw => {
+                const statusClass = hw.status === 'active' ? '' : hw.status === 'draft' ? 'draft' : 'closed';
+                const statusText = hw.status === 'active' ? '进行中' : hw.status === 'draft' ? '已结束' : '已截止';
+                const hasSubmitted = courseData.submissions?.some(s => s.homeworkId === hw.id);
+                
+                return `
+                    <div class="homework-item">
+                        <div class="homework-header">
+                            <span class="homework-title">${hw.title}</span>
+                            <span class="homework-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <p class="homework-desc">${hw.description}</p>
+                        <div class="homework-meta">
+                            <span>📅 截止日期：${hw.deadline}</span>
+                            <span>📝 已提交：${hw.submissions}人</span>
+                        </div>
+                        ${hasSubmitted ? `
+                            <div class="submitted-tag">✅ 已提交</div>
+                        ` : ''}
+                        <div class="homework-actions">
+                            ${hw.status === 'active' ? 
+                                `<button class="homework-action-btn primary" onclick="showSubmitForm('${hw.id}')">提交作业</button>` : 
+                                ''}
+                            ${hasSubmitted ? 
+                                `<button class="homework-action-btn secondary" onclick="viewSubmission('${hw.id}')">查看我的提交</button>` : 
+                                ''}
+                            <button class="homework-action-btn outline" onclick="viewAllSubmissions('${hw.id}')">查看所有提交</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadSubmissionList() {
+            const submissionList = document.getElementById('submissionList');
+            const submissions = courseData.submissions || [];
+            
+            if (submissions.length === 0) {
+                submissionList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">暂无提交记录</p>';
+                return;
+            }
+            
+            submissionList.innerHTML = submissions.map(sub => {
+                const statusClass = sub.status === 'approved' ? 'approved' : sub.status === 'rejected' ? 'rejected' : 'pending';
+                const statusText = sub.status === 'approved' ? `已通过` : sub.status === 'rejected' ? '不通过' : '待审核';
+                const certificateBtn = sub.status === 'approved' ? `<button class="certificate-btn" onclick="downloadCertificate('${sub.id}')">🎓 下载证书</button>` : '';
+                
+                return `
+                    <div class="submission-item">
+                        <div class="submission-header">
+                            <span class="submission-homework-title">${sub.homeworkTitle}</span>
+                            <span class="submission-time">${sub.submitTime}</span>
+                        </div>
+                        <div class="submission-content">${sub.content}</div>
+                        ${sub.files?.length > 0 ? `
+                            <div class="submission-files">
+                                ${sub.files.map(f => `<span class="submission-file">📎 ${f}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        <span class="submission-status ${statusClass}">${statusText}</span>
+                        ${certificateBtn}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadAllSubmissions() {
+            const allSubmissionList = document.getElementById('allSubmissionList');
+            const submissions = courseData.allSubmissions || [];
+            
+            if (submissions.length === 0) {
+                allSubmissionList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">暂无学生提交</p>';
+                return;
+            }
+            
+            allSubmissionList.innerHTML = submissions.map(sub => {
+                const statusClass = sub.status === 'approved' ? 'approved' : sub.status === 'rejected' ? 'rejected' : 'pending';
+                const statusText = sub.status === 'approved' ? `已通过 ${sub.score}分` : sub.status === 'rejected' ? '不通过' : '待审核';
+                
+                return `
+                    <div class="all-submission-item">
+                        <div class="submitter-avatar">${sub.studentName.charAt(0)}</div>
+                        <div class="submitter-info">
+                            <div class="submitter-name">${sub.studentName}</div>
+                            <div class="submitter-homework">${sub.homeworkTitle}</div>
+                            <div class="submitter-time">${sub.submitTime}</div>
+                        </div>
+                        <div class="review-actions">
+                            <button class="review-btn view" onclick="viewSubmissionDetail('${sub.id}')">查看</button>
+                            ${sub.status === 'pending' ? `
+                                <button class="review-btn approve" onclick="reviewSubmission('${sub.id}', 'approve')">通过</button>
+                                <button class="review-btn reject" onclick="reviewSubmission('${sub.id}', 'reject')">不通过</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        let currentSubmitHomeworkId = null;
+        let uploadedFiles = [];
+
+        function showSubmitForm(homeworkId) {
+            const homework = courseData.homework?.find(hw => hw.id === homeworkId);
+            if (!homework) return;
+            
+            currentSubmitHomeworkId = homeworkId;
+            uploadedFiles = [];
+            
+            document.getElementById('submitModalTitle').textContent = `📝 提交作业：${homework.title}`;
+            document.getElementById('submitEditor').innerHTML = '';
+            document.getElementById('uploadFileList').innerHTML = '';
+            document.getElementById('homeworkFileInput').value = '';
+            
+            document.getElementById('homeworkSubmitModal').style.display = 'flex';
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('homeworkSubmitModal').style.display = 'none';
+            currentSubmitHomeworkId = null;
+            uploadedFiles = [];
+        }
+
+        function triggerFileUpload() {
+            document.getElementById('homeworkFileInput').click();
+        }
+
+        function handleHomeworkFileSelect(input) {
+            const files = Array.from(input.files);
+            files.forEach(file => {
+                uploadedFiles.push(file);
+                renderUploadFileList(file);
+            });
+            input.value = '';
+        }
+
+        function renderUploadFileList(file) {
+            const list = document.getElementById('uploadFileList');
+            const idx = uploadedFiles.length - 1;
+            const isImage = file.type.startsWith('image/');
+            const sizeKB = (file.size / 1024).toFixed(1);
+            const sizeText = sizeKB > 1024 ? (sizeKB / 1024).toFixed(1) + ' MB' : sizeKB + ' KB';
+            
+            const icon = isImage ? '🖼️' : file.name.endsWith('.pdf') ? '📄' : 
+                         file.name.endsWith('.zip') || file.name.endsWith('.rar') ? '📦' : 
+                         file.name.endsWith('.doc') || file.name.endsWith('.docx') ? '📝' : '📎';
+            
+            let previewHtml = '';
+            if (isImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = list.querySelector(`[data-idx="${idx}"] .file-preview`);
+                    if (img) img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                previewHtml = `<img class="file-preview" data-idx="${idx}" src="" alt="preview">`;
+            }
+            
+            const item = document.createElement('div');
+            item.className = 'upload-file-item';
+            item.setAttribute('data-idx', idx);
+            item.innerHTML = `
+                ${previewHtml || `<span class="file-icon">${icon}</span>`}
+                <span class="file-name">${file.name}</span>
+                <span class="file-size">${sizeText}</span>
+                <button type="button" class="file-remove" onclick="removeUploadedFile(${idx}, this)">✕</button>
+            `;
+            list.appendChild(item);
+        }
+
+        function removeUploadedFile(idx, btn) {
+            uploadedFiles.splice(idx, 1);
+            const list = document.getElementById('uploadFileList');
+            list.innerHTML = '';
+            uploadedFiles.forEach(file => renderUploadFileList(file));
+        }
+
+        function confirmSubmitHomework() {
+            const editor = document.getElementById('submitEditor');
+            const content = editor.innerText.trim();
+            
+            if (!content && uploadedFiles.length === 0) {
+                alert('请输入作业内容或上传附件');
+                return;
+            }
+            
+            if (!courseData.submissions) courseData.submissions = [];
+            
+            const homework = courseData.homework?.find(hw => hw.id === currentSubmitHomeworkId);
+            const fileNames = uploadedFiles.map(f => f.name);
+            
+            courseData.submissions.push({
+                id: 'sub_' + Date.now(),
+                homeworkId: currentSubmitHomeworkId,
+                homeworkTitle: homework?.title || '',
+                content: editor.innerHTML,
+                files: fileNames,
+                submitTime: new Date().toLocaleString('zh-CN'),
+                status: 'pending'
+            });
+            
+            if (homework) homework.submissions = (homework.submissions || 0) + 1;
+            
+            closeSubmitModal();
+            alert('作业提交成功！请等待讲师审核。');
+            
+            const userTab = document.getElementById('homeworkUserPublished');
+            const isUserView = userTab && userTab.style.display !== 'none';
+            if (isUserView) {
+                loadUserHomeworkList();
+            } else {
+                loadHomeworkList();
+            }
+        }
+
+        function viewSubmission(homeworkId) {
+            showHomeworkTab('submitted');
+        }
+
+        function viewSubmissionDetail(submissionId) {
+            alert(`查看提交详情：${submissionId}`);
+        }
+
+        function reviewSubmission(submissionId, action) {
+            const actionText = action === 'approve' ? '通过' : '不通过';
+            if (confirm(`确定要${actionText}此提交吗？`)) {
+                alert(`提交 ${submissionId} 已${actionText}`);
+                loadAllSubmissions();
+            }
+        }
+
+        let pendingCertificateSubmissionId = null;
+
+        function downloadCertificate(submissionId) {
+            const submission = courseData.submissions?.find(s => s.id === submissionId);
+            if (!submission || submission.status !== 'approved') {
+                alert('只有通过审核的作业才能下载证书');
+                return;
+            }
+            pendingCertificateSubmissionId = submissionId;
+            document.getElementById('identityName').value = '';
+            document.getElementById('identityCard').value = '';
+            document.getElementById('identityPhone').value = '';
+            document.getElementById('identityVerifyModal').style.display = 'flex';
+        }
+
+        function closeIdentityModal() {
+            document.getElementById('identityVerifyModal').style.display = 'none';
+            pendingCertificateSubmissionId = null;
+        }
+
+        function confirmIdentity() {
+            const name = document.getElementById('identityName').value.trim();
+            const card = document.getElementById('identityCard').value.trim();
+
+            if (!name) { alert('请输入真实姓名'); return; }
+            if (!card || card.length !== 18) { alert('请输入正确的18位身份证号码'); return; }
+
+            const submission = courseData.submissions?.find(s => s.id === pendingCertificateSubmissionId);
+            if (!submission) { alert('提交记录不存在'); return; }
+
+            closeIdentityModal();
+
+            const certificateContent = `
+===========================================================
+                    课程作业完成证书
+===========================================================
+
+学员姓名：${name}
+证件号码：${card.replace(/^(.{6})(.+)(.{4})$/, '$1********$3')}
+课程名称：${courseData.title}
+作业名称：${submission.homeworkTitle}
+完成时间：${submission.submitTime}
+得分：${submission.score}分
+审核状态：已通过
+
+===========================================================
+                魔乐学堂 MOLE LEARNING
+===========================================================
+            `;
+
+            const blob = new Blob([certificateContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `证书_${submission.homeworkTitle}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            alert('🎓 实名认证通过，证书下载成功！');
+        }
+
+        // 当前查看的作业ID和提交ID
+        let currentHomeworkId = null;
+        let currentSubmissionId = null;
+
+        // 查看所有提交（弹窗列表）
+        function viewAllSubmissions(homeworkId) {
+            currentHomeworkId = homeworkId;
+            const homework = courseData.homework?.find(hw => hw.id === homeworkId);
+            const allSubmissions = courseData.allSubmissions?.filter(s => s.homeworkTitle === homework?.title) || [];
+            
+            document.getElementById('modalTitle').textContent = `${homework?.title} - 所有提交`;
+            
+            let content = '';
+            if (allSubmissions.length === 0) {
+                content = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">暂无提交记录</p>';
+            } else {
+                content = allSubmissions.map((sub, index) => `
+                    <div class="submission-card" style="background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px; margin-bottom: 12px; border: 1px solid var(--dark-border);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 13px;">${sub.studentName.charAt(0)}</div>
+                                <div>
+                                    <div style="font-size: 14px; font-weight: 500;">${sub.studentName}</div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">${sub.submitTime}</div>
+                                </div>
+                            </div>
+                            <span class="submission-status ${sub.status === 'approved' ? 'approved' : sub.status === 'rejected' ? 'rejected' : 'pending'}">
+                                ${sub.status === 'approved' ? '已通过' : sub.status === 'rejected' ? '不通过' : '待审核'}
+                            </span>
+                        </div>
+                        <button class="review-btn view" style="width: 100%;" onclick="openSubmissionDetail('${sub.id}')">查看详情并审批</button>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('submissionDetailContent').innerHTML = content;
+            document.getElementById('submissionDetailModal').style.display = 'flex';
+        }
+
+        // 打开提交详情
+        function openSubmissionDetail(submissionId) {
+            currentSubmissionId = submissionId;
+            const submission = courseData.allSubmissions?.find(s => s.id === submissionId);
+            
+            if (!submission) return;
+            
+            document.getElementById('modalTitle').textContent = `提交详情 - ${submission.studentName}`;
+            document.getElementById('submissionDetailContent').innerHTML = `
+                <div class="detail-section">
+                    <span class="detail-label">学员姓名</span>
+                    <div class="detail-value">${submission.studentName}</div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">作业名称</span>
+                    <div class="detail-value">${submission.homeworkTitle}</div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">提交时间</span>
+                    <div class="detail-value">${submission.submitTime}</div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">提交内容</span>
+                    <div class="detail-value">${submission.content || '无文字内容'}</div>
+                </div>
+                ${submission.files?.length > 0 ? `
+                <div class="detail-section">
+                    <span class="detail-label">附件文件</span>
+                    <div class="detail-files">
+                        ${submission.files.map(f => `<span class="detail-file">📎 ${f}</span>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                <div class="detail-section">
+                    <span class="detail-label">当前状态</span>
+                    <div class="detail-value">
+                        <span class="submission-status ${submission.status === 'approved' ? 'approved' : submission.status === 'rejected' ? 'rejected' : 'pending'}">
+                            ${submission.status === 'approved' ? '已通过' : submission.status === 'rejected' ? '不通过' : '待审核'}
+                        </span>
+                        ${submission.score ? ` 得分：${submission.score}分` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 关闭弹窗
+        function closeSubmissionModal() {
+            document.getElementById('submissionDetailModal').style.display = 'none';
+            currentHomeworkId = null;
+            currentSubmissionId = null;
+        }
+
+        // 通过提交
+        function approveSubmission() {
+            if (!currentSubmissionId) return;
+            if (confirm('确定要通过此提交吗？')) {
+                // 更新状态
+                const submission = courseData.allSubmissions?.find(s => s.id === currentSubmissionId);
+                if (submission) {
+                    submission.status = 'approved';
+                    submission.score = Math.floor(Math.random() * 11) + 90; // 90-100分
+                }
+                alert('提交已通过！');
+                // 刷新列表
+                if (currentHomeworkId) {
+                    viewAllSubmissions(currentHomeworkId);
+                }
+            }
+        }
+
+        // 驳回提交
+        function rejectSubmission() {
+            if (!currentSubmissionId) return;
+            if (confirm('确定要不通过此提交吗？')) {
+                // 更新状态
+                const submission = courseData.allSubmissions?.find(s => s.id === currentSubmissionId);
+                if (submission) {
+                    submission.status = 'rejected';
+                }
+                alert('提交已不通过！');
+                // 刷新列表
+                if (currentHomeworkId) {
+                    viewAllSubmissions(currentHomeworkId);
+                }
+            }
         }
 
         // 当前阅读进度
@@ -1992,6 +4919,9 @@ result = arr * scalar  # [2 4 6]</code></pre>
 
             // 渲染推荐课程
             renderRecommendations();
+
+            // 加载作业列表（默认显示用户视角）
+            loadUserHomeworkList();
         });
     </script>
 </body>

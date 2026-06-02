@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD文档 - 魔乐学堂</title>
+    <style>
+        :root {
+            --dark-bg: #0a0e1a;
+            --dark-card: #111827;
+            --dark-border: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #6b7280;
+            --primary-color: #00d4ff;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            --accent-color: #00ff88;
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(10, 14, 26, 0.95);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .layout {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 65px);
+        }
+
+        /* 左侧目录导航 */
+        .toc-sidebar {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+            background: var(--dark-card);
+            border-right: 1px solid var(--dark-border);
+            padding: 24px 0;
+            position: sticky;
+            top: 65px;
+            height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+
+        .toc-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .toc-sidebar::-webkit-scrollbar-thumb {
+            background: var(--dark-border);
+            border-radius: 2px;
+        }
+
+        .toc-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding: 0 20px 16px;
+            border-bottom: 1px solid var(--dark-border);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0 12px;
+        }
+
+        .toc-item {
+            margin-bottom: 2px;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .toc-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .toc-link.active {
+            color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.08);
+            font-weight: 500;
+        }
+
+        .toc-link.level-2 {
+            padding-left: 24px;
+            font-size: 12px;
+        }
+
+        .toc-link.level-3 {
+            padding-left: 36px;
+            font-size: 12px;
+        }
+
+        /* 右侧内容区 */
+        .content-area {
+            flex: 1;
+            padding: 40px 60px 80px;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .doc-header {
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .doc-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .doc-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+        }
+
+        .meta-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* 文档内容样式 */
+        .doc-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 48px 0 20px;
+            padding-top: 24px;
+            border-top: 1px solid var(--dark-border);
+            scroll-margin-top: 80px;
+        }
+
+        .doc-content h2:first-of-type {
+            margin-top: 0;
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .doc-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 14px;
+            scroll-margin-top: 80px;
+        }
+
+        .doc-content h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 24px 0 10px;
+            scroll-margin-top: 80px;
+        }
+
+        .doc-content p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+
+        .doc-content ul, .doc-content ol {
+            margin: 10px 0 16px 20px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .doc-content li {
+            margin-bottom: 6px;
+        }
+
+        .doc-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .doc-content hr {
+            border: none;
+            border-top: 1px solid var(--dark-border);
+            margin: 32px 0;
+        }
+
+        .doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .doc-content thead th {
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: left;
+            padding: 10px 14px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .doc-content tbody td {
+            padding: 10px 14px;
+            border: 1px solid var(--dark-border);
+            color: var(--text-secondary);
+        }
+
+        .doc-content tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .doc-content pre {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .doc-content code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: rgba(0, 212, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--primary-color);
+        }
+
+        .doc-content pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            color: var(--text-secondary);
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+            z-index: 50;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 24px rgba(0, 212, 255, 0.4);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .toc-sidebar {
+                width: 240px;
+            }
+            .content-area {
+                padding: 32px 40px 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toc-sidebar {
+                display: none;
+            }
+            .content-area {
+                max-width: 100%;
+                padding: 24px 20px 60px;
+            }
+            .doc-title {
+                font-size: 24px;
+            }
+            .doc-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">🎓 魔乐学堂</div>
+            <nav class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="my-learning.html">我的学习</a>
+                <a href="my-uploads.html">我的上传</a>
+                <a href="instructors.html">讲师团队</a>
+                <a href="#" class="active">PRD文档</a>
+            </nav>
+            <div>
+                <button class="back-btn" onclick="window.location.href='index.html'">← 返回首页</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- 左侧目录导航 -->
+        <aside class="toc-sidebar" id="tocSidebar">
+            <div class="toc-title">📑 文档目录</div>
+            <ul class="toc-list" id="tocList">
+                <!-- 目录由JS动态生成 -->
+            </ul>
+        </aside>
+
+        <!-- 右侧文档内容 -->
+        <div class="content-area">
+            <div class="doc-header">
+                <h1 class="doc-title">魔乐学堂 - 产品需求文档（PRD）</h1>
+                <div class="doc-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">产品名称：</span>
+                        <span class="meta-value">魔乐社区-魔乐学堂</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">版本：</span>
+                        <span class="meta-value">v1.0.0</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">文档版本：</span>
+                        <span class="meta-value">1.0.0</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">创建日期：</span>
+                        <span class="meta-value">2026-05-26</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">状态：</span>
+                        <span class="meta-value" style="color: #ffb347;">待评审</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-content" id="docContent">
+                <!-- PRD内容 -->
+                <h2 id="section-1">1. 产品概述</h2>
+
+                <h3 id="section-1-1">1.1 产品背景</h3>
+                <p>魔乐学堂是魔乐社区旗下的AI学习平台，旨在为AI开发者、研究人员和学习者提供高质量的在线课程学习服务。平台汇聚了AI领域的优质讲师资源，提供视频课程、文本课程和混合课程等多种学习形式。</p>
+
+                <h3 id="section-1-2">1.2 产品定位</h3>
+                <ul>
+                    <li><strong>目标用户</strong>：AI开发者、研究人员、高校学生、AI爱好者</li>
+                    <li><strong>核心价值</strong>：提供专业、系统化的AI学习资源</li>
+                    <li><strong>产品特色</strong>：结合魔乐社区生态，支持模型、数据、工具等一站式学习</li>
+                </ul>
+
+                <h3 id="section-1-3">1.3 产品架构</h3>
+                <pre><code>魔乐学堂
+├── 首页（课程聚合）
+│   ├── 课程筛选
+│   ├── 我的学习
+│   ├── 上传课程
+│   ├── 全部课程
+│   └── 布局3*3
+├── 课程封面
+│   ├── 封面、免费/收费标签
+│   ├── 课程名称
+│   ├── 课程难度、时长
+│   └── 讲师姓名、学习人数
+├── 课程详情页
+│   ├── 课程播放（视频/文本）
+│   ├── 课程大纲
+│   ├── 课程作业
+│   ├── 讨论区
+│   └── 推荐课程
+├── 讲师模块
+│   ├── 全部讲师
+│   └── 讲师详情
+├── 课程上传
+│   ├── 基本信息
+│   ├── 课程内容
+│   └── 发布设置
+└── 后台管理
+    ├── 课程管理
+    ├── 讲师管理
+    └── 标签管理</code></pre>
+
+                <hr>
+
+                <h2 id="section-2">2. 用户角色</h2>
+
+                <h3 id="section-2-1">2.1 普通用户（学员）</h3>
+                <ul>
+                    <li>浏览和搜索课程</li>
+                    <li>加入学习课程</li>
+                    <li>提交课程作业</li>
+                    <li>参与课程讨论</li>
+                    <li>查看学习进度</li>
+                </ul>
+
+                <h3 id="section-2-2">2.2 讲师</h3>
+                <ul>
+                    <li>上传和发布课程</li>
+                    <li>发布课程作业</li>
+                    <li>审批学员作业</li>
+                    <li>查看学员提交记录</li>
+                    <li>管理课程内容</li>
+                    <li>兼并普通用户角色</li>
+                </ul>
+
+                <h3 id="section-2-3">2.3 管理员</h3>
+                <ul>
+                    <li>课程审核</li>
+                    <li>讲师认证管理</li>
+                    <li>标签管理</li>
+                    <li>平台内容管理</li>
+                </ul>
+
+                <hr>
+
+                <h2 id="section-3">3. 功能模块详细设计</h2>
+
+                <h3 id="section-3-1">3.1 首页模块</h3>
+
+                <h4 id="section-3-1-1">3.1.1 页面布局</h4>
+                <ul>
+                    <li><strong>顶部导航栏</strong>：放在一级菜单"社区"下，和活动赛事同为二级菜单，排序在活动赛事后</li>
+                    <li><strong>页面标题区</strong>：页面标题、上传课程按钮</li>
+                    <li><strong>主内容区</strong>：左侧筛选栏 + 右侧课程列表</li>
+                </ul>
+
+                <h4 id="section-3-1-2">3.1.2 课程筛选（后台全可配置）</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>筛选项</th>
+                            <th>选项值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>课程类型</td>
+                            <td>免费课程、付费课程</td>
+                        </tr>
+                        <tr>
+                            <td>任务类型</td>
+                            <td>自然语言处理、计算机视觉、多模态、音频处理</td>
+                        </tr>
+                        <tr>
+                            <td>难度级别</td>
+                            <td>社区教程、入门教程、进阶教程、高级教程</td>
+                        </tr>
+                        <tr>
+                            <td>学习时长</td>
+                            <td>&lt;10min、10-30min、30-60min、&gt;60min</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 id="section-3-1-3">3.1.3 课程卡片</h4>
+                <ul>
+                    <li>课程封面图</li>
+                    <li>课程类型标签（免费/付费）</li>
+                    <li>课程标题</li>
+                    <li>难度级别标签</li>
+                    <li>时长统计</li>
+                    <li>讲师头像和姓名</li>
+                    <li>学习人数</li>
+                </ul>
+
+                <hr>
+
+                <h3 id="section-3-2">3.2 课程详情页</h3>
+
+                <h4 id="section-3-2-1">3.2.1 上部区域</h4>
+                <p><strong>左侧 - 播放器/阅读器</strong></p>
+                <ul>
+                    <li><strong>视频课程</strong>：视频播放器、进度条、时间显示</li>
+                    <li><strong>文本课程</strong>：文本阅读器、字体大小调整、全屏阅读</li>
+                    <li><strong>混合课程</strong>：支持视频和文本切换</li>
+                </ul>
+                <p><strong>右侧 - 课程信息</strong></p>
+                <ul>
+                    <li>课程名称</li>
+                    <li>互动按钮（点赞、收藏、分享）</li>
+                    <li>课程统计（播放量、学习人数、章节数、总时长）</li>
+                    <li>学习进度</li>
+                    <li>加入学习按钮</li>
+                </ul>
+
+                <h4 id="section-3-2-2">3.2.2 下部区域</h4>
+                <p><strong>左侧Tab页</strong></p>
+                <ol>
+                    <li><strong>课程详情</strong> - 课程简介、课程大纲（章节列表）</li>
+                    <li><strong>课程作业</strong>（详细见3.2.3）- 已发布作业列表、查看我的提交（通过/待审核/不通过）、查看所有提交（讲师视角）</li>
+                    <li><strong>讨论区</strong> - 评论输入框、评论列表</li>
+                </ol>
+                <p><strong>右侧模块</strong></p>
+                <ul>
+                    <li>授课讲师卡片（头像、姓名、职位、课程数、学员数）</li>
+                    <li>推荐课程列表（默认8门），取学习人数前8课程即可</li>
+                </ul>
+
+                <h4 id="section-3-2-3">3.2.3 课程作业功能</h4>
+                <p><strong>作业列表</strong></p>
+                <ul>
+                    <li>作业标题</li>
+                    <li>作业描述</li>
+                    <li>截止日期</li>
+                    <li>状态（进行中/已结束）</li>
+                    <li>已提交人数</li>
+                </ul>
+                <p><strong>提交作业</strong></p>
+                <ul>
+                    <li>文本内容输入</li>
+                    <li>附件上传（支持PDF等格式）</li>
+                    <li>提交确认</li>
+                </ul>
+                <p><strong>作业审批（讲师视角）</strong></p>
+                <ul>
+                    <li>查看所有学员提交</li>
+                    <li>提交详情查看</li>
+                    <li>通过/不通过操作</li>
+                </ul>
+                <p><strong>证书下载</strong></p>
+                <ul>
+                    <li>审核通过后可下载证书</li>
+                    <li>证书内容包含：课程名称、学员名字、证书编号、证书获取时间、证书有效时间</li>
+                    <li>例如：***课程完结证书</li>
+                </ul>
+
+                <hr>
+
+                <h3 id="section-3-3">3.3 讲师模块</h3>
+
+                <h4 id="section-3-3-1">3.3.1 讲师详情页面</h4>
+                <ul>
+                    <li>讲师基本信息（头像、名字、职位、课程数、学员数、总播放量、描述）</li>
+                    <li>讲师课程列表</li>
+                </ul>
+
+                <hr>
+
+                <h3 id="section-3-4">3.4 课程上传模块</h3>
+
+                <h4 id="section-3-4-1">3.4.1 上传步骤</h4>
+                <ol>
+                    <li><strong>基本信息</strong> - 章节结构选择（新课程/已有课程）、课程封面上传、课程类型、课程标题、任务类型选择、难度级别选择</li>
+                    <li><strong>课程内容</strong> - 视频上传/文本内容输入（PDF）</li>
+                    <li><strong>发布设置</strong> - 课程价格设置（免费/付费）、预计学习时长、课程作业配置（作业标题、作业描述、作业附件）、发布选项（立即发布、允许学员评论、启用作业评审、启用证书发放）、协议确认</li>
+                </ol>
+
+                <h4 id="section-3-4-2">3.4.2 课程作业配置</h4>
+                <ul>
+                    <li>作业标题</li>
+                    <li>截止日期</li>
+                    <li>作业描述</li>
+                    <li>作业附件上传</li>
+                    <li>添加多个作业</li>
+                </ul>
+
+                <hr>
+
+                <h3 id="section-3-5">3.5 后台管理模块</h3>
+
+                <h4 id="section-3-5-1">3.5.1 课程管理</h4>
+                <p><strong>功能列表</strong></p>
+                <ul>
+                    <li>课程列表展示（表格形式）</li>
+                    <li>课程筛选（状态、类型、难度）</li>
+                    <li>课程搜索</li>
+                    <li>课程审核（通过/驳回）</li>
+                    <li>课程编辑</li>
+                    <li>课程删除</li>
+                </ul>
+                <p><strong>课程状态</strong></p>
+                <ul>
+                    <li>待审核</li>
+                    <li>已通过</li>
+                    <li>已驳回</li>
+                    <li>已发布</li>
+                </ul>
+
+                <h4 id="section-3-5-2">3.5.2 讲师管理</h4>
+                <p><strong>功能列表</strong></p>
+                <ul>
+                    <li>讲师列表展示</li>
+                    <li>讲师搜索</li>
+                    <li>添加讲师（用户名下拉选择）</li>
+                    <li>编辑讲师信息</li>
+                    <li>移除讲师</li>
+                    <li>讲师详情查看</li>
+                </ul>
+                <p><strong>讲师信息</strong></p>
+                <ul>
+                    <li>用户名</li>
+                    <li>职位</li>
+                    <li>简介</li>
+                    <li>课程数</li>
+                    <li>学员数</li>
+                    <li>总播放量</li>
+                    <li>状态（已认证/未认证）</li>
+                </ul>
+
+                <h4 id="section-3-5-3">3.5.3 标签管理</h4>
+                <p><strong>功能列表</strong></p>
+                <ul>
+                    <li>大类标签管理</li>
+                    <li>子标签管理</li>
+                    <li>新增标签</li>
+                    <li>编辑标签</li>
+                    <li>删除标签</li>
+                </ul>
+                <p><strong>标签层级</strong></p>
+                <ul>
+                    <li>一级标签：任务类型（NLP、CV、多模态等）</li>
+                    <li>二级标签：具体技术（深度学习、Transformer等）</li>
+                </ul>
+
+                <hr>
+
+                <h2 id="section-4">4. 交互设计</h2>
+
+                <h3 id="section-4-1">4.1 页面跳转逻辑</h3>
+                <pre><code>首页 → 课程详情页（点击课程卡片）
+首页 → 全部讲师（点击"查看全部"）
+首页 → 上传课程（点击"上传课程"按钮）
+课程详情页 → 讲师详情（点击讲师卡片）
+课程详情页 → 课程详情（点击推荐课程）
+全部课程 → 讲师详情（点击讲师卡片）
+后台管理 → 课程管理/讲师管理/标签管理（侧边栏导航）</code></pre>
+
+                <h3 id="section-4-2">4.2 弹窗交互</h3>
+                <ul>
+                    <li>上传课程弹窗（多步骤表单）</li>
+                    <li>作业提交弹窗</li>
+                    <li>作业审批弹窗</li>
+                    <li>确认操作弹窗</li>
+                </ul>
+
+                <h3 id="section-4-3">4.3 状态反馈</h3>
+                <ul>
+                    <li>操作成功提示（Toast）</li>
+                    <li>加载状态</li>
+                    <li>错误提示</li>
+                    <li>确认对话框</li>
+                </ul>
+
+                <h4 id="section-4-4">项目结构</h4>
+                <pre><code>lesson/
+├── index.html          # 首页
+├── course-detail.html  # 课程详情页
+├── instructors.html    # 全部讲师页
+├── instructor-detail.html # 讲师详情页
+├── upload.html         # 课程上传页
+├── admin.html          # 后台管理页
+├── styles.css          # 公共样式
+└── PRD.md             # 产品需求文档</code></pre>
+
+                <hr>
+
+                <h2 id="section-5">5. 功能清单</h2>
+
+                <h3 id="section-5-1">5.1 已完成功能</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>模块</th>
+                            <th>功能</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>首页</td><td>课程列表展示</td></tr>
+                        <tr><td>首页</td><td>课程筛选</td></tr>
+                        <tr><td>首页</td><td>我的学习卡片</td></tr>
+                        <tr><td>首页</td><td>推荐讲师模块</td></tr>
+                        <tr><td>首页</td><td>课程类型标签（免费/付费）</td></tr>
+                        <tr><td>课程详情</td><td>视频播放器</td></tr>
+                        <tr><td>课程详情</td><td>文本阅读器</td></tr>
+                        <tr><td>课程详情</td><td>课程大纲</td></tr>
+                        <tr><td>课程详情</td><td>课程作业模块</td></tr>
+                        <tr><td>课程详情</td><td>作业提交功能</td></tr>
+                        <tr><td>课程详情</td><td>作业审批功能</td></tr>
+                        <tr><td>课程详情</td><td>证书下载</td></tr>
+                        <tr><td>课程详情</td><td>讨论区</td></tr>
+                        <tr><td>课程详情</td><td>推荐课程</td></tr>
+                        <tr><td>讲师模块</td><td>全部讲师列表</td></tr>
+                        <tr><td>讲师模块</td><td>讲师详情页</td></tr>
+                        <tr><td>课程上传</td><td>多步骤表单</td></tr>
+                        <tr><td>课程上传</td><td>作业配置</td></tr>
+                        <tr><td>后台管理</td><td>课程管理</td></tr>
+                        <tr><td>后台管理</td><td>讲师管理</td></tr>
+                        <tr><td>后台管理</td><td>标签管理</td></tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <h2 id="section-6">6. 版本记录</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>版本</th>
+                            <th>日期</th>
+                            <th>更新内容</th>
+                            <th>作者</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>v1.0</td>
+                            <td>2026-05-20</td>
+                            <td>初始版本，完成核心功能开发</td>
+                            <td>魔乐学堂团队</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <h2 id="section-appendix">附录</h2>
+
+                <h3 id="section-a">A. 术语表</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>术语</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>魔乐社区</td><td>开源的AI开发者社区</td></tr>
+                        <tr><td>魔乐学堂</td><td>魔乐社区旗下的在线学习平台</td></tr>
+                        <tr><td>课程大纲</td><td>课程的章节结构</td></tr>
+                        <tr><td>课程作业</td><td>讲师发布的练习任务</td></tr>
+                        <tr><td>学员</td><td>购买或加入课程学习的用户</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+
+    <script>
+        function generateTOC() {
+            const content = document.getElementById('docContent');
+            const headings = content.querySelectorAll('h2, h3, h4');
+            const tocList = document.getElementById('tocList');
+            const tocItems = [];
+
+            headings.forEach((heading, index) => {
+                const id = heading.id || `heading-${index}`;
+                heading.id = id;
+
+                const level = parseInt(heading.tagName.charAt(1));
+                const text = heading.textContent;
+
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+
+                const a = document.createElement('a');
+                a.className = `toc-link level-${level}`;
+                a.href = `#${id}`;
+                a.textContent = text;
+                a.dataset.target = id;
+
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+
+                li.appendChild(a);
+                tocList.appendChild(li);
+                tocItems.push({ element: heading, link: a });
+            });
+
+            return tocItems;
+        }
+
+        function updateActiveTOC(tocItems) {
+            const scrollPos = window.scrollY + 100;
+
+            let activeItem = null;
+            for (let i = tocItems.length - 1; i >= 0; i--) {
+                const rect = tocItems[i].element.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    activeItem = tocItems[i];
+                    break;
+                }
+            }
+
+            tocItems.forEach(item => item.link.classList.remove('active'));
+            if (activeItem) {
+                activeItem.link.classList.add('active');
+                activeItem.link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        }
+
+        function handleBackToTop() {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        }
+
+        const tocItems = generateTOC();
+
+        window.addEventListener('scroll', () => {
+            updateActiveTOC(tocItems);
+            handleBackToTop();
+        });
+
+        updateActiveTOC(tocItems);
+    </script>
+</body>
+</html>
